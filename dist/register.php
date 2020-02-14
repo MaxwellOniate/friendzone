@@ -1,5 +1,20 @@
 <?php
 
+require('includes/config.php');
+require('includes/classes/Account.php');
+require('includes/classes/FormSanitizer.php');
+require('includes/classes/Constants.php');
+
+
+
+if (isset($_POST['regButton'])) {
+  $firstName = FormSanitizer::sanitizeFormString($_POST['regFirstName']);
+  $lastName = FormSanitizer::sanitizeFormString($_POST['regLastName']);
+  $email = FormSanitizer::sanitizeFormString($_POST['regEmail']);
+  $email2 = FormSanitizer::sanitizeFormString($_POST['regEmail2']);
+  $password = FormSanitizer::sanitizeFormString($_POST['regPassword']);
+  $password2 = FormSanitizer::sanitizeFormString($_POST['regPassword2']);
+}
 
 
 ?>
