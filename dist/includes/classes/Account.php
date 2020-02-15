@@ -18,7 +18,7 @@ class Account
     $this->validatePasswords($pw, $pw2);
 
     if (empty($this->errorArray)) {
-      $this->insertUserDetails($fn, $ln, $em, $pw);
+      return $this->insertUserDetails($fn, $ln, $em, $pw);
     }
 
     return false;
@@ -92,6 +92,7 @@ class Account
     $pp = "assets/img/profile-pics/head_emerald.png";
 
     $query = $this->con->prepare("INSERT INTO users (firstName, lastName, email, password, profilePic) VALUES (:fn, :ln, :em, :pw, :pp) ");
+
     return $query->execute([
       ':fn' => $fn,
       ':ln' => $ln,
