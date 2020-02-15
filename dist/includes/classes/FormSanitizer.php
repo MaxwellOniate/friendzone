@@ -9,7 +9,7 @@ class FormSanitizer
     $input = ucfirst(strtolower($input));
     return $input;
   }
-  public static function sanitizeFromEmail($input)
+  public static function sanitizeFormEmail($input)
   {
     $input = strip_tags($input);
     $input = str_replace(" ", "", $input);
