@@ -10,7 +10,35 @@ class Account
     $this->con = $con;
   }
 
-  public function validateFirstName($fn)
+  public function register($fn, $ln, $em, $em2, $pw, $pw2)
+  {
+    $this->validateFirstName($fn);
+    $this->validateLastName($ln);
+    $this->validateEmails($em, $em2);
+    $this->validatePasswords($pw, $pw2);
+
+    if (empty($this->errorArray)) {
+      $this->insertUserDetails($fn, $ln, $em, $pw);
+    }
+
+    return false;
+  }
+
+  public function getInputValue($name)
+  {
+    if (isset($_POST[$name])) {
+      echo $_POST[$name];
+    }
+  }
+
+  public function getError($error)
+  {
+    if (in_array($error, $this->errorArray)) {
+      return "<div class='alert alert-danger' role='alert'>$error</div>";
+    }
+  }
+
+  private function validateFirstName($fn)
   {
     if (strlen($fn) < 2 || strlen($fn) > 25) {
       array_push($this->errorArray, Constants::$firstNameCharacters);
@@ -18,7 +46,7 @@ class Account
     }
   }
 
-  public function validateLastName($ln)
+  private function validateLastName($ln)
   {
     if (strlen($ln) < 2 || strlen($ln) > 25) {
       array_push($this->errorArray, Constants::$lastNameCharacters);
@@ -26,22 +54,7 @@ class Account
     }
   }
 
-  public function validateUsername($un)
-  {
-    if (strlen($un) < 2 || strlen($un) > 25) {
-      array_push($this->errorArray, Constants::$usernameCharacters);
-      return;
-    }
-
-    $query = $this->con->prepeare("SELECT * FROM users WHERE username = :un");
-    $query->execute([':un' => $un]);
-
-    if ($query->rowCount() != 0) {
-      array_push($this->errorArray, Constants::$usernameTaken);
-    }
-  }
-
-  public function validateEmails($em, $em2)
+  private function validateEmails($em, $em2)
   {
     if ($em != $em2) {
       array_push($this->errorArray, Constants::$emailsDontMatch);
@@ -50,17 +63,18 @@ class Account
 
     if (!filter_var($em, FILTER_VALIDATE_EMAIL)) {
       array_push($this->errorArray, Constants::$emailInvalid);
+      return;
     }
 
     $query = $this->con->prepare("SELECT * FROM users WHERE email = :em");
     $query->execute([':em' => $em]);
 
-    if ($query->rowCount != 0) {
+    if ($query->rowCount() != 0) {
       array_push($this->errorArray, Constants::$emailTaken);
     }
   }
 
-  public function validatePasswords($pw, $pw2)
+  private function validatePasswords($pw, $pw2)
   {
     if ($pw != $pw2) {
       array_push($this->errorArray, Constants::$passwordsDontMatch);
@@ -70,5 +84,20 @@ class Account
     if (strlen($pw) < 8 || strlen($pw) > 99) {
       array_push($this->errorArray, Constants::$passwordLength);
     }
+  }
+
+  private function insertUserDetails($fn, $ln, $em, $pw)
+  {
+    $pw = hash('sha512', $pw);
+    $pp = "assets/img/profile-pics/head_emerald.png";
+
+    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, email, password, profilePic) VALUES (:fn, :ln, :em, :pw, :pp) ");
+    return $query->execute([
+      ':fn' => $fn,
+      ':ln' => $ln,
+      ':em' => $em,
+      ':pw' => $pw,
+      ':pp' => $pp
+    ]);
   }
 }
