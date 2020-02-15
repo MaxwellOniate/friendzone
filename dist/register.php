@@ -18,7 +18,9 @@ if (isset($_POST['regButton'])) {
   $success = $account->register($firstName, $lastName, $email, $email2, $password, $password2);
 
   if ($success) {
-    $_SESSION['userLoggedIn'] = $email;
+
+    $_SESSION["userLoggedIn"] = $email;
+
     header('Location: index.php');
   }
 }
@@ -68,6 +70,7 @@ if (isset($_POST['regButton'])) {
   <section id="register" class="m-5">
     <div class="container">
       <div class="row">
+
         <div class="col-md-6">
           <h2>Connect with friends and the world around you on Friendzone.</h2>
           <ul>
@@ -76,6 +79,7 @@ if (isset($_POST['regButton'])) {
             <li><i class="fas fa-search"></i> <strong>Find more</strong> of what you're looking for with Friendzone Search.</li>
           </ul>
         </div>
+
         <div class="col-md-6">
 
           <h1>Create an Account</h1>
@@ -85,23 +89,23 @@ if (isset($_POST['regButton'])) {
 
             <?php echo $account->getError(Constants::$firstNameCharacters); ?>
             <div class="form-group">
-              <input type="text" name="regFirstName" class="form-control" placeholder="First Name" value="<?php echo $account->getInputValue('regFirstName'); ?>" required>
+              <input type="text" name="regFirstName" class="form-control" placeholder="First Name" value="<?php $account->getInputValue('regFirstName'); ?>" required>
             </div>
 
             <?php echo $account->getError(Constants::$lastNameCharacters); ?>
             <div class="form-group">
-              <input type="text" name="regLastName" class="form-control" placeholder="Last Name" value="<?php echo $account->getInputValue('regLastName'); ?>" required>
+              <input type="text" name="regLastName" class="form-control" placeholder="Last Name" value="<?php $account->getInputValue('regLastName'); ?>" required>
             </div>
 
             <?php echo $account->getError(Constants::$emailsDontMatch); ?>
             <?php echo $account->getError(Constants::$emailInvalid); ?>
             <?php echo $account->getError(Constants::$emailTaken); ?>
             <div class="form-group">
-              <input type="email" name="regEmail" class="form-control" placeholder="Email" value="<?php echo $account->getInputValue('regEmail'); ?>" required>
+              <input type="email" name="regEmail" class="form-control" placeholder="Email" value="<?php $account->getInputValue('regEmail'); ?>" required>
             </div>
 
             <div class="form-group">
-              <input type="email" name="regEmail2" class="form-control" placeholder="Confirm Email" value="<?php echo $account->getInputValue('regEmail2'); ?>" required>
+              <input type="email" name="regEmail2" class="form-control" placeholder="Confirm Email" value="<?php $account->getInputValue('regEmail2'); ?>" required>
             </div>
 
             <?php echo $account->getError(Constants::$passwordsDontMatch) ?>
