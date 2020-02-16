@@ -10,6 +10,21 @@ class Account
     $this->con = $con;
   }
 
+  public function login($em, $pw)
+  {
+    $pw = hash('sha512', $pw);
+
+    $query = $this->con->prepare("SELECT * FROM users WHERE email = :em AND password = :pw");
+    $query->execute([':em' => $em, ':pw' => $pw]);
+
+    if ($query->rowCount() == 1) {
+      return true;
+    }
+
+    array_push($this->errorArray, Constants::$loginFailed);
+    return false;
+  }
+
   public function register($fn, $ln, $em, $em2, $pw, $pw2)
   {
     $this->validateFirstName($fn);
