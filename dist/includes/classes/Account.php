@@ -18,6 +18,13 @@ class Account
     $query->execute([':em' => $em, ':pw' => $pw]);
 
     if ($query->rowCount() == 1) {
+      $userClosedQuery = $this->con->prepare("SELECT * FROM users WHERE email = :em AND userClosed = 'yes'");
+      $userClosedQuery->execute([':em' => $em]);
+
+      if ($userClosedQuery->rowCount() == 1) {
+        $reopenAccountQuery = $this->con->prepare("UPDATE users SET userClosed ='no' WHERE email = :em");
+        $reopenAccountQuery->execute([':em' => $em]);
+      }
       return true;
     }
 
@@ -105,15 +112,17 @@ class Account
   {
     $pw = hash('sha512', $pw);
     $pp = "assets/img/profile-pics/head_emerald.png";
+    $uc = 'no';
 
-    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, email, password, profilePic) VALUES (:fn, :ln, :em, :pw, :pp) ");
+    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, email, password, profilePic, userClosed) VALUES (:fn, :ln, :em, :pw, :pp, :uc) ");
 
     return $query->execute([
       ':fn' => $fn,
       ':ln' => $ln,
       ':em' => $em,
       ':pw' => $pw,
-      ':pp' => $pp
+      ':pp' => $pp,
+      ':uc' => $uc
     ]);
   }
 }
