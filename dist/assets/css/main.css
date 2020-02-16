@@ -40,7 +40,9 @@ a {
   margin-bottom: 2rem; }
 
 #register ul li {
-  padding: 1rem 0; }
+  padding: 1rem 0;
+  display: flex;
+  align-items: center; }
   #register ul li i {
     color: #adb9d3;
     margin-right: 1rem;
