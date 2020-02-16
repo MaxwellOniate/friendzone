@@ -7,6 +7,18 @@ require('includes/classes/Constants.php');
 
 $account = new Account($con);
 
+if (isset($_POST['logButton'])) {
+  $email = FormSanitizer::sanitizeFormEmail($_POST['logEmail']);
+  $password = FormSanitizer::sanitizeFormPassword($_POST['logPassword']);
+
+  $success = $account->login($email, $password);
+
+  if ($success) {
+    $_SESSION['userLoggedIn'] = $email;
+    header('Location: index.php');
+  }
+}
+
 if (isset($_POST['regButton'])) {
   $firstName = FormSanitizer::sanitizeFormString($_POST['regFirstName']);
   $lastName = FormSanitizer::sanitizeFormString($_POST['regLastName']);
@@ -52,9 +64,10 @@ if (isset($_POST['regButton'])) {
 
         <a class="navbar-brand">friendzone</a>
 
+        <?php echo $account->getError(Constants::$loginFailed); ?>
+
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-inline">
 
-          <?php echo $account->getError(Constants::$loginFailed); ?>
 
           <input type="text" name="logEmail" class="form-control" placeholder="Email" value="<?php echo $account->getInputValue('logEmail'); ?>" required>
 
@@ -74,9 +87,9 @@ if (isset($_POST['regButton'])) {
         <div class="col-md-6">
           <h2>Connect with friends and the world around you on Friendzone.</h2>
           <ul>
-            <li><i class="fas fa-photo-video"></i> <strong>See photos and updates</strong> from friends in News Feed.</li>
-            <li><i class="fas fa-hourglass-half"></i> <strong>Share what's new</strong> in your life on your Timeline.</li>
-            <li><i class="fas fa-search"></i> <strong>Find more</strong> of what you're looking for with Friendzone Search.</li>
+            <li><i class="fas fa-photo-video"></i> See photos and updates from friends in News Feed.</li>
+            <li><i class="fas fa-hourglass-half"></i> Share what's new in your life on your Timeline.</li>
+            <li><i class="fas fa-search"></i> Find more of what you're looking for with Friendzone Search.</li>
           </ul>
         </div>
 
