@@ -31,4 +31,12 @@ class User
   {
     return $this->sqlData['profilePic'];
   }
+  public function getPostCount()
+  {
+    return $this->sqlData['numPosts'];
+  }
+  public function getLikeCount()
+  {
+    return $this->sqlData['numLikes'];
+  }
 }
