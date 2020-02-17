@@ -7,7 +7,7 @@ $user = new User($con, $userLoggedIn);
 ?>
 
 <section id="main-nav">
-  <nav class="navbar navbar-expand-md navbar-dark">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top">
     <div class="container">
 
       <a href="index.php" class="navbar-brand"><i class="fab fa-facebook-square"></i></a>
@@ -18,7 +18,6 @@ $user = new User($con, $userLoggedIn);
       <div class="collapse navbar-collapse" id="nav-content">
 
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-
           <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search">
             <div class="input-group-append">
