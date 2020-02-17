@@ -97,8 +97,9 @@ a {
     font-size: 1.75rem;
   }
   .form-control {
-    border: #fff;
     height: 28px;
+    width: 300px;
+    border: #fff;
   }
   .btn {
     background: #f5f6f7;
@@ -128,5 +129,28 @@ a {
         color: #0d1524;
       }
     }
+  }
+}
+
+#main-feed {
+  padding-top: 7rem;
+}
+#user-details {
+  .user-details-img {
+    width: 100px;
+  }
+  .user-full-name {
+    color: #666;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0;
+    &:hover {
+      text-decoration: none;
+      color: #000;
+    }
+  }
+  .user-data {
+    margin: 0;
+    color: #999;
   }
 }

@@ -74,8 +74,9 @@ a {
   font-size: 1.75rem; }
 
 #main-nav .form-control {
-  border: #fff;
-  height: 28px; }
+  height: 28px;
+  width: 300px;
+  border: #fff; }
 
 #main-nav .btn {
   background: #f5f6f7;
@@ -98,3 +99,22 @@ a {
   #main-nav .nav-item .nav-link i {
     font-size: 1.25rem;
     color: #0d1524; }
+
+#main-feed {
+  padding-top: 7rem; }
+
+#user-details .user-details-img {
+  width: 100px; }
+
+#user-details .user-full-name {
+  color: #666;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0; }
+  #user-details .user-full-name:hover {
+    text-decoration: none;
+    color: #000; }
+
+#user-details .user-data {
+  margin: 0;
+  color: #999; }
