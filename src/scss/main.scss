@@ -1,3 +1,7 @@
+@import 'responsive';
+
+$primary-color: #365899;
+
 body {
   background: #e9ebee;
 }
@@ -15,7 +19,7 @@ a {
 
 #login {
   .navbar {
-    background: #365899;
+    background: $primary-color;
   }
   .navbar-brand {
     color: #fff;
@@ -38,8 +42,14 @@ a {
     font-weight: 700;
     color: #fff;
     &:hover {
-      background: #365899;
+      background: $primary-color;
     }
+  }
+}
+
+#login-error {
+  .alert {
+    border-radius: 0;
   }
 }
 
@@ -74,6 +84,49 @@ a {
     font-weight: 700;
     &:hover {
       background: linear-gradient(#67ae55, #578843);
+    }
+  }
+}
+
+#main-nav {
+  .navbar {
+    background: #4267b2;
+  }
+  .navbar-brand {
+    color: #fff;
+    font-size: 1.75rem;
+  }
+  .form-control {
+    border: #fff;
+    height: 28px;
+  }
+  .btn {
+    background: #f5f6f7;
+    color: #666;
+    height: 28px;
+    font-size: 0.8rem;
+    &:hover {
+      background: #ebedf0;
+    }
+  }
+  .nav-item {
+    .nav-link {
+      padding: 0.5rem;
+      color: #fff;
+      .nav-profilePic {
+        width: 1.5rem;
+        border-radius: 50%;
+      }
+      &:hover {
+        background: $primary-color;
+        i {
+          color: #000;
+        }
+      }
+      i {
+        font-size: 1.25rem;
+        color: #0d1524;
+      }
     }
   }
 }

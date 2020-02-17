@@ -35,6 +35,9 @@ a {
   #login .btn:hover {
     background: #365899; }
 
+#login-error .alert {
+  border-radius: 0; }
+
 #register h2 {
   font-size: 1.75rem;
   margin-bottom: 2rem; }
@@ -62,3 +65,36 @@ a {
   font-weight: 700; }
   #register .btn:hover {
     background: linear-gradient(#67ae55, #578843); }
+
+#main-nav .navbar {
+  background: #4267b2; }
+
+#main-nav .navbar-brand {
+  color: #fff;
+  font-size: 1.75rem; }
+
+#main-nav .form-control {
+  border: #fff;
+  height: 28px; }
+
+#main-nav .btn {
+  background: #f5f6f7;
+  color: #666;
+  height: 28px;
+  font-size: 0.8rem; }
+  #main-nav .btn:hover {
+    background: #ebedf0; }
+
+#main-nav .nav-item .nav-link {
+  padding: 0.5rem;
+  color: #fff; }
+  #main-nav .nav-item .nav-link .nav-profilePic {
+    width: 1.5rem;
+    border-radius: 50%; }
+  #main-nav .nav-item .nav-link:hover {
+    background: #365899; }
+    #main-nav .nav-item .nav-link:hover i {
+      color: #000; }
+  #main-nav .nav-item .nav-link i {
+    font-size: 1.25rem;
+    color: #0d1524; }
