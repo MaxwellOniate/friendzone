@@ -59,26 +59,36 @@ if (isset($_POST['regButton'])) {
 <body>
 
   <section id="login">
-    <nav class="navbar navbar-light">
+    <nav class="navbar navbar-expand-sm navbar-dark">
       <div class="container">
 
         <a class="navbar-brand">friendzone</a>
 
-        <?php echo $account->getError(Constants::$loginFailed); ?>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#login-form">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-inline">
+        <div class="collapse navbar-collapse" id="login-form">
+          <div class="ml-auto">
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-inline">
 
+              <input type="text" name="logEmail" class="form-control" placeholder="Email" value="<?php echo $account->getInputValue('logEmail'); ?>" required>
 
-          <input type="text" name="logEmail" class="form-control" placeholder="Email" value="<?php echo $account->getInputValue('logEmail'); ?>" required>
+              <input type="password" name="logPassword" class="form-control" placeholder="Password" required>
 
-          <input type="password" name="logPassword" class="form-control" placeholder="Password" required>
+              <input type="submit" name="logButton" class="btn btn-sm" value="Log In">
 
-          <input type="submit" name="logButton" class="btn btn-sm" value="Log In">
+            </form>
+          </div>
+        </div>
 
-        </form>
       </div>
     </nav>
   </section>
+
+  <div id="login-error">
+    <?php echo $account->getError(Constants::$loginFailed); ?>
+  </div>
 
   <section id="register" class="m-5">
     <div class="container">
