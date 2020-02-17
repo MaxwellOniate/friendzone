@@ -27,3 +27,5 @@ $userLoggedIn = $_SESSION["userLoggedIn"];
 </head>
 
 <body>
+
+  <?php require('includes/navbar.php'); ?>
