@@ -111,14 +111,32 @@ class Account
   private function insertUserDetails($fn, $ln, $em, $pw)
   {
     $pw = hash('sha512', $pw);
-    $pp = "assets/img/profile-pics/head_emerald.png";
+    $pp = "assets/img/profile-pics/blank.png";
     $uc = 'no';
+    $un = strtolower($fn . "-" . $ln);
 
-    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, email, password, profilePic, userClosed) VALUES (:fn, :ln, :em, :pw, :pp, :uc) ");
+    $usernameQuery = $this->con->prepare("SELECT username FROM users WHERE username = :un");
+    $usernameQuery->execute([':un' => $un]);
+
+    $i = 0;
+    $tempUsername = $un;
+
+    while ($usernameQuery->rowCount() != 0) {
+      $tempUsername = $un;
+      $i++;
+      $tempUsername = $un . "-" . $i;
+      $usernameQuery = $this->con->prepare("SELECT username FROM users WHERE username = :un");
+      $usernameQuery->execute([':un' => $tempUsername]);
+    }
+
+    $un = $tempUsername;
+
+    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, username, email, password, profilePic, userClosed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
 
     return $query->execute([
       ':fn' => $fn,
       ':ln' => $ln,
+      ':un' => $un,
       ':em' => $em,
       ':pw' => $pw,
       ':pp' => $pp,
