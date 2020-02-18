@@ -18,11 +18,11 @@ class Account
     $query->execute([':em' => $em, ':pw' => $pw]);
 
     if ($query->rowCount() == 1) {
-      $userClosedQuery = $this->con->prepare("SELECT * FROM users WHERE email = :em AND userClosed = 'yes'");
+      $userClosedQuery = $this->con->prepare("SELECT * FROM users WHERE email = :em AND user_closed = 'yes'");
       $userClosedQuery->execute([':em' => $em]);
 
       if ($userClosedQuery->rowCount() == 1) {
-        $reopenAccountQuery = $this->con->prepare("UPDATE users SET userClosed ='no' WHERE email = :em");
+        $reopenAccountQuery = $this->con->prepare("UPDATE users SET user_closed ='no' WHERE email = :em");
         $reopenAccountQuery->execute([':em' => $em]);
       }
       return true;
@@ -131,7 +131,7 @@ class Account
 
     $un = $tempUsername;
 
-    $query = $this->con->prepare("INSERT INTO users (firstName, lastName, username, email, password, profilePic, userClosed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
+    $query = $this->con->prepare("INSERT INTO users (first_name, last_name, username, email, password, profile_pic, user_closed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
 
     return $query->execute([
       ':fn' => $fn,

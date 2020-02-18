@@ -17,11 +17,11 @@ class User
   }
   public function getFirstName()
   {
-    return $this->sqlData['firstName'];
+    return $this->sqlData['first_name'];
   }
   public function getLastName()
   {
-    return $this->sqlData['lastName'];
+    return $this->sqlData['last_name'];
   }
   public function getUsername()
   {
@@ -33,14 +33,14 @@ class User
   }
   public function getProfilePic()
   {
-    return $this->sqlData['profilePic'];
+    return $this->sqlData['profile_pic'];
   }
   public function getPostCount()
   {
-    return $this->sqlData['numPosts'];
+    return $this->sqlData['num_posts'];
   }
   public function getLikeCount()
   {
-    return $this->sqlData['numLikes'];
+    return $this->sqlData['num_likes'];
   }
 }
