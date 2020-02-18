@@ -12,11 +12,11 @@
 
               <div class="media">
                 <a href="<?php echo $user->getUsername(); ?>" class="pr-3">
-                  <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid user-details-img">
+                  <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFullName(); ?>" class="img-fluid user-details-img">
                 </a>
 
                 <div class="media-body">
-                  <a href="<?php echo $user->getUsername(); ?>" class="user-full-name"><?php echo $user->getFirstName() . " " . $user->getLastName(); ?></a>
+                  <a href="<?php echo $user->getUsername(); ?>" class="user-full-name"><?php echo $user->getFullName(); ?></a>
                   <p class="user-data">Posts: <?php echo $user->getPostCount(); ?></p>
                   <p class="user-data">Likes: <?php echo $user->getLikeCount(); ?></p>
                 </div>

@@ -23,6 +23,10 @@ class User
   {
     return $this->sqlData['last_name'];
   }
+  public function getFullName()
+  {
+    return $this->sqlData['first_name'] . " " . $this->sqlData['last_name'];
+  }
   public function getUsername()
   {
     return $this->sqlData['username'];
