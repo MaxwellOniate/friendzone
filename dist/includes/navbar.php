@@ -29,7 +29,7 @@ $user = new User($con, $userLoggedIn);
         <ul class="navbar-nav ml-auto">
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?php echo $user->getUsername(); ?>" class="nav-link">
 
               <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid nav-profilePic">
 
