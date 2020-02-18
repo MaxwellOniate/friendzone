@@ -38,7 +38,7 @@
                   <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                  <input type="submit" class="btn btn-primary" value="Post">
+                  <input type="submit" class="btn main-btn" value="Post">
                 </div>
               </form>
 

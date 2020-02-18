@@ -17,6 +17,18 @@ a {
   text-decoration: none;
 }
 
+.main-btn {
+  background: #4267b2;
+  border-color: #29487d;
+  border-radius: 0;
+  font-weight: 700;
+  color: #fff;
+  &:hover {
+    color: #fff;
+    background: $primary-color;
+  }
+}
+
 #login {
   .navbar {
     background: $primary-color;
@@ -34,16 +46,6 @@ a {
     height: 30.8px;
     margin-right: 1rem;
     font-size: 12px;
-  }
-  .btn {
-    background: #4267b2;
-    border-color: #29487d;
-    border-radius: 0;
-    font-weight: 700;
-    color: #fff;
-    &:hover {
-      background: $primary-color;
-    }
   }
 }
 

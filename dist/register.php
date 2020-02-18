@@ -76,7 +76,7 @@ if (isset($_POST['regButton'])) {
 
               <input type="password" name="logPassword" class="form-control" placeholder="Password" required>
 
-              <input type="submit" name="logButton" class="btn btn-sm" value="Log In">
+              <input type="submit" name="logButton" class="btn btn-sm main-btn" value="Log In">
 
             </form>
           </div>
