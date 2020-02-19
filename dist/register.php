@@ -14,7 +14,12 @@ if (isset($_POST['logButton'])) {
   $success = $account->login($email, $password);
 
   if ($success) {
-    $_SESSION['userLoggedIn'] = $email;
+    $query = $con->prepare("SELECT username FROM users WHERE email = :em");
+    $query->execute([':em' => $email]);
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    $username = $row['username'];
+
+    $_SESSION['userLoggedIn'] = $username;
     header('Location: index.php');
   }
 }
@@ -30,9 +35,12 @@ if (isset($_POST['regButton'])) {
   $success = $account->register($firstName, $lastName, $email, $email2, $password, $password2);
 
   if ($success) {
+    $query = $con->prepare("SELECT username FROM users WHERE email = :em");
+    $query->execute([':em' => $email]);
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    $username = $row['username'];
 
-    $_SESSION["userLoggedIn"] = $email;
-
+    $_SESSION['userLoggedIn'] = $username;
     header('Location: index.php');
   }
 }

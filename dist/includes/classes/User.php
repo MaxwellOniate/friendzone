@@ -3,15 +3,15 @@
 
 class User
 {
-  private $con, $email, $sqlData;
+  private $con, $username, $sqlData;
 
-  public function __construct($con, $email)
+  public function __construct($con, $username)
   {
     $this->con = $con;
-    $this->email = $email;
+    $this->username = $username;
 
-    $query = $con->prepare("SELECT * FROM users WHERE email = :em");
-    $query->execute([':em' => $email]);
+    $query = $con->prepare("SELECT * FROM users WHERE username = :un");
+    $query->execute([':un' => $username]);
 
     $this->sqlData = $query->fetch(PDO::FETCH_ASSOC);
   }
@@ -29,11 +29,11 @@ class User
   }
   public function getUsername()
   {
-    return $this->sqlData['username'];
+    return $this->username;
   }
   public function getEmail()
   {
-    return $this->email;
+    return $this->sqlData['email'];
   }
   public function getProfilePic()
   {

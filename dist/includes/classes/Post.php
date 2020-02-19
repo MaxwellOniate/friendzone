@@ -5,11 +5,12 @@ class Post
 {
   private $con, $user;
 
-  public function __construct($con, $email)
+  public function __construct($con, $username)
   {
     $this->con = $con;
-    $this->user = new User($con, $email);;
+    $this->user = new User($con, $username);
   }
+
   public function submitPost($body, $userTo)
   {
     $body = strip_tags($body);
@@ -52,5 +53,117 @@ class Post
         ':un' => $this->user->getUsername()
       ]);
     }
+  }
+
+  public function loadPosts()
+  {
+    $str = "";
+
+    $query = $this->con->prepare("SELECT * FROM posts WHERE deleted = :deleted ORDER BY id DESC");
+    $query->execute([':deleted' => 'no']);
+
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+      $id = $row['id'];
+      $body = $row['body'];
+      $addedBy = $row['added_by'];
+      $dateAdded = $row['date_added'];
+
+      if ($row['user_to'] == 'none') {
+        $userTo = "";
+      } else {
+        $userToObj = new User($this->con, $row['user_to']);
+        $userTo = "to <a href='" . $userToObj->getUsername() . "'>" . $userToObj->getFullName() . "</a>";
+      }
+
+      $addedByObj = new User($this->con, $row['added_by']);
+
+      if ($addedByObj->isClosed()) {
+        continue;
+      }
+
+      $userDetailsQuery = $this->con->prepare("SELECT first_name, last_name, profile_pic FROM users WHERE username = :un");
+      $userDetailsQuery->execute([':un' => $addedBy]);
+      $userRow = $userDetailsQuery->fetch(PDO::FETCH_ASSOC);
+      $firstName = $userRow['first_name'];
+      $lastName = $userRow['last_name'];
+      $profilePic = $userRow['profile_pic'];
+
+      $dateTimeNow = date('Y-m-d H:i:s');
+      $startDate = new DateTime($dateAdded);
+      $endDate = new DateTime($dateTimeNow);
+      $interval = $startDate->diff($endDate);
+      if ($interval->y >= 1) {
+        if ($interval == 1) {
+          $timeMessage = $interval->y . " year ago.";
+        } else {
+          $timeMessage = $interval->y . " years ago.";
+        }
+      } else if ($interval->m >= 1) {
+        if ($interval->d == 0) {
+          $days = " ago.";
+        } else if ($interval->d == 1) {
+          $days = $interval->d . " day ago.";
+        } else {
+          $days = $interval->d . " days ago.";
+        }
+
+        if ($interval->m == 1) {
+          $timeMessage = $interval->m . " month" . $days;
+        } else {
+          $timeMessage = $interval->m . " months" . $days;
+        }
+      } else if ($interval->d >= 1) {
+        if ($interval->d == 1) {
+          $timeMessage = "Yesterday.";
+        } else {
+          $timeMessage = $interval->d . " days ago.";
+        }
+      } else if ($interval->h >= 1) {
+        if ($interval->h == 1) {
+          $timeMessage = $interval->h . " hour ago.";
+        } else {
+          $timeMessage = $interval->h . " hours ago.";
+        }
+      } else if ($interval->i >= 1) {
+        if ($interval->i == 1) {
+          $timeMessage = $interval->i . " minute ago.";
+        } else {
+          $timeMessage = $interval->i . " minutes ago.";
+        }
+      } else {
+        if ($interval->s < 30) {
+          $timeMessage = "Just now.";
+        } else {
+          $timeMessage = $interval->s . " seconds ago";
+        }
+      }
+
+      $str .= "
+        <div class='card post my-3'>
+
+          <div class='card-header'>
+            <div class='media'>
+            <div class='post-profile-pic pr-2'>
+              <img src='$profilePic' class='img-fluid'>
+            </div>
+              <div class='media-body'>
+              <div class='posted-by'>
+                <a href='$addedBy'>$firstName $lastName</a> $userTo
+                <small class='d-block'>$timeMessage</small> 
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class='card-body'>
+
+            <div id='post-body'>$body</br></div>
+          </div>
+
+        </div>
+      ";
+    }
+
+    echo $str;
   }
 }
