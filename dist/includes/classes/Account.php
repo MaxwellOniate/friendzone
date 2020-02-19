@@ -113,6 +113,24 @@ class Account
     $pw = hash('sha512', $pw);
     $pp = "assets/img/profile-pics/blank.png";
     $uc = 'no';
+    $un = $this->createUsername($fn, $ln);
+
+
+    $query = $this->con->prepare("INSERT INTO users (first_name, last_name, username, email, password, profile_pic, user_closed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
+
+    return $query->execute([
+      ':fn' => $fn,
+      ':ln' => $ln,
+      ':un' => $un,
+      ':em' => $em,
+      ':pw' => $pw,
+      ':pp' => $pp,
+      ':uc' => $uc
+    ]);
+  }
+
+  private function createUsername($fn, $ln)
+  {
     $un = strtolower($fn . "-" . $ln);
 
     $usernameQuery = $this->con->prepare("SELECT username FROM users WHERE username = :un");
@@ -129,18 +147,6 @@ class Account
       $usernameQuery->execute([':un' => $tempUsername]);
     }
 
-    $un = $tempUsername;
-
-    $query = $this->con->prepare("INSERT INTO users (first_name, last_name, username, email, password, profile_pic, user_closed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
-
-    return $query->execute([
-      ':fn' => $fn,
-      ':ln' => $ln,
-      ':un' => $un,
-      ':em' => $em,
-      ':pw' => $pw,
-      ':pp' => $pp,
-      ':uc' => $uc
-    ]);
+    return $un = $tempUsername;
   }
 }
