@@ -47,4 +47,12 @@ class User
   {
     return $this->sqlData['num_likes'];
   }
+  public function isClosed()
+  {
+    if ($this->sqlData['user_closed'] == 'yes') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
