@@ -66,6 +66,12 @@ $user = new User($con, $userLoggedIn);
               <span class="d-md-none">Settings</span>
             </a>
           </div>
+          <div class="nav-item">
+            <a href="logout.php" class="nav-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="d-md-none">Logout</span>
+            </a>
+          </div>
       </div>
 
       </ul>
