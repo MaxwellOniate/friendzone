@@ -1,3 +1,13 @@
+@media (max-width: 1200px) {
+  .container #news-feed {
+    padding-left: 2rem; } }
+
+@media (max-width: 1000px) {
+  .container #feed-details {
+    position: static; }
+  .container #news-feed {
+    padding-left: 0; } }
+
 body {
   background: #e9ebee; }
 
@@ -104,18 +114,24 @@ a {
 #main-feed {
   padding-top: 7rem; }
 
-#user-details .user-details-img {
+#feed-details {
+  position: fixed; }
+
+.user-details .user-details-img {
   width: 100px; }
 
-#user-details .user-full-name {
+.user-details .user-full-name {
   color: #666;
   font-weight: 700;
   font-size: 1.3rem;
   margin-bottom: 0; }
-  #user-details .user-full-name:hover {
+  .user-details .user-full-name:hover {
     text-decoration: none;
     color: #000; }
 
-#user-details .user-data {
+.user-details .user-data {
   margin: 0;
   color: #999; }
+
+#news-feed .post-profile-pic {
+  width: 75px; }

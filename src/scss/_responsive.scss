@@ -1,0 +1,17 @@
+@media (max-width: 1200px) {
+  .container {
+    #news-feed {
+      padding-left: 2rem;
+    }
+  }
+}
+@media (max-width: 1000px) {
+  .container {
+    #feed-details {
+      position: static;
+    }
+    #news-feed {
+      padding-left: 0;
+    }
+  }
+}

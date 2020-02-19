@@ -137,7 +137,12 @@ a {
 #main-feed {
   padding-top: 7rem;
 }
-#user-details {
+
+#feed-details {
+  position: fixed;
+}
+
+.user-details {
   .user-details-img {
     width: 100px;
   }
@@ -154,5 +159,13 @@ a {
   .user-data {
     margin: 0;
     color: #999;
+  }
+}
+
+#news-feed {
+  .post {
+    &-profile-pic {
+      width: 75px;
+    }
   }
 }
