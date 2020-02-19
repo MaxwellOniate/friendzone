@@ -2,7 +2,7 @@
   .container #news-feed {
     padding-left: 2rem; } }
 
-@media (max-width: 1000px) {
+@media (max-width: 990px) {
   .container #feed-details {
     position: static; }
   .container #news-feed {
@@ -112,7 +112,7 @@ a {
     color: #0d1524; }
 
 #main-feed {
-  padding-top: 7rem; }
+  padding-top: 5.5rem; }
 
 #feed-details {
   position: fixed; }
@@ -123,7 +123,7 @@ a {
 .user-details .user-full-name {
   color: #666;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 0; }
   .user-details .user-full-name:hover {
     text-decoration: none;
