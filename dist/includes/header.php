@@ -1,6 +1,7 @@
 <?php
 
 require('includes/config.php');
+require('includes/classes/Post.php');
 
 if (!isset($_SESSION["userLoggedIn"])) {
   header("Location: register.php");

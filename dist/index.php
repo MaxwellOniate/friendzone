@@ -1,5 +1,15 @@
 <?php require('includes/header.php'); ?>
 
+<?php
+
+if (isset($_POST['post'])) {
+  $post = new Post($con, $userLoggedIn);
+  $post->submitPost($_POST['post-text'], 'none');
+  header("Location: index.php");
+}
+
+?>
+
 <section id="main-feed">
   <div class="container">
     <div class="row">
@@ -35,10 +45,10 @@
             <div class="card-body">
               <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="post-form">
                 <div class="form-group">
-                  <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
+                  <textarea name="post-text" placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                  <input type="submit" class="btn main-btn btn-block" value="Post">
+                  <input type="submit" name="post" class="btn main-btn btn-block" value="Post">
                 </div>
               </form>
 
