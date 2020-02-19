@@ -1,12 +1,6 @@
-@media (max-width: 1200px) {
-  .container #news-feed {
-    padding-left: 2rem; } }
-
 @media (max-width: 990px) {
   .container #feed-details {
-    position: static; }
-  .container #news-feed {
-    padding-left: 0; } }
+    position: static; } }
 
 body {
   background: #e9ebee; }

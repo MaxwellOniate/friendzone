@@ -14,7 +14,7 @@ if (isset($_POST['post'])) {
   <div class="container">
     <div class="row">
 
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <aside id="feed-details">
           <div class="card user-details mb-3">
             <div class="card-body">
@@ -38,7 +38,7 @@ if (isset($_POST['post'])) {
         </aside>
       </div>
 
-      <div class="col-lg-9">
+      <div class="col-lg-8">
         <section id="news-feed">
 
           <div class="card create-post">
