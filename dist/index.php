@@ -14,10 +14,9 @@ if (isset($_POST['post'])) {
   <div class="container">
     <div class="row">
 
-      <div class="col-lg-4">
-        <aside id="user-details" class="mb-3">
-
-          <div class="card">
+      <div class="col-lg-3">
+        <aside id="feed-details">
+          <div class="card user-details mb-3">
             <div class="card-body">
 
               <div class="media">
@@ -32,14 +31,16 @@ if (isset($_POST['post'])) {
                 </div>
               </div>
 
-            </div>
-          </div>
 
+            </div>
+
+          </div>
         </aside>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <section id="news-feed">
+
           <div class="card create-post">
             <div class="card-header">Create Post</div>
             <div class="card-body">
@@ -54,6 +55,11 @@ if (isset($_POST['post'])) {
 
             </div>
           </div>
+
+          <?php
+          $post = new Post($con, $userLoggedIn);
+          $post->loadPosts();
+          ?>
         </section>
       </div>
 
