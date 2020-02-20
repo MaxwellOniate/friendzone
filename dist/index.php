@@ -64,8 +64,8 @@ if (isset($_POST['post'])) {
           </div>
 
           <div class="posts">
-            <img id="loading" src="assets/img/loading.gif" alt="Loading">
           </div>
+          <img id="loading" src="assets/img/loading.gif" alt="Loading">
 
 
         </section>
@@ -77,50 +77,63 @@ if (isset($_POST['post'])) {
 </section>
 
 <script>
-  let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+  $(function() {
 
-  $(document).ready(function() {
+    var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+    var inProgress = false;
 
-    $('#loading').show();
-
-    $.ajax({
-      url: "ajax/loadPosts.php",
-      type: "POST",
-      data: "page=1&userLoggedIn=" + userLoggedIn,
-      cache: false,
-      success: function(data) {
-        $('#loading').hide();
-        $('.posts').html(data);
-      }
-    });
+    loadPosts(); //Load first posts
 
     $(window).scroll(function() {
-      let height = $('.posts').height();
-      let scrollTop = $(this).scrollTop();
-      let page = $('.posts').find('.next-page').val();
-      let noMorePosts = $('.posts').find('.no-posts').val();
+      var bottomElement = $(".post").last();
+      var noMorePosts = $('.posts').find('.no-posts').val();
 
-      if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
-
-        $('#loading').show();
-
-        let ajaxRequest = $.ajax({
-          url: "ajax/loadPosts.php",
-          type: "POST",
-          data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
-          cache: false,
-          success: function(response) {
-            $('.posts').find('.next-page').remove();
-            $('.posts').find('.no-posts').remove();
-            $("#loading").hide();
-            $('.posts').append(response);
-          }
-        });
+      // isElementInViewport uses getBoundingClientRect(), which requires the HTML DOM object, not the jQuery object. The jQuery equivalent is using [0] as shown below.
+      if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
+        loadPosts();
       }
-
-      return false;
     });
 
+    function loadPosts() {
+      if (inProgress) { //If it is already in the process of loading some posts, just return
+        return;
+      }
+
+      inProgress = true;
+      $('#loading').show();
+
+      var page = $('.posts').find('.next-page').val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
+
+      $.ajax({
+        url: "ajax/loadPosts.php",
+        type: "POST",
+        data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
+        cache: false,
+
+        success: function(response) {
+          $('.posts').find('.next-page').remove(); //Removes current .next-page 
+          $('.posts').find('.no-posts').remove(); //Removes current .next-page 
+          $('.posts').find('.no-posts-text').remove(); //Removes current .next-page 
+
+          $('#loading').hide();
+          $(".posts").append(response);
+
+          inProgress = false;
+        }
+      });
+    }
+
+    //Check if the element is in view
+    function isElementInView(el) {
+      var rect = el.getBoundingClientRect();
+
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && //* or $(window).height()
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) //* or $(window).width()
+      );
+    }
   });
 </script>
 
