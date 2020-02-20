@@ -80,7 +80,9 @@ if (isset($_POST['post'])) {
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
 
   $(document).ready(function() {
+
     $('#loading').show();
+
     $.ajax({
       url: "ajax/loadPosts.php",
       type: "POST",
@@ -91,32 +93,34 @@ if (isset($_POST['post'])) {
         $('.posts').html(data);
       }
     });
-  });
 
-  $(window).scroll(function() {
-    let height = $('.posts').height();
-    let scrollTop = $(this).scrollTop();
-    let page = $('.posts').find('.next-page').val();
-    let noMorePosts = $('.posts').find('.no-posts').val();
+    $(window).scroll(function() {
+      let height = $('.posts').height();
+      let scrollTop = $(this).scrollTop();
+      let page = $('.posts').find('.next-page').val();
+      let noMorePosts = $('.posts').find('.no-posts').val();
 
-    if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
-      alert("HELLO?!?!");
-      $('#loading').show();
-      $.ajax({
-        url: "ajax/loadPosts.php",
-        type: "POST",
-        data: "page=1&userLoggedIn=" + userLoggedIn,
-        cache: false,
-        success: function(response) {
-          $('.posts').find('.next-page').remove();
-          $('.posts').find('.no-posts').remove();
-          $("#loading").hide();
-          $('.posts').append(response);
-        }
-      });
-    }
+      if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
 
-    return false;
+        $('#loading').show();
+
+        let ajaxRequest = $.ajax({
+          url: "ajax/loadPosts.php",
+          type: "POST",
+          data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
+          cache: false,
+          success: function(response) {
+            $('.posts').find('.next-page').remove();
+            $('.posts').find('.no-posts').remove();
+            $("#loading").hide();
+            $('.posts').append(response);
+          }
+        });
+      }
+
+      return false;
+    });
+
   });
 </script>
 
