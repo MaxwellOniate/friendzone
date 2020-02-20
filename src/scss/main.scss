@@ -140,6 +140,7 @@ a {
 
 #feed-details {
   position: fixed;
+  width: 350px;
 }
 
 .user-details {
@@ -166,6 +167,10 @@ a {
   .post {
     &-profile-pic {
       width: 75px;
+    }
+    a {
+      color: $primary-color;
+      font-weight: 600;
     }
   }
 }
