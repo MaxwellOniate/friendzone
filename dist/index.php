@@ -35,6 +35,13 @@ if (isset($_POST['post'])) {
             </div>
 
           </div>
+
+          <div class="card popular mb-3">
+            <div class="card-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate doloribus ex aliquam quo consequatur earum reiciendis rerum soluta dolorum officia quibusdam, magni molestiae at quis voluptatibus expedita? Facilis pariatur cumque blanditiis, enim sit eos natus distinctio illo! Omnis voluptas, maiores ipsam labore laudantium recusandae quis obcaecati! Ipsam, neque tempore facere sit totam nesciunt culpa minima deleniti corporis similique quis. Vero velit doloribus necessitatibus non ratione autem ea deleniti inventore soluta! Dolorum facere corporis illum dolore, fuga, accusantium praesentium eum veritatis molestias, voluptate repudiandae dicta incidunt.
+            </div>
+          </div>
+
         </aside>
       </div>
 
@@ -56,10 +63,11 @@ if (isset($_POST['post'])) {
             </div>
           </div>
 
-          <?php
-          $post = new Post($con, $userLoggedIn);
-          $post->loadPosts();
-          ?>
+          <div class="posts">
+            <img id="loading" src="assets/img/loading.gif" alt="Loading">
+          </div>
+
+
         </section>
       </div>
 
@@ -67,6 +75,50 @@ if (isset($_POST['post'])) {
   </div>
 
 </section>
+
+<script>
+  let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+
+  $(document).ready(function() {
+    $('#loading').show();
+    $.ajax({
+      url: "ajax/loadPosts.php",
+      type: "POST",
+      data: "page=1&userLoggedIn=" + userLoggedIn,
+      cache: false,
+      success: function(data) {
+        $('#loading').hide();
+        $('.posts').html(data);
+      }
+    });
+  });
+
+  $(window).scroll(function() {
+    let height = $('.posts').height();
+    let scrollTop = $(this).scrollTop();
+    let page = $('.posts').find('.next-page').val();
+    let noMorePosts = $('.posts').find('.no-posts').val();
+
+    if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
+      alert("HELLO?!?!");
+      $('#loading').show();
+      $.ajax({
+        url: "ajax/loadPosts.php",
+        type: "POST",
+        data: "page=1&userLoggedIn=" + userLoggedIn,
+        cache: false,
+        success: function(response) {
+          $('.posts').find('.next-page').remove();
+          $('.posts').find('.no-posts').remove();
+          $("#loading").hide();
+          $('.posts').append(response);
+        }
+      });
+    }
+
+    return false;
+  });
+</script>
 
 
 <?php require('includes/footer.php'); ?>
