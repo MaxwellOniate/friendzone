@@ -112,11 +112,10 @@ class Account
   {
     $pw = hash('sha512', $pw);
     $pp = "assets/img/profile-pics/blank.png";
-    $uc = 'no';
     $un = $this->createUsername($fn, $ln);
 
 
-    $query = $this->con->prepare("INSERT INTO users (first_name, last_name, username, email, password, profile_pic, user_closed) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc) ");
+    $query = $this->con->prepare("INSERT INTO users (first_name, last_name, username, email, password, profile_pic, user_closed, friend_array) VALUES (:fn, :ln, :un, :em, :pw, :pp, :uc, :fa) ");
 
     return $query->execute([
       ':fn' => $fn,
@@ -125,7 +124,8 @@ class Account
       ':em' => $em,
       ':pw' => $pw,
       ':pp' => $pp,
-      ':uc' => $uc
+      ':uc' => 'no',
+      ':fa' => ','
     ]);
   }
 
