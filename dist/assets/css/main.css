@@ -140,3 +140,9 @@ a {
 #news-feed .post a {
   color: #365899;
   font-weight: 600; }
+
+#news-feed #loading {
+  margin: 2rem 0;
+  display: flex;
+  align-self: center;
+  justify-content: center; }

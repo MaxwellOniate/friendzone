@@ -65,8 +65,10 @@ if (isset($_POST['post'])) {
 
           <div class="posts">
           </div>
-          <img id="loading" src="assets/img/loading.gif" alt="Loading">
 
+          <div id="loading">
+            <img src="assets/img/loading.gif" alt="Loading">
+          </div>
 
         </section>
       </div>

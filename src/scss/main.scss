@@ -172,4 +172,10 @@ a {
       font-weight: 600;
     }
   }
+  #loading {
+    margin: 2rem 0;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+  }
 }
