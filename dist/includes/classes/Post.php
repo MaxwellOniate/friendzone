@@ -184,8 +184,27 @@ class Post
               </div>
     
               <div class='card-body'>
-    
-                <div id='post-body'>$body</br></div>
+                $body
+
+                <button onclick='toggleComments(this)' class='d-block btn btn-outline-secondary my-3'>
+                  Comment
+                </button>
+
+                <div id='toggle-comment-$id' class='post-comment d-none'>
+
+                  <form id='comment-form-$id' name='post-comment-$id'>
+
+                    <div class='form-group'>
+                      <textarea name='comment-body' class='form-control'></textarea>
+                    </div>
+                    
+                    <div class='form-group'>
+                      <input type='submit' name='post-comment-$id' class='btn btn-block main-btn my-3'>
+                    </div>
+
+                  </form>
+
+                </div>
               </div>
     
             </div>

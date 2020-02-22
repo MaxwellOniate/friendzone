@@ -79,14 +79,14 @@ if (isset($_POST['post'])) {
 <script>
   $(function() {
 
-    var userLoggedIn = '<?php echo $userLoggedIn; ?>';
-    var inProgress = false;
+    let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+    let inProgress = false;
 
     loadPosts(); //Load first posts
 
     $(window).scroll(function() {
-      var bottomElement = $(".post").last();
-      var noMorePosts = $('.posts').find('.no-posts').val();
+      let bottomElement = $(".post").last();
+      let noMorePosts = $('.posts').find('.no-posts').val();
 
       // isElementInViewport uses getBoundingClientRect(), which requires the HTML DOM object, not the jQuery object. The jQuery equivalent is using [0] as shown below.
       if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
@@ -102,7 +102,7 @@ if (isset($_POST['post'])) {
       inProgress = true;
       $('#loading').show();
 
-      var page = $('.posts').find('.next-page').val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
+      let page = $('.posts').find('.next-page').val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
 
       $.ajax({
         url: "ajax/loadPosts.php",
@@ -125,7 +125,7 @@ if (isset($_POST['post'])) {
 
     //Check if the element is in view
     function isElementInView(el) {
-      var rect = el.getBoundingClientRect();
+      let rect = el.getBoundingClientRect();
 
       return (
         rect.top >= 0 &&
@@ -135,6 +135,10 @@ if (isset($_POST['post'])) {
       );
     }
   });
+
+  function toggleComments(element) {
+    $(element).next().toggleClass('d-none');
+  }
 </script>
 
 
