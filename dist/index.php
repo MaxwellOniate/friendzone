@@ -79,9 +79,10 @@ if (isset($_POST['post'])) {
 </section>
 
 <script>
+  let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+
   $(function() {
 
-    let userLoggedIn = '<?php echo $userLoggedIn; ?>';
     let inProgress = false;
 
     loadPosts(); //Load first posts
@@ -140,6 +141,35 @@ if (isset($_POST['post'])) {
 
   function toggleComments(element) {
     $(element).next().toggleClass('d-none');
+  }
+
+  function postComment(postCommentBtn) {
+    let postCommentForm = postCommentBtn.parentElement.parentElement;
+
+    let postID = postCommentBtn.previousElementSibling.value;
+
+    let postBody = postCommentBtn.parentElement.previousElementSibling.firstElementChild;
+
+    let postCommentID = $(postCommentBtn).attr('name');
+
+    let commentPostedAlert = postCommentForm.previousElementSibling;
+
+    $(postCommentForm).on('submit', function(e) {
+      e.preventDefault();
+      $.post('ajax/comments.php', {
+        postID: postID,
+        postBody: postBody.value,
+        postCommentID: postCommentID,
+        userLoggedIn: userLoggedIn
+      }).done(function() {
+        postBody.value = "";
+        commentPostedAlert.innerHTML = `<div class='alert alert-success'>Comment Posted!</div>`;
+
+        setTimeout(function() {
+          commentPostedAlert.innerHTML = "";
+        }, 3000);
+      });
+    });
   }
 </script>
 

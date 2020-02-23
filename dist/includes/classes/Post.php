@@ -187,19 +187,22 @@ class Post
                 $body
 
                 <button onclick='toggleComments(this)' class='d-block btn btn-outline-secondary my-3'>
-                  Comment
+                  Comment 
                 </button>
 
-                <div id='toggle-comment-$id' class='post-comment d-none'>
+                <div id='toggle-comment-$id' class='d-none'>
 
-                  <form id='comment-form-$id' name='post-comment-$id'>
+                  <span></span>
+
+                  <form id='comment-form-$id'>
 
                     <div class='form-group'>
-                      <textarea name='comment-body' class='form-control'></textarea>
+                      <textarea name='post-body-$id' class='form-control'></textarea>
                     </div>
                     
                     <div class='form-group'>
-                      <input type='submit' name='post-comment-$id' class='btn btn-block main-btn my-3'>
+                      <input type='hidden' value='$id'>
+                      <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn btn-block main-btn my-3'>
                     </div>
 
                   </form>
@@ -208,6 +211,7 @@ class Post
               </div>
     
             </div>
+
           ";
         }
       }
