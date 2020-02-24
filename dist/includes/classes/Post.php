@@ -197,12 +197,12 @@ class Post
                   <form id='comment-form-$id'>
 
                     <div class='form-group'>
-                      <textarea name='post-body-$id' class='form-control'></textarea>
+                      <textarea name='post-body-$id' class='form-control' placeholder='Add a comment here.'></textarea>
                     </div>
                     
                     <div class='form-group'>
                       <input type='hidden' value='$id'>
-                      <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn btn-block main-btn my-3'>
+                      <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn main-btn my-3 float-right' value='Post Comment'>
                     </div>
 
                   </form>
