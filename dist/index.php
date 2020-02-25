@@ -139,35 +139,29 @@ if (isset($_POST['post'])) {
     }
   });
 
-  function toggleComments(element) {
-    $(element).next().toggleClass('d-none');
-  }
-
   function postComment(postCommentBtn) {
-    let postCommentForm = postCommentBtn.parentElement.parentElement;
+    let postCommentForm = $(postCommentBtn).parent().parent();
 
-    let postID = postCommentBtn.previousElementSibling.value;
+    let postID = $(postCommentBtn).prev().val();
 
-    let postBody = postCommentBtn.parentElement.previousElementSibling.firstElementChild;
-
-    let postCommentID = $(postCommentBtn).attr('name');
-
-    let commentPostedAlert = postCommentForm.previousElementSibling;
+    let postBody = $(postCommentBtn).parent().prev().children('input');
 
     $(postCommentForm).on('submit', function(e) {
       e.preventDefault();
       $.post('ajax/comments.php', {
         postID: postID,
-        postBody: postBody.value,
-        postCommentID: postCommentID,
+        postBody: postBody.val(),
+        postCommentID: $(postCommentBtn).attr('name'),
         userLoggedIn: userLoggedIn
-      }).done(function() {
-        postBody.value = "";
-        commentPostedAlert.innerHTML = `<div class='alert alert-success'>Comment Posted!</div>`;
+      }).done(function(data) {
+        postBody.val("");
+        $(postCommentForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
 
         setTimeout(function() {
-          commentPostedAlert.innerHTML = "";
+          $(postCommentForm).children('.comment-posted-alert').html("");
         }, 3000);
+
+        $(postCommentForm).next().append(data);
       });
     });
   }
