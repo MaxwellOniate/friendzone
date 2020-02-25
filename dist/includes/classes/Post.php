@@ -172,7 +172,7 @@ class Post
               <div class='card-header'>
                 <div class='media'>
                 <div class='post-profile-pic pr-2'>
-                  <img src='$profilePic' class='img-fluid'>
+                  <img src='$profilePic' class='img-fluid rounded-circle'>
                 </div>
                   <div class='media-body'>
                   <div class='posted-by'>
@@ -186,28 +186,41 @@ class Post
               <div class='card-body'>
                 $body
 
-                <button onclick='toggleComments(this)' class='d-block btn btn-outline-secondary my-3'>
-                  Comment 
-                </button>
+                  <form id='comment-form-$id' class='my-3'>
 
-                <div id='toggle-comment-$id' class='d-none'>
+                      <span class='comment-posted-alert'></span>
+                      
+                      <div class='form-group'>
+                        <div class='media'>
+                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $this->user->getFullName() . "'>
+                          <div class='media-body'>
+                            <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
+                          </div>
+                        </div>
+                      </div>
 
-                  <span></span>
-
-                  <form id='comment-form-$id'>
-
-                    <div class='form-group'>
-                      <textarea name='post-body-$id' class='form-control' placeholder='Add a comment here.'></textarea>
-                    </div>
-                    
-                    <div class='form-group'>
-                      <input type='hidden' value='$id'>
-                      <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn main-btn my-3 float-right' value='Post Comment'>
-                    </div>
+                      <div class='form-group'>
+                        <input type='hidden' value='$id'>
+                        <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='form-control d-none' value='Post Comment'>
+                      </div>
 
                   </form>
 
-                </div>
+                  <hr>
+      
+                  <div class='comments'>
+                      <div class='comment'>
+                      <div class='media'>
+                        <img src='assets/img/profile-pics/blank.png' class='img-fluid comment-profile-pic' alt=''>
+                        <div class='media-body'>
+                      
+                          <a href=''>Bobby Smith</a>
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, tempora iste voluptas dolorem adipisci iure. Harum tempore atque distinctio, nesciunt dicta iure rerum vitae obcaecati, veritatis hic error sapiente, maxime possimus earum quia placeat saepe ipsa dolores repellat.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
               </div>
     
             </div>
