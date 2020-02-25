@@ -135,11 +135,26 @@ a {
   color: #999; }
 
 #news-feed .post-profile-pic {
-  width: 75px; }
+  width: 50px; }
 
 #news-feed .post a {
   color: #365899;
   font-weight: 600; }
+
+#news-feed .post .comment-profile-pic {
+  border-radius: 50%;
+  width: 2rem;
+  margin-right: 0.5rem; }
+
+#news-feed .post .comment-input {
+  background: #f2f3f5;
+  border: 1px solid #ccd0d5;
+  border-radius: 1rem; }
+
+#news-feed .post .comments .comment .media-body {
+  background: #f2f3f5;
+  border-radius: 1rem;
+  padding: 0.5rem; }
 
 #news-feed #loading {
   margin: 2rem 0;
