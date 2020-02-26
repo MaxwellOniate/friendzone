@@ -150,16 +150,28 @@ class Post
                       </div>
 
                       <div class='form-group'>
-                        <input type='hidden' value='$id'>
-                        <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='form-control btn btn-outline-secondary' value='Post Comment'>
+
+                        <div class='btn-group d-flex'>      
+                          <input type='hidden' value='$id'>
+
+                          <button onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn btn-outline-secondary'>
+                          <i class='far fa-comment-alt'></i> Post Comment
+                          </button>
+
+                          <button onclick='likeComment(this)' name='like-comment-$id' class='btn btn-outline-secondary'>
+                          <i class='far fa-thumbs-up'></i> Like
+                          </button>
+                        </div>
+
                       </div>
 
                   </form>
 
                   <hr>
       
+                  <p class='comment-count'>" . $this->getCommentCount($id) . "</p>
                   <div class='comments'>
-                      
+                    
                     " . $this->loadComments($id) . "
 
                   </div>
@@ -275,6 +287,16 @@ class Post
       }
 
       return $commentStr;
+    }
+  }
+  private function getCommentCount($postID)
+  {
+    $commentCountQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID");
+    $commentCountQuery->execute([':postID' => $postID]);
+    if ($commentCountQuery->rowCount() == 1) {
+      return $commentCountQuery->rowCount() . " Comment";
+    } else {
+      return $commentCountQuery->rowCount() . " Comments";
     }
   }
 }
