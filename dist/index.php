@@ -144,9 +144,9 @@ if (isset($_POST['post'])) {
 
     let postID = $(postCommentBtn).prev().val();
 
-    let postBody = $(postCommentBtn).parent().prev().children('input');
+    let postBody = $(postCommentBtn).parent().prev().find('.comment-input');
 
-    $(postCommentForm).on('submit', function(e) {
+    $(postCommentForm).one('submit', function(e) {
       e.preventDefault();
       $.post('ajax/comments.php', {
         postID: postID,
@@ -154,14 +154,15 @@ if (isset($_POST['post'])) {
         postCommentID: $(postCommentBtn).attr('name'),
         userLoggedIn: userLoggedIn
       }).done(function(data) {
-        postBody.val("");
-        $(postCommentForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
+        if (!postBody.val("")) {
+          postBody.val("");
+          $(postCommentForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
 
-        setTimeout(function() {
-          $(postCommentForm).children('.comment-posted-alert').html("");
-        }, 3000);
-
-        $(postCommentForm).next().append(data);
+          setTimeout(function() {
+            $(postCommentForm).children('.comment-posted-alert').html("");
+          }, 3000);
+        }
+        $(postCommentForm).next().next().prepend(data);
       });
     });
   }
