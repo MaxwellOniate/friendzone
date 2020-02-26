@@ -116,56 +116,6 @@ class Post
           $lastName = $userRow['last_name'];
           $profilePic = $userRow['profile_pic'];
 
-          $dateTimeNow = date('Y-m-d H:i:s');
-          $startDate = new DateTime($dateAdded);
-          $endDate = new DateTime($dateTimeNow);
-          $interval = $startDate->diff($endDate);
-          if ($interval->y >= 1) {
-            if ($interval == 1) {
-              $timeMessage = $interval->y . " year ago.";
-            } else {
-              $timeMessage = $interval->y . " years ago.";
-            }
-          } else if ($interval->m >= 1) {
-            if ($interval->d == 0) {
-              $days = " ago.";
-            } else if ($interval->d == 1) {
-              $days = $interval->d . " day ago.";
-            } else {
-              $days = $interval->d . " days ago.";
-            }
-
-            if ($interval->m == 1) {
-              $timeMessage = $interval->m . " month" . $days;
-            } else {
-              $timeMessage = $interval->m . " months" . $days;
-            }
-          } else if ($interval->d >= 1) {
-            if ($interval->d == 1) {
-              $timeMessage = "Yesterday.";
-            } else {
-              $timeMessage = $interval->d . " days ago.";
-            }
-          } else if ($interval->h >= 1) {
-            if ($interval->h == 1) {
-              $timeMessage = $interval->h . " hour ago.";
-            } else {
-              $timeMessage = $interval->h . " hours ago.";
-            }
-          } else if ($interval->i >= 1) {
-            if ($interval->i == 1) {
-              $timeMessage = $interval->i . " minute ago.";
-            } else {
-              $timeMessage = $interval->i . " minutes ago.";
-            }
-          } else {
-            if ($interval->s < 30) {
-              $timeMessage = "Just now.";
-            } else {
-              $timeMessage = $interval->s . " seconds ago";
-            }
-          }
-
           $str .= "
             <div class='card post my-3'>
     
@@ -177,7 +127,7 @@ class Post
                   <div class='media-body'>
                   <div class='posted-by'>
                     <a href='$addedBy'>$firstName $lastName</a> $userTo
-                    <small class='d-block'>$timeMessage</small> 
+                    <small class='d-block'>" . $this->getDate($dateAdded) . "</small> 
                   </div>
                   </div>
                 </div>
@@ -201,7 +151,7 @@ class Post
 
                       <div class='form-group'>
                         <input type='hidden' value='$id'>
-                        <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='form-control d-none' value='Post Comment'>
+                        <input onclick='postComment(this)' type='submit' name='post-comment-$id' class='form-control btn btn-outline-secondary' value='Post Comment'>
                       </div>
 
                   </form>
@@ -209,16 +159,9 @@ class Post
                   <hr>
       
                   <div class='comments'>
-                      <div class='comment'>
-                      <div class='media'>
-                        <img src='assets/img/profile-pics/blank.png' class='img-fluid comment-profile-pic' alt=''>
-                        <div class='media-body'>
                       
-                          <a href=''>Bobby Smith</a>
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, tempora iste voluptas dolorem adipisci iure. Harum tempore atque distinctio, nesciunt dicta iure rerum vitae obcaecati, veritatis hic error sapiente, maxime possimus earum quia placeat saepe ipsa dolores repellat.
-                        </div>
-                      </div>
-                    </div>
+                    " . $this->loadComments($id) . "
+
                   </div>
 
               </div>
@@ -242,5 +185,96 @@ class Post
 
 
     echo $str;
+  }
+  public function getDate($dateAdded)
+  {
+    $dateTimeNow = date('Y-m-d H:i:s');
+    $startDate = new DateTime($dateAdded);
+    $endDate = new DateTime($dateTimeNow);
+    $interval = $startDate->diff($endDate);
+    if ($interval->y >= 1) {
+      if ($interval == 1) {
+        $timeMessage = $interval->y . " year ago.";
+      } else {
+        $timeMessage = $interval->y . " years ago.";
+      }
+    } else if ($interval->m >= 1) {
+      if ($interval->d == 0) {
+        $days = " ago.";
+      } else if ($interval->d == 1) {
+        $days = $interval->d . " day ago.";
+      } else {
+        $days = $interval->d . " days ago.";
+      }
+
+      if ($interval->m == 1) {
+        $timeMessage = $interval->m . " month" . $days;
+      } else {
+        $timeMessage = $interval->m . " months" . $days;
+      }
+    } else if ($interval->d >= 1) {
+      if ($interval->d == 1) {
+        $timeMessage = "Yesterday.";
+      } else {
+        $timeMessage = $interval->d . " days ago.";
+      }
+    } else if ($interval->h >= 1) {
+      if ($interval->h == 1) {
+        $timeMessage = $interval->h . " hour ago.";
+      } else {
+        $timeMessage = $interval->h . " hours ago.";
+      }
+    } else if ($interval->i >= 1) {
+      if ($interval->i == 1) {
+        $timeMessage = $interval->i . " minute ago.";
+      } else {
+        $timeMessage = $interval->i . " minutes ago.";
+      }
+    } else {
+      if ($interval->s < 30) {
+        $timeMessage = "Just now.";
+      } else {
+        $timeMessage = $interval->s . " seconds ago";
+      }
+    }
+
+    return $timeMessage;
+  }
+  private function loadComments($postID)
+  {
+    $getCommentsQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID ORDER BY id DESC");
+    $getCommentsQuery->execute([':postID' => $postID]);
+
+    if ($getCommentsQuery->rowCount() != 0) {
+
+      $commentStr = "";
+
+      while ($comment = $getCommentsQuery->fetch(PDO::FETCH_ASSOC)) {
+        $commentBody = $comment['post_body'];
+        $postedTo = $comment['posted_to'];
+        $postedBy = $comment['posted_by'];
+        $dateAdded = $comment['date_added'];
+        $removed = $comment['removed'];
+
+        $userObj = new User($this->con, $postedBy);
+
+        $commentStr .= "
+          <div class='comment pb-3'>
+            <div class='media'>
+              <img src='" . $userObj->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $userObj->getFullName() . "'>
+              <div class='media-body'>  
+                <div class='comment-body'>
+                  <a href='" . $userObj->getUsername() . "'>" . $userObj->getFullName() . "</a>
+                  $commentBody
+                </div>
+                <small class='d-block pl-2'>" . $this->getDate($dateAdded) . "</small>
+              </div>
+              </div>
+          </div>
+        ";
+      }
+
+      return $commentStr;
+    }
   }
 }
