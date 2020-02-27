@@ -140,15 +140,15 @@ if (isset($_POST['post'])) {
   });
 
   function postComment(postCommentBtn) {
-    let postCommentForm = $(postCommentBtn).parent().parent();
+    let postForm = $(postCommentBtn).parent().parent().parent();
 
     let postID = $(postCommentBtn).prev().val();
 
-    let postBody = $(postCommentBtn).parent().prev().find('.comment-input');
+    let postBody = $(postCommentBtn).parent().parent().prev().find('.comment-input');
 
-    $(postCommentForm).one('submit', function(e) {
+    $(postForm).one('submit', function(e) {
       e.preventDefault();
-      $.post('ajax/comments.php', {
+      $.post('ajax/postComment.php', {
         postID: postID,
         postBody: postBody.val(),
         postCommentID: $(postCommentBtn).attr('name'),
@@ -156,13 +156,34 @@ if (isset($_POST['post'])) {
       }).done(function(data) {
         if (!postBody.val("")) {
           postBody.val("");
-          $(postCommentForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
+          $(postForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
 
           setTimeout(function() {
-            $(postCommentForm).children('.comment-posted-alert').html("");
+            $(postForm).children('.comment-posted-alert').html("");
           }, 3000);
         }
-        $(postCommentForm).next().next().prepend(data);
+        $(postForm).next().next().next().prepend(data);
+      });
+    });
+  }
+
+  function likeStatus(likeStatusBtn) {
+    let postForm = $(likeStatusBtn).parent().parent().parent();
+    let postID = $(likeStatusBtn).next().val();
+
+    $(postForm).one('submit', function(e) {
+      e.preventDefault();
+      $.post('ajax/likeStatus.php', {
+        postID: postID,
+        likeStatusID: $(likeStatus).attr('name'),
+        userLoggedIn: userLoggedIn
+      }).done(function() {
+        $(postForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Post Liked!</div>");
+
+        setTimeout(function() {
+          $(postForm).children('.comment-posted-alert').html("");
+        }, 3000);
+
       });
     });
   }

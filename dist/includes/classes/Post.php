@@ -134,7 +134,9 @@ class Post
               </div>
     
               <div class='card-body'>
-                $body
+                <div class='post-body'>
+                  $body
+                </div>
 
                   <form id='comment-form-$id' class='my-3'>
 
@@ -158,7 +160,7 @@ class Post
                           <i class='far fa-comment-alt'></i> Post Comment
                           </button>
 
-                          <button onclick='likeComment(this)' name='like-comment-$id' class='btn btn-outline-secondary'>
+                          <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
                           <i class='far fa-thumbs-up'></i> Like
                           </button>
                         </div>
