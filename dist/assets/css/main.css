@@ -144,6 +144,11 @@ a {
 #news-feed .post .post-body {
   font-size: 1.2rem; }
 
+#news-feed .post .comment-like-btns {
+  width: 100%; }
+  #news-feed .post .comment-like-btns button {
+    width: 50%; }
+
 #news-feed .post .comment-profile-pic {
   border-radius: 50%;
   width: 2rem;
