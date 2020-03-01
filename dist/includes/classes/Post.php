@@ -258,13 +258,13 @@ class Post
   }
   private function displayLikeBtn($postID)
   {
-    $checkLikeQuery = $this->con->prepare("SELECT * FROM likes WHERE username = :un AND post_id = :postID");
-    $checkLikeQuery->execute([
+    $checkLikesQuery = $this->con->prepare("SELECT * FROM likes WHERE username = :un AND post_id = :postID");
+    $checkLikesQuery->execute([
       ':un' => $this->user->getUsername(),
       ':postID' => $postID
     ]);
 
-    if ($checkLikeQuery->rowCount() > 0) {
+    if ($checkLikesQuery->rowCount()) {
       return "
         <span class='liked'>
           <i class='fas fa-thumbs-up'></i> Liked
