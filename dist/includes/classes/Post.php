@@ -1,6 +1,5 @@
 <?php
 
-
 class Post
 {
   private $con, $user;
@@ -140,7 +139,7 @@ class Post
 
                   <form id='comment-form-$id' class='my-3'>
 
-                      <span class='comment-posted-alert'></span>
+                      <span class='comment-alert'></span>
                       
                       <div class='form-group'>
                         <div class='media'>
@@ -153,15 +152,17 @@ class Post
 
                       <div class='form-group'>
 
-                        <div class='btn-group d-flex'>      
+                        <div class='btn-group comment-like-btns'>      
                           <input type='hidden' value='$id'>
 
-                          <button onclick='postComment(this)' type='submit' name='post-comment-$id' class='btn btn-outline-secondary'>
-                          <i class='far fa-comment-alt'></i> Post Comment
+                          <button onclick='postComment(this)' name='post-comment-$id' class='btn btn-outline-secondary'>
+                          <i class='far fa-comment-alt'></i> Comment
                           </button>
 
                           <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
-                          <i class='far fa-thumbs-up'></i> Like
+
+                            " . $this->displayLikeBtn($id) . "
+                            
                           </button>
                         </div>
 
@@ -171,7 +172,8 @@ class Post
 
                   <hr>
       
-                  <p class='comment-count'>" . $this->getCommentCount($id) . "</p>
+                  <p class='post-stats'>" . $this->getCommentCount($id) . ", " . $this->getLikeCount($id) . "</p>
+
                   <div class='comments'>
                     
                     " . $this->loadComments($id) . "
@@ -254,6 +256,28 @@ class Post
 
     return $timeMessage;
   }
+  private function displayLikeBtn($postID)
+  {
+    $checkLikeQuery = $this->con->prepare("SELECT * FROM likes WHERE username = :un AND post_id = :postID");
+    $checkLikeQuery->execute([
+      ':un' => $this->user->getUsername(),
+      ':postID' => $postID
+    ]);
+
+    if ($checkLikeQuery->rowCount() > 0) {
+      return "
+        <span class='liked'>
+          <i class='fas fa-thumbs-up'></i> Liked
+        </span>
+      ";
+    } else {
+      return "
+        <span class='like'>
+          <i class='far fa-thumbs-up'></i> Like
+        </span>
+      ";
+    }
+  }
   private function loadComments($postID)
   {
     $getCommentsQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID ORDER BY id DESC");
@@ -296,9 +320,19 @@ class Post
     $commentCountQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID");
     $commentCountQuery->execute([':postID' => $postID]);
     if ($commentCountQuery->rowCount() == 1) {
-      return $commentCountQuery->rowCount() . " Comment";
+      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comment";
     } else {
-      return $commentCountQuery->rowCount() . " Comments";
+      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comments";
+    }
+  }
+  private function getLikeCount($postID)
+  {
+    $likeCountQuery = $this->con->prepare("SELECT * FROM likes WHERE post_id = :postID");
+    $likeCountQuery->execute([':postID' => $postID]);
+    if ($likeCountQuery->rowCount() == 1) {
+      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Like";
+    } else {
+      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Likes";
     }
   }
 }
