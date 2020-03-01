@@ -154,14 +154,15 @@ if (isset($_POST['post'])) {
         postCommentID: $(postCommentBtn).attr('name'),
         userLoggedIn: userLoggedIn
       }).done(function(data) {
-        if (!postBody.val("")) {
+        if (postBody.val()) {
           postBody.val("");
-          $(postForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
+          $(postForm).children('.comment-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
 
           setTimeout(function() {
-            $(postForm).children('.comment-posted-alert').html("");
+            $(postForm).children('.comment-alert').html("");
           }, 3000);
         }
+
         $(postForm).next().next().next().prepend(data);
       });
     });
@@ -169,21 +170,16 @@ if (isset($_POST['post'])) {
 
   function likeStatus(likeStatusBtn) {
     let postForm = $(likeStatusBtn).parent().parent().parent();
-    let postID = $(likeStatusBtn).next().val();
+    let postID = $(likeStatusBtn).prev().prev().val();
 
     $(postForm).one('submit', function(e) {
       e.preventDefault();
       $.post('ajax/likeStatus.php', {
         postID: postID,
-        likeStatusID: $(likeStatus).attr('name'),
+        likeStatusID: $(likeStatusBtn).attr('name'),
         userLoggedIn: userLoggedIn
-      }).done(function() {
-        $(postForm).children('.comment-posted-alert').html("<div class='alert alert-success'>Post Liked!</div>");
-
-        setTimeout(function() {
-          $(postForm).children('.comment-posted-alert').html("");
-        }, 3000);
-
+      }).done(function(data) {
+        $(likeStatusBtn).html(data);
       });
     });
   }
