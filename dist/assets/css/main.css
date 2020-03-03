@@ -170,3 +170,21 @@ a {
   display: flex;
   align-self: center;
   justify-content: center; }
+
+#profile-header {
+  display: flex;
+  align-items: center;
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #bbb; }
+  #profile-header .profilePic {
+    margin-right: 3rem;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid #bbb; }
+  #profile-header .profile-info h1 {
+    font-size: 2.5rem; }
+  #profile-header .profile-info .profile-stats {
+    display: flex; }
+    #profile-header .profile-info .profile-stats p {
+      margin-right: 2rem; }

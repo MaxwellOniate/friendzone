@@ -208,3 +208,28 @@ a {
     justify-content: center;
   }
 }
+
+#profile-header {
+  display: flex;
+  align-items: center;
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #bbb;
+  .profilePic {
+    margin-right: 3rem;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid #bbb;
+  }
+  .profile-info {
+    h1 {
+      font-size: 2.5rem;
+    }
+    .profile-stats {
+      display: flex;
+      p {
+        margin-right: 2rem;
+      }
+    }
+  }
+}
