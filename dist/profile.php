@@ -21,18 +21,7 @@ if (isset($_GET['profile_username'])) {
         </div>
 
         <form id='profile-form'>
-          <?php
-
-          if ($username != $userLoggedIn) {
-            if ($profile->isFriend($userLoggedIn)) {
-              echo "<input type='hidden' value='" . $profile->getUsername() . "'>
-            <button onclick='removeFriend(this)' class='btn btn-outline-danger' name='remove-friend'>Remove Friend</button>";
-            } else {
-              echo "<input type='hidden' value='" . $profile->getUsername() . "'>
-              <button onclick='addFriend(this)' class='btn btn-outline-success' name='add-friend'>Add Friend</button>";
-            }
-          }
-          ?>
+          <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
         </form>
 
       </div>
@@ -44,28 +33,15 @@ if (isset($_GET['profile_username'])) {
 <script>
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
 
-  function addFriend(addFriendBtn) {
+  function friendRequest(friendRequestBtn) {
     $('#profile-form').one('submit', function(e) {
       e.preventDefault();
-      $.post("ajax/addFriend.php", {
-        submit: $(addFriendBtn).attr("name"),
-        addFriend: $(addFriendBtn).prev().val(),
+      $.post("ajax/friendRequest.php", {
+        submit: $(friendRequestBtn).attr("name"),
+        profile: '<?php echo $profile->getUsername(); ?>',
         userLoggedIn: userLoggedIn
-      }).done(function() {
-
-      });
-    });
-  }
-
-  function removeFriend(removeFriendBtn) {
-    $('#profile-form').one('submit', function(e) {
-      e.preventDefault();
-      $.post("ajax/addFriend.php", {
-        submit: $(removeFriendBtn).attr("name"),
-        removeFriend: $(removeFriendBtn).prev().val(),
-        userLoggedIn: userLoggedIn
-      }).done(function() {
-
+      }).done(function(data) {
+        $('#profile-form').html(data);
       });
     });
   }
