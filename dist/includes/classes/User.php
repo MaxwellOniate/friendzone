@@ -59,14 +59,37 @@ class User
       return false;
     }
   }
-  public function isFriend($usernameCheck)
+  public function isFriend($username)
   {
-    $usernameComma = "," . $usernameCheck . ",";
+    $usernameStr = "," . $username . ",";
 
-    if (strstr($this->sqlData['friend_array'], $usernameComma) || $usernameCheck == $this->sqlData['username']) {
+    if (strstr($this->sqlData['friend_array'], $usernameStr) || $username == $this->sqlData['username']) {
       return true;
-    } else {
-      return false;
     }
+    return false;
+  }
+  public function receivedRequest($userTo)
+  {
+    $userFrom = $this->sqlData['username'];
+    $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
+    $query->execute([':userTo' => $userTo, ':userFrom' => $userFrom]);
+
+    if ($query->rowCount()) {
+      return true;
+    }
+
+    return false;
+  }
+  public function sentRequest($userFrom)
+  {
+    $userTo = $this->sqlData['username'];
+    $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
+    $query->execute([':userTo' => $userTo, ':userFrom' => $userFrom]);
+
+    if ($query->rowCount()) {
+      return true;
+    }
+
+    return false;
   }
 }
