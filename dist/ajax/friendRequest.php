@@ -11,6 +11,7 @@ $userLoggedIn = $_POST['userLoggedIn'];
 if (isset($submit)) {
   if ($submit == 'remove') {
 
+    // Remove person from your friend_array
     $query = $con->prepare("SELECT friend_array FROM users WHERE username = :un");
     $query->execute([':un' => $userLoggedIn]);
     $row = $query->fetch(PDO::FETCH_ASSOC);
@@ -20,6 +21,15 @@ if (isset($submit)) {
 
     $removeFriendQuery = $con->prepare("UPDATE users SET friend_array = :newFriendArray WHERE username = :un");
     $removeFriendQuery->execute([':newFriendArray' => $newFriendArray, ':un' => $userLoggedIn]);
+
+    // Remove yourself from person's friend_array
+    $query = $con->prepare("SELECT friend_array FROM users WHERE username = :un");
+    $query->execute([':un' => $profile]);
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    $friendArray = $row['friend_array'];
+
+    $newFriendArray = str_replace($userLoggedIn . ",", "", $friendArray);
+
     $removeFriendQuery = $con->prepare("UPDATE users SET friend_array = :newFriendArray WHERE username = :un");
     $removeFriendQuery->execute([':newFriendArray' => $newFriendArray, ':un' => $profile]);
 
