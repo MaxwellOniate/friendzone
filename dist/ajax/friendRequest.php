@@ -20,7 +20,6 @@ if (isset($submit)) {
 
     $removeFriendQuery = $con->prepare("UPDATE users SET friend_array = :newFriendArray WHERE username = :un");
     $removeFriendQuery->execute([':newFriendArray' => $newFriendArray, ':un' => $userLoggedIn]);
-
     $removeFriendQuery = $con->prepare("UPDATE users SET friend_array = :newFriendArray WHERE username = :un");
     $removeFriendQuery->execute([':newFriendArray' => $newFriendArray, ':un' => $profile]);
 
@@ -29,8 +28,16 @@ if (isset($submit)) {
   } else if ($submit == 'respond') {
     echo 'Respond';
   } else if ($submit == 'cancel') {
-    echo 'Cancel';
+    $query = $con->prepare("DELETE FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
+    $query->execute([':userTo' => $profile, ':userFrom' => $userLoggedIn]);
+
+    echo "
+    <button onclick='friendRequest(this)' class='btn btn-outline-success' name='friend'>Add Friend</button>";
   } else {
-    echo 'Friend';
+    $query = $con->prepare("INSERT INTO friend_requests (user_to, user_from) VALUES(:userTo, :userFrom)");
+    $query->execute([':userTo' => $profile, ':userFrom' => $userLoggedIn]);
+
+    echo "
+    <button onclick='friendRequest(this)' class='btn btn-outline-secondary' name='cancel'>Request Sent</button>";
   }
 }
