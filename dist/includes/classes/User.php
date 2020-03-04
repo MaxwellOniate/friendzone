@@ -63,16 +63,41 @@ class User
   {
     $usernameStr = "," . $username . ",";
 
-    if (strstr($this->sqlData['friend_array'], $usernameStr) || $username == $this->sqlData['username']) {
+    if (strstr($this->sqlData['friend_array'], $usernameStr) || $username == $this->username) {
       return true;
     }
     return false;
   }
-  public function receivedRequest($userTo)
+
+  public function friendRequestBtn($userTo)
   {
-    $userFrom = $this->sqlData['username'];
+    $user = new User($this->con, $this->username);
+    if ($this->username != $userTo) {
+      $query = $this->con->prepare("SELECT friend_array FROM users WHERE username = :un");
+      $query->execute([':un' => $this->username]);
+      $row = $query->fetch(PDO::FETCH_ASSOC);
+      $friendArray = $row['friend_array'];
+
+      if ($user->isFriend($userTo)) {
+        echo "
+        <button onclick='friendRequest(this)' class='btn btn-outline-danger' name='remove'>Remove Friend</button>";
+      } else if ($user->receivedRequest($userTo)) {
+        echo "
+        <button onclick='friendRequest(this)' class='btn btn-outline-secondary' name='respond'>Respond to Request</button>";
+      } else if ($user->sentRequest($userTo)) {
+        echo "
+        <button onclick='friendRequest(this)' class='btn btn-outline-secondary' name='cancel'>Request Sent</button>";
+      } else {
+        echo "
+        <button onclick='friendRequest(this)' class='btn btn-outline-success' name='friend'>Add Friend</button>";
+      }
+    }
+  }
+
+  private function receivedRequest($userFrom)
+  {
     $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
-    $query->execute([':userTo' => $userTo, ':userFrom' => $userFrom]);
+    $query->execute([':userTo' => $this->username, ':userFrom' => $userFrom]);
 
     if ($query->rowCount()) {
       return true;
@@ -80,11 +105,10 @@ class User
 
     return false;
   }
-  public function sentRequest($userFrom)
+  private function sentRequest($userTo)
   {
-    $userTo = $this->sqlData['username'];
     $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
-    $query->execute([':userTo' => $userTo, ':userFrom' => $userFrom]);
+    $query->execute([':userTo' => $userTo, ':userFrom' => $this->username]);
 
     if ($query->rowCount()) {
       return true;
