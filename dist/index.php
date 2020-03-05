@@ -16,7 +16,7 @@ if (isset($_POST['post'])) {
 
       <div class="col-lg-4">
         <aside id="feed-details">
-          <div class="card user-details mb-3">
+          <div class="card user-details mb-4">
             <div class="card-body">
 
               <div class="media">
@@ -36,7 +36,7 @@ if (isset($_POST['post'])) {
 
           </div>
 
-          <div class="card popular mb-3">
+          <div class="card trends">
             <div class="card-body">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate doloribus ex aliquam quo consequatur earum reiciendis rerum soluta dolorum officia quibusdam, magni molestiae at quis voluptatibus expedita? Facilis pariatur cumque blanditiis, enim sit eos natus distinctio illo! Omnis voluptas, maiores ipsam labore laudantium recusandae quis obcaecati! Ipsam, neque tempore facere sit totam nesciunt culpa minima deleniti corporis similique quis. Vero velit doloribus necessitatibus non ratione autem ea deleniti inventore soluta! Dolorum facere corporis illum dolore, fuga, accusantium praesentium eum veritatis molestias, voluptate repudiandae dicta incidunt.
             </div>

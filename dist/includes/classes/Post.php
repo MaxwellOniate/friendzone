@@ -116,7 +116,7 @@ class Post
           $profilePic = $userRow['profile_pic'];
 
           $str .= "
-            <div class='card post my-3'>
+            <div class='card post my-4'>
     
               <div class='card-header'>
                 <div class='media'>
@@ -194,8 +194,7 @@ class Post
         <input type='hidden' class='no-posts' value='false'>";
       } else {
         $str .= "
-        <input type='hidden' class='no-posts' value='true'>
-        <p class='text-center'>No more posts to show.</p>";
+        <input type='hidden' class='no-posts' value='true'>";
       }
     }
 

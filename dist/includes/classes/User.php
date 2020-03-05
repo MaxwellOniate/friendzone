@@ -47,6 +47,10 @@ class User
   {
     return $this->sqlData['num_likes'];
   }
+  public function getFriendArray()
+  {
+    return $this->sqlData['friend_array'];
+  }
   public function getFriendCount()
   {
     return (substr_count($this->sqlData['friend_array'], ",")) - 1;

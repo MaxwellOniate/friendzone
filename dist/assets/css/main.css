@@ -147,7 +147,8 @@ a {
 #news-feed .post .comment-like-btns {
   width: 100%; }
   #news-feed .post .comment-like-btns button {
-    width: 50%; }
+    width: 50%;
+    border-radius: 0; }
 
 #news-feed .post .comment-profile-pic {
   border-radius: 50%;
@@ -188,3 +189,16 @@ a {
     display: flex; }
     #profile-header .profile-info .profile-stats p {
       margin-right: 2rem; }
+
+#friend-requests {
+  padding-top: 5.5rem; }
+  #friend-requests .friend-request-profilePic {
+    width: 75px;
+    height: 75px;
+    margin-right: 1rem; }
+  #friend-requests a {
+    font-weight: 600;
+    color: #365899; }
+  #friend-requests .media-body {
+    display: flex;
+    justify-content: space-between; }

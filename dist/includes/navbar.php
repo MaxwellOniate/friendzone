@@ -43,7 +43,7 @@ $user = new User($con, $userLoggedIn);
             </a>
           </div>
           <div class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="requests.php" class="nav-link">
               <i class="fas fa-user-friends"></i>
               <span class="d-md-none">Friend Requests</span>
             </a>

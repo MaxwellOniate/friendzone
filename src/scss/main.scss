@@ -178,6 +178,7 @@ a {
       width: 100%;
       button {
         width: 50%;
+        border-radius: 0;
       }
     }
     .comment-profile-pic {
@@ -231,5 +232,22 @@ a {
         margin-right: 2rem;
       }
     }
+  }
+}
+
+#friend-requests {
+  padding-top: 5.5rem;
+  .friend-request-profilePic {
+    width: 75px;
+    height: 75px;
+    margin-right: 1rem;
+  }
+  a {
+    font-weight: 600;
+    color: $primary-color;
+  }
+  .media-body {
+    display: flex;
+    justify-content: space-between;
   }
 }
