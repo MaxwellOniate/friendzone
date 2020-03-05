@@ -28,9 +28,13 @@
                     " . $userFromObj->getFullName() . "
                     </a>
                     <form id='request-$id'>
-                      <button name='accept-$id' class='btn main-btn btn-sm'>Accept</button>
-                      <button name='decline-$id' class='btn btn-outline-secondary btn-sm rounded-0'>Decline</button>
+                      <input type='hidden' value='$id'>
+                      <button onclick='respondFR(this)' name='accept-$id' class='btn main-btn btn-sm'>Accept</button>
+                      <input type='hidden' value='$id'>
+                      <button onclick='respondFR(this)' name='decline-$id' class='btn btn-outline-secondary btn-sm rounded-0'>Decline</button>
+
                     </form>
+                    
                   </div>
                 </div>
               </div>
@@ -45,6 +49,31 @@
 
   </div>
 </section>
+
+<script>
+  let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+
+  function respondFR(responseBtn) {
+    let form = $(responseBtn).parent();
+    let requestID = $(responseBtn).prev().val();
+    let submit = $(responseBtn).attr("name");
+    let profile = $(responseBtn).parent().prev().attr('href');
+    let fullName = $(responseBtn).parent().prev().text();
+    let card = $(responseBtn).parent().parent().parent().parent().parent();
+
+    $(form).one('submit', function(e) {
+      e.preventDefault();
+      $.post("ajax/respondFR.php", {
+        requestID: requestID,
+        submit: submit,
+        profile: profile,
+        userLoggedIn: userLoggedIn
+      }).done(function(data) {
+        $(card).replaceWith(data);
+      });
+    });
+  }
+</script>
 
 
 <?php require('includes/footer.php'); ?>
