@@ -20,9 +20,40 @@ if (isset($_GET['profile_username'])) {
           <p>Friends: <?php echo $profile->getFriendCount(); ?></p>
         </div>
 
-        <form id='profile-form'>
-          <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
-        </form>
+        <div class="profile-btns">
+          <form id='friend-request-form'>
+            <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
+          </form>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#post-modal">Post on Wall</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="post-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Post to <?php echo $profile->getFirstName(); ?>'s wall.</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Post will be visible to all your friends and <?php echo $profile->getFirstName(); ?>'s friends on the newsfeed!</p>
+                <form>
+                  <div class="form-group">
+                    <textarea name="post-textarea" placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
+                  </div>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <input type="submit" class="btn btn-primary" value="Submit">
+                </form>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
 
       </div>
     </header>
@@ -34,14 +65,14 @@ if (isset($_GET['profile_username'])) {
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
 
   function friendRequest(friendRequestBtn) {
-    $('#profile-form').one('submit', function(e) {
+    $('#friend-request-form').one('submit', function(e) {
       e.preventDefault();
       $.post("ajax/friendRequest.php", {
         submit: $(friendRequestBtn).attr("name"),
         profile: '<?php echo $profile->getUsername(); ?>',
         userLoggedIn: userLoggedIn
       }).done(function(data) {
-        $('#profile-form').html(data);
+        $('#friend-request-form').html(data);
       });
     });
   }

@@ -190,6 +190,10 @@ a {
     display: flex; }
     #profile-header .profile-info .profile-stats p {
       margin-right: 2rem; }
+  #profile-header .profile-info .profile-btns {
+    display: flex; }
+    #profile-header .profile-info .profile-btns button {
+      margin-right: 1rem; }
 
 #friend-requests {
   padding-top: 5.5rem; }
