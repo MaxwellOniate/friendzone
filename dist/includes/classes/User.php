@@ -87,13 +87,13 @@ class User
         <button onclick='friendRequest(this)' class='btn btn-outline-danger' name='remove'>Remove Friend</button>";
       } else if ($user->receivedRequest($userTo)) {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-outline-secondary' name='respond'>Respond to Request</button>";
+        <button onclick='friendRequest(this)' class='btn btn-success' name='accept'>Accept Friend Request</button>";
       } else if ($user->sentRequest($userTo)) {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-outline-secondary' name='cancel'>Request Sent</button>";
+        <button onclick='friendRequest(this)' class='btn btn-secondary' name='cancel'>Friend Request Sent</button>";
       } else {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-outline-success' name='friend'>Add Friend</button>";
+        <button onclick='friendRequest(this)' class='btn btn-success' name='friend'>Add Friend</button>";
       }
     }
   }

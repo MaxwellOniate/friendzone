@@ -28,6 +28,7 @@ if (isset($_POST['post'])) {
                   <a href="<?php echo $user->getUsername(); ?>" class="user-full-name"><?php echo $user->getFullName(); ?></a>
                   <p class="user-data">Posts: <?php echo $user->getPostCount(); ?></p>
                   <p class="user-data">Likes: <?php echo $user->getLikeCount(); ?></p>
+                  <p class="user-data">Friends: <?php echo $user->getFriendCount(); ?></p>
                 </div>
               </div>
 
