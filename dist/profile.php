@@ -24,7 +24,11 @@ if (isset($_GET['profile_username'])) {
           <form id='friend-request-form'>
             <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
           </form>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#post-modal">Post on Wall</button>
+          <?php
+          if ($userLoggedIn != $profile->getUsername()) {
+            echo "<button class='btn btn-outline-dark' data-toggle='modal' data-target='#post-modal'>Post to Wall</button>";
+          }
+          ?>
         </div>
 
         <!-- Modal -->
@@ -38,13 +42,13 @@ if (isset($_GET['profile_username'])) {
                 </button>
               </div>
               <div class="modal-body">
-                <p>Post will be visible to all your friends and <?php echo $profile->getFirstName(); ?>'s friends on the newsfeed!</p>
-                <form>
+                <p>This post will be visible to all your friends and <?php echo $profile->getFirstName(); ?>'s friends on the newsfeed!</p>
+                <form id="wall-post-form">
                   <div class="form-group">
-                    <textarea name="post-textarea" placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
+                    <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control wall-post-body"></textarea>
                   </div>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <input type="submit" class="btn btn-primary" value="Submit">
+                  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                  <input onclick="wallPost(this)" type="submit" name="wall-post-submit" class="btn btn-primary" value="Submit">
                 </form>
 
               </div>
@@ -63,18 +67,34 @@ if (isset($_GET['profile_username'])) {
 
 <script>
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+  let profile = '<?php echo $profile->getUsername(); ?>';
 
   function friendRequest(friendRequestBtn) {
     $('#friend-request-form').one('submit', function(e) {
       e.preventDefault();
       $.post("ajax/friendRequest.php", {
         submit: $(friendRequestBtn).attr("name"),
-        profile: '<?php echo $profile->getUsername(); ?>',
+        profile: profile,
         userLoggedIn: userLoggedIn
       }).done(function(data) {
         $('#friend-request-form').html(data);
       });
     });
+  }
+
+  function wallPost(wallPostBtn) {
+    $('#wall-post-form').one('submit', function(e) {
+      e.preventDefault();
+      $.post("ajax/wallpost.php", {
+        submit: $(wallPostBtn).attr("name"),
+        postBody: $('.wall-post-body').val(),
+        profile: profile,
+        userLoggedIn: userLoggedIn
+      }).done(function() {
+        $('#post-modal').modal('toggle');
+        $('.wall-post-body').val("");
+      });
+    })
   }
 </script>
 
