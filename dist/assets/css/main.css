@@ -142,6 +142,11 @@ a {
   color: #365899;
   font-weight: 600; }
 
+#news-feed .post .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; }
+
 #news-feed .post .post-body {
   font-size: 1.2rem; }
 

@@ -120,16 +120,17 @@ class Post
     
               <div class='card-header'>
                 <div class='media'>
-                <div class='post-profile-pic pr-2'>
-                  <img src='$profilePic' class='img-fluid rounded-circle'>
-                </div>
+                  <div class='post-profile-pic pr-2'>
+                    <img src='$profilePic' class='img-fluid rounded-circle'>
+                  </div>
                   <div class='media-body'>
-                  <div class='posted-by'>
-                    <a href='$addedBy'>$firstName $lastName</a> $userTo
-                    <small class='d-block'>" . $this->getDate($dateAdded) . "</small> 
-                  </div>
+                    <div class='posted-by'>
+                      <a href='$addedBy'>$firstName $lastName</a> $userTo
+                      <small class='d-block'>" . $this->getDate($dateAdded) . "</small> 
+                    </div>
                   </div>
                 </div>
+                " . $this->deletePostBtn($id) . "
               </div>
     
               <div class='card-body'>
@@ -254,6 +255,19 @@ class Post
     }
 
     return $timeMessage;
+  }
+  private function deletePostBtn($postID)
+  {
+    $query = $this->con->prepare("SELECT * FROM posts WHERE id = :postID AND added_by =:un");
+    $query->execute([':postID' => $postID, ':un' => $this->user->getUsername()]);
+
+    if ($query->rowCount()) {
+      return "
+      <button type='button' class='close' aria-label='Close'>
+        <span aria-hidden='true'>&times;</span>
+      </button>
+      ";
+    }
   }
   private function displayLikeBtn($postID)
   {

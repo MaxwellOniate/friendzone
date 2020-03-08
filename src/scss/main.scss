@@ -172,6 +172,11 @@ a {
       color: $primary-color;
       font-weight: 600;
     }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
     .post-body {
       font-size: 1.2rem;
     }
