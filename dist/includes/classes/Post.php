@@ -116,7 +116,7 @@ class Post
           $profilePic = $userRow['profile_pic'];
 
           $str .= "
-            <div class='card post my-4'>
+            <div id='$id' class='card post my-4'>
     
               <div class='card-header'>
                 <div class='media'>
@@ -134,7 +134,7 @@ class Post
               </div>
     
               <div class='card-body'>
-                <div class='post-body'>
+                <div class='post-body pb-4'>
                   $body
                 </div>
 
@@ -183,6 +183,31 @@ class Post
 
               </div>
     
+            </div>
+
+            <div class='modal fade' id='delete-post-modal-$id' tabindex='-1' role='dialog' aria-hidden='true'>
+              <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <h5 class='modal-title'>
+                      Delete Post?
+                    </h5>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                      <span aria-hidden='true'>&times;</span>
+                    </button>
+                  </div>
+                  <div class='modal-body'>
+                    Are you sure you want to delete this post?
+                  </div>
+                  <div class='modal-footer'>
+                    <form id='delete-post-form-$id'>
+                      <button type='button' class='btn btn-outline-dark' data-dismiss='modal'>Cancel</button>
+                      <input type='hidden' value='$id'>
+                      <button onclick='deletePost(this)' type='submit' class='btn btn-primary' name='delete-post-$id'>Confirm</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
 
           ";
@@ -263,7 +288,7 @@ class Post
 
     if ($query->rowCount()) {
       return "
-      <button type='button' class='close' aria-label='Close'>
+      <button type='button' class='close' aria-label='Close' data-toggle='modal' data-target='#delete-post-modal-$postID'>
         <span aria-hidden='true'>&times;</span>
       </button>
       ";

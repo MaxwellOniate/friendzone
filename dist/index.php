@@ -140,6 +140,23 @@ if (isset($_POST['post'])) {
     }
   });
 
+  function deletePost(deletePostBtn) {
+    let deletePostForm = $(deletePostBtn).parent();
+    let postID = $(deletePostBtn).prev().val();
+    let modal = $(deletePostBtn).parent().parent().parent().parent().parent();
+    $(deletePostForm).one('submit', function(e) {
+      e.preventDefault();
+      $.post('ajax/deletePost.php', {
+        postID: postID,
+        submit: $(deletePostBtn).attr('name'),
+        userLoggedIn: userLoggedIn
+      }).done(function(data) {
+        $(modal).modal('toggle');
+        $(`#${postID}`).replaceWith("");
+      });
+    });
+  }
+
   function postComment(postCommentBtn) {
     let postForm = $(postCommentBtn).parent().parent().parent();
 
