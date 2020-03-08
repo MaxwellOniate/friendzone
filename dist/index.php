@@ -82,15 +82,17 @@ if (isset($_POST['post'])) {
 <script>
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
 
+  // Load Index Posts
   $(function() {
-
     let inProgress = false;
 
     loadPosts(); //Load first posts
 
     $(window).scroll(function() {
-      let bottomElement = $(".post").last();
-      let noMorePosts = $('.posts').find('.no-posts').val();
+      let bottomElement = $('.post').last();
+      let noMorePosts = $('.posts')
+        .find('.no-posts')
+        .val();
 
       // isElementInViewport uses getBoundingClientRect(), which requires the HTML DOM object, not the jQuery object. The jQuery equivalent is using [0] as shown below.
       if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
@@ -99,28 +101,38 @@ if (isset($_POST['post'])) {
     });
 
     function loadPosts() {
-      if (inProgress) { //If it is already in the process of loading some posts, just return
+      if (inProgress) {
+        //If it is already in the process of loading some posts, just return
         return;
       }
 
       inProgress = true;
       $('#loading').show();
 
-      let page = $('.posts').find('.next-page').val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
+      let page =
+        $('.posts')
+        .find('.next-page')
+        .val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
 
       $.ajax({
-        url: "ajax/loadPosts.php",
-        type: "POST",
-        data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
+        url: 'ajax/loadPosts.php',
+        type: 'POST',
+        data: 'page=' + page + '&userLoggedIn=' + userLoggedIn,
         cache: false,
 
         success: function(response) {
-          $('.posts').find('.next-page').remove(); //Removes current .next-page 
-          $('.posts').find('.no-posts').remove(); //Removes current .next-page 
-          $('.posts').find('.no-posts-text').remove(); //Removes current .next-page 
+          $('.posts')
+            .find('.next-page')
+            .remove(); //Removes current .next-page
+          $('.posts')
+            .find('.no-posts')
+            .remove(); //Removes current .next-page
+          $('.posts')
+            .find('.no-posts-text')
+            .remove(); //Removes current .next-page
 
           $('#loading').hide();
-          $(".posts").append(response);
+          $('.posts').append(response);
 
           inProgress = false;
         }
@@ -134,73 +146,12 @@ if (isset($_POST['post'])) {
       return (
         rect.top >= 0 &&
         rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && //* or $(window).height()
+        rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) && //* or $(window).height()
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) //* or $(window).width()
       );
     }
   });
-
-  function deletePost(deletePostBtn) {
-    let deletePostForm = $(deletePostBtn).parent();
-    let postID = $(deletePostBtn).prev().val();
-    let modal = $(deletePostBtn).parent().parent().parent().parent().parent();
-    $(deletePostForm).one('submit', function(e) {
-      e.preventDefault();
-      $.post('ajax/deletePost.php', {
-        postID: postID,
-        submit: $(deletePostBtn).attr('name'),
-        userLoggedIn: userLoggedIn
-      }).done(function(data) {
-        $(modal).modal('toggle');
-        $(`#${postID}`).replaceWith("");
-      });
-    });
-  }
-
-  function postComment(postCommentBtn) {
-    let postForm = $(postCommentBtn).parent().parent().parent();
-
-    let postID = $(postCommentBtn).prev().val();
-
-    let postBody = $(postCommentBtn).parent().parent().prev().find('.comment-input');
-
-    $(postForm).one('submit', function(e) {
-      e.preventDefault();
-      $.post('ajax/postComment.php', {
-        postID: postID,
-        postBody: postBody.val(),
-        postCommentID: $(postCommentBtn).attr('name'),
-        userLoggedIn: userLoggedIn
-      }).done(function(data) {
-        if (postBody.val()) {
-          postBody.val("");
-          $(postForm).children('.comment-alert').html("<div class='alert alert-success'>Comment Posted!</div>");
-
-          setTimeout(function() {
-            $(postForm).children('.comment-alert').html("");
-          }, 3000);
-        }
-
-        $(postForm).next().next().next().prepend(data);
-      });
-    });
-  }
-
-  function likeStatus(likeStatusBtn) {
-    let postForm = $(likeStatusBtn).parent().parent().parent();
-    let postID = $(likeStatusBtn).prev().prev().val();
-
-    $(postForm).one('submit', function(e) {
-      e.preventDefault();
-      $.post('ajax/likeStatus.php', {
-        postID: postID,
-        likeStatusID: $(likeStatusBtn).attr('name'),
-        userLoggedIn: userLoggedIn
-      }).done(function(data) {
-        $(likeStatusBtn).html(data);
-      });
-    });
-  }
 </script>
 
 

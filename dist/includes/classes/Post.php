@@ -53,7 +53,6 @@ class Post
       ]);
     }
   }
-
   public function loadPosts($data, $limit)
   {
     $page = $data['page'];
@@ -212,6 +211,162 @@ class Post
 
           ";
         }
+      }
+
+      if ($count > $limit) {
+        $str .= "
+        <input type='hidden' class='next-page' value='" . ($page + 1) . "'>
+        <input type='hidden' class='no-posts' value='false'>";
+      } else {
+        $str .= "
+        <input type='hidden' class='no-posts' value='true'>";
+      }
+    }
+
+
+    echo $str;
+  }
+  public function loadProfilePosts($data, $limit)
+  {
+    $page = $data['page'];
+    $profile = $data['profile'];
+    $userLoggedIn = $this->user->getUsername();
+
+    if ($page == 1) {
+      $start = 0;
+    } else {
+      $start = ($page - 1) * $limit;
+    }
+
+    $str = "";
+
+    $query = $this->con->prepare("SELECT * FROM posts WHERE deleted = :deleted AND ((added_by = :profileUsername AND user_to = :userTo) OR user_to = :un) ORDER BY id DESC");
+    $query->execute([':deleted' => 'no', ':profileUsername' => $profile, ':userTo' => 'none', ':un' => $profile]);
+
+    if ($query->rowCount() > 0) {
+
+      $numIterations = 0;
+      $count = 1;
+
+      while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        $id = $row['id'];
+        $body = $row['body'];
+        $addedBy = $row['added_by'];
+        $dateAdded = $row['date_added'];
+
+        if ($numIterations++ < $start) {
+          continue;
+        }
+
+        if ($count > $limit) {
+          break;
+        } else {
+          $count++;
+        }
+
+        $userDetailsQuery = $this->con->prepare("SELECT first_name, last_name, profile_pic FROM users WHERE username = :un");
+        $userDetailsQuery->execute([':un' => $addedBy]);
+        $userRow = $userDetailsQuery->fetch(PDO::FETCH_ASSOC);
+        $firstName = $userRow['first_name'];
+        $lastName = $userRow['last_name'];
+        $profilePic = $userRow['profile_pic'];
+
+        $str .= "
+            <div id='$id' class='card post my-4'>
+    
+              <div class='card-header'>
+                <div class='media'>
+                  <div class='post-profile-pic pr-2'>
+                    <img src='$profilePic' class='img-fluid rounded-circle'>
+                  </div>
+                  <div class='media-body'>
+                    <div class='posted-by'>
+                      <a href='$addedBy'>$firstName $lastName</a>
+                      <small class='d-block'>" . $this->getDate($dateAdded) . "</small> 
+                    </div>
+                  </div>
+                </div>
+                " . $this->deletePostBtn($id) . "
+              </div>
+    
+              <div class='card-body'>
+                <div class='post-body pb-4'>
+                  $body
+                </div>
+
+                  <form id='comment-form-$id' class='my-3'>
+
+                      <span class='comment-alert'></span>
+                      
+                      <div class='form-group'>
+                        <div class='media'>
+                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $this->user->getFullName() . "'>
+                          <div class='media-body'>
+                            <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class='form-group'>
+
+                        <div class='btn-group comment-like-btns'>      
+                          <input type='hidden' value='$id'>
+
+                          <button onclick='postComment(this)' name='post-comment-$id' class='btn btn-outline-secondary'>
+                          <i class='far fa-comment-alt'></i> Comment
+                          </button>
+
+                          <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
+
+                            " . $this->displayLikeBtn($id) . "
+                            
+                          </button>
+                        </div>
+
+                      </div>
+
+                  </form>
+
+                  <hr>
+      
+                  <p class='post-stats'>" . $this->getCommentCount($id) . ", " . $this->getLikeCount($id) . "</p>
+
+                  <div class='comments'>
+                    
+                    " . $this->loadComments($id) . "
+
+                  </div>
+
+              </div>
+    
+            </div>
+
+            <div class='modal fade' id='delete-post-modal-$id' tabindex='-1' role='dialog' aria-hidden='true'>
+              <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <h5 class='modal-title'>
+                      Delete Post?
+                    </h5>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                      <span aria-hidden='true'>&times;</span>
+                    </button>
+                  </div>
+                  <div class='modal-body'>
+                    Are you sure you want to delete this post?
+                  </div>
+                  <div class='modal-footer'>
+                    <form id='delete-post-form-$id'>
+                      <button type='button' class='btn btn-outline-dark' data-dismiss='modal'>Cancel</button>
+                      <input type='hidden' value='$id'>
+                      <button onclick='deletePost(this)' type='submit' class='btn btn-primary' name='delete-post-$id'>Confirm</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          ";
       }
 
       if ($count > $limit) {

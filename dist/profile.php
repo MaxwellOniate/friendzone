@@ -62,6 +62,15 @@ if (isset($_GET['profile_username'])) {
       </div>
     </header>
 
+    <section id="profile-feed">
+      <div class="posts">
+      </div>
+
+      <div id="loading">
+        <img src="assets/img/loading.gif" alt="Loading">
+      </div>
+    </section>
+
   </div>
 </section>
 
@@ -69,33 +78,81 @@ if (isset($_GET['profile_username'])) {
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
   let profile = '<?php echo $profile->getUsername(); ?>';
 
-  function friendRequest(friendRequestBtn) {
-    $('#friend-request-form').one('submit', function(e) {
-      e.preventDefault();
-      $.post("ajax/friendRequest.php", {
-        submit: $(friendRequestBtn).attr("name"),
-        profile: profile,
-        userLoggedIn: userLoggedIn
-      }).done(function(data) {
-        $('#friend-request-form').html(data);
-      });
-    });
-  }
+  // Load Profile Posts
+  $(function() {
+    let inProgress = false;
 
-  function wallPost(wallPostBtn) {
-    $('#wall-post-form').one('submit', function(e) {
-      e.preventDefault();
-      $.post("ajax/wallpost.php", {
-        submit: $(wallPostBtn).attr("name"),
-        postBody: $('.wall-post-body').val(),
-        profile: profile,
-        userLoggedIn: userLoggedIn
-      }).done(function() {
-        $('#post-modal').modal('toggle');
-        $('.wall-post-body').val("");
+    loadPosts(); //Load first posts
+
+    $(window).scroll(function() {
+      let bottomElement = $('.post').last();
+      let noMorePosts = $('.posts')
+        .find('.no-posts')
+        .val();
+
+      // isElementInViewport uses getBoundingClientRect(), which requires the HTML DOM object, not the jQuery object. The jQuery equivalent is using [0] as shown below.
+      if (isElementInView(bottomElement[0]) && noMorePosts == 'false') {
+        loadPosts();
+      }
+    });
+
+    function loadPosts() {
+      if (inProgress) {
+        //If it is already in the process of loading some posts, just return
+        return;
+      }
+
+      inProgress = true;
+      $('#loading').show();
+
+      let page =
+        $('.posts')
+        .find('.next-page')
+        .val() || 1; //If .next-page couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
+
+      $.ajax({
+        url: 'ajax/loadProfilePosts.php',
+        type: 'POST',
+        data: 'page=' +
+          page +
+          '&userLoggedIn=' +
+          userLoggedIn +
+          '&profile=' +
+          profile,
+        cache: false,
+
+        success: function(response) {
+          $('.posts')
+            .find('.next-page')
+            .remove(); //Removes current .next-page
+          $('.posts')
+            .find('.no-posts')
+            .remove(); //Removes current .next-page
+          $('.posts')
+            .find('.no-posts-text')
+            .remove(); //Removes current .next-page
+
+          $('#loading').hide();
+          $('.posts').append(response);
+
+          inProgress = false;
+        }
       });
-    })
-  }
+    }
+
+    //Check if the element is in view
+    function isElementInView(el) {
+      let rect = el.getBoundingClientRect();
+
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) && //* or $(window).height()
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) //* or $(window).width()
+      );
+    }
+  });
 </script>
 
 <?php require('includes/footer.php'); ?>

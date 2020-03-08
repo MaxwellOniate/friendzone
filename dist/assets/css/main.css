@@ -135,44 +135,44 @@ a {
   margin: 0;
   color: #999; }
 
-#news-feed .post-profile-pic {
+.post-profile-pic {
   width: 50px; }
 
-#news-feed .post a {
+.post a {
   color: #365899;
   font-weight: 600; }
 
-#news-feed .post .card-header {
+.post .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start; }
 
-#news-feed .post .post-body {
+.post .post-body {
   font-size: 1.2rem; }
 
-#news-feed .post .comment-like-btns {
+.post .comment-like-btns {
   width: 100%; }
-  #news-feed .post .comment-like-btns button {
+  .post .comment-like-btns button {
     width: 50%;
     border-radius: 0; }
 
-#news-feed .post .comment-profile-pic {
+.post .comment-profile-pic {
   border-radius: 50%;
   width: 2rem;
   margin-right: 0.5rem; }
 
-#news-feed .post .comment-input {
+.post .comment-input {
   background: #f2f3f5;
   border: 1px solid #ccd0d5;
   border-radius: 1rem; }
 
-#news-feed .post .comments .comment .comment-body {
+.post .comments .comment .comment-body {
   background: #f2f3f5;
   border-radius: 1rem;
   padding: 0.5rem;
   font-size: 14px; }
 
-#news-feed #loading {
+#loading {
   margin: 2rem 0;
   display: flex;
   align-self: center;
