@@ -25,7 +25,7 @@ class User
   }
   public function getFullName()
   {
-    return $this->sqlData['first_name'] . " " . $this->sqlData['last_name'];
+    return $this->getFirstName() . " " . $this->getLastName();
   }
   public function getUsername()
   {
@@ -95,6 +95,27 @@ class User
         echo "
         <button onclick='friendRequest(this)' class='btn btn-success' name='friend'>Add Friend</button>";
       }
+    }
+  }
+
+  public function displayFriends()
+  {
+    $friendArray = $this->getFriendArray();;
+
+    $friends = explode(",", substr($friendArray, 1, -1));
+
+    $i = 0;
+    foreach ($friends as $friend) {
+      $friend = new User($this->con, $friend);
+      echo "
+      <div class='friend'>
+        <a href='" .  $friend->getUsername() . "'>
+          <img src='" . $friend->getProfilePic() . "' class='img-fluid'>
+          <p class='text-center'>" . $friend->getFullName() . "</p>
+        </a>
+      </div>
+      ";
+      if (++$i == 6) break;
     }
   }
 

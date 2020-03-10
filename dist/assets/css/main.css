@@ -122,13 +122,10 @@ a {
   width: 100px; }
 
 .user-details .user-full-name {
-  color: #666;
-  font-weight: 700;
+  color: #365899;
+  font-weight: 600;
   font-size: 1.2rem;
   margin-bottom: 0; }
-  .user-details .user-full-name:hover {
-    text-decoration: none;
-    color: #000; }
 
 .user-details .user-data {
   font-size: 14px;
@@ -199,6 +196,27 @@ a {
     display: flex; }
     #profile-header .profile-info .profile-btns button {
       margin-right: 1rem; }
+
+#photos i,
+#friends-list i {
+  border-radius: 50%;
+  padding: 0.5rem;
+  color: #fff; }
+
+#friends-list .friends {
+  display: flex;
+  flex-wrap: wrap; }
+  #friends-list .friends .friend {
+    width: 100px;
+    padding: 0 2px; }
+    #friends-list .friends .friend p {
+      font-size: 12px; }
+
+.photos-icon {
+  background: #a5d950; }
+
+.friends-icon {
+  background: #f50e6b; }
 
 #friend-requests {
   padding-top: 5.5rem; }

@@ -147,14 +147,10 @@ a {
     width: 100px;
   }
   .user-full-name {
-    color: #666;
-    font-weight: 700;
+    color: $primary-color;
+    font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: 0;
-    &:hover {
-      text-decoration: none;
-      color: #000;
-    }
   }
   .user-data {
     font-size: 14px;
@@ -243,6 +239,37 @@ a {
       }
     }
   }
+}
+
+#photos,
+#friends-list {
+  i {
+    border-radius: 50%;
+    padding: 0.5rem;
+    color: #fff;
+  }
+}
+
+#friends-list {
+  .friends {
+    display: flex;
+    flex-wrap: wrap;
+    .friend {
+      width: 100px;
+      padding: 0 2px;
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.photos-icon {
+  background: #a5d950;
+}
+
+.friends-icon {
+  background: #f50e6b;
 }
 
 #friend-requests {

@@ -62,14 +62,53 @@ if (isset($_GET['profile_username'])) {
       </div>
     </header>
 
-    <section id="profile-feed">
-      <div class="posts">
+    <div class="row">
+
+      <div class="col-lg-4">
+
+        <aside id="photos">
+          <div class="card my-4">
+            <div class="card-header">
+              <i class="far fa-image photos-icon"></i>
+              <a href="photos.php?=<?php echo $profile->getUsername(); ?>">
+                Photos
+              </a>
+            </div>
+            <div class="card-body">
+            </div>
+          </div>
+        </aside>
+
+        <aside id="friends-list">
+          <div class="card my-4">
+            <div class="card-header">
+              <i class="fas fa-user-friends friends-icon"></i>
+              <a href="friends.php?=<?php echo $profile->getUsername(); ?>">
+                Friends - <?php echo $profile->getFriendCount(); ?>
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="friends">
+                <?php echo $profile->displayFriends(); ?>
+              </div>
+            </div>
+          </div>
+        </aside>
+
       </div>
 
-      <div id="loading">
-        <img src="assets/img/loading.gif" alt="Loading">
+      <div class="col-lg-8">
+        <section id="profile-feed">
+          <div class="posts">
+          </div>
+
+          <div id="loading">
+            <img src="assets/img/loading.gif" alt="Loading">
+          </div>
+        </section>
       </div>
-    </section>
+
+    </div>
 
   </div>
 </section>
