@@ -1,3 +1,19 @@
+function submitPost(submitPostBtn) {
+  let postForm = $(submitPostBtn).parent();
+  $(postForm).one('submit', function(e) {
+    e.preventDefault();
+    $.post('ajax/submitPost.php', {
+      submit: $(submitPostBtn).attr('name'),
+      postBody: $('.post-body').val(),
+      profile: profile,
+      userLoggedIn: userLoggedIn
+    }).done(function(data) {
+      $('.post-body').val('');
+      $('.posts').prepend(data);
+    });
+  });
+}
+
 function deletePost(deletePostBtn) {
   let deletePostForm = $(deletePostBtn).parent();
   let postID = $(deletePostBtn)
@@ -99,21 +115,6 @@ function friendRequest(friendRequestBtn) {
       userLoggedIn: userLoggedIn
     }).done(function(data) {
       $('#friend-request-form').html(data);
-    });
-  });
-}
-
-function wallPost(wallPostBtn) {
-  $('#wall-post-form').one('submit', function(e) {
-    e.preventDefault();
-    $.post('ajax/wallpost.php', {
-      submit: $(wallPostBtn).attr('name'),
-      postBody: $('.wall-post-body').val(),
-      profile: profile,
-      userLoggedIn: userLoggedIn
-    }).done(function() {
-      $('#post-modal').modal('toggle');
-      $('.wall-post-body').val('');
     });
   });
 }

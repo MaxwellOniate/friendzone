@@ -1,15 +1,5 @@
 <?php require('includes/header.php'); ?>
 
-<?php
-
-if (isset($_POST['post'])) {
-  $post = new Post($con, $userLoggedIn);
-  $post->submitPost($_POST['post-text'], 'none');
-  header("Location: index.php");
-}
-
-?>
-
 <section id="main-feed">
   <div class="container">
     <div class="row">
@@ -52,13 +42,12 @@ if (isset($_POST['post'])) {
           <div class="card create-post">
             <div class="card-header">Create Post</div>
             <div class="card-body">
-              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="post-form">
+
+              <form class="post-form">
                 <div class="form-group">
-                  <textarea name="post-text" placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control"></textarea>
+                  <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="post-body form-control"></textarea>
                 </div>
-                <div class="form-group">
-                  <input type="submit" name="post" class="btn main-btn btn-block" value="Post">
-                </div>
+                <input onclick="submitPost(this)" type="submit" name="post" class="btn main-btn btn-block" value="Post">
               </form>
 
             </div>
@@ -81,6 +70,7 @@ if (isset($_POST['post'])) {
 
 <script>
   let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+  let profile = userLoggedIn;
 
   // Load Index Posts
   $(function() {

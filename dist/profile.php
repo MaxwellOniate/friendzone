@@ -9,78 +9,42 @@ if (isset($_GET['profile_username'])) {
 
 <section id="profile">
   <div class="container">
-    <header id="profile-header">
+    <header id="profile-header" class="mb-4">
       <img src="<?php echo $profile->getProfilePic(); ?>" alt="<?php echo $profile->getFullName(); ?>" class="img-fluid profilePic">
 
-      <div class="profile-info">
+      <div class="profile-name">
         <h1 class="display-1"><?php echo $profile->getFullName(); ?></h1>
-        <div class="profile-stats lead">
-          <p>Posts: <?php echo $profile->getPostCount(); ?></p>
-          <p>Likes: <?php echo $profile->getLikeCount(); ?></p>
-          <p>Friends: <?php echo $profile->getFriendCount(); ?></p>
-        </div>
 
-        <div class="profile-btns">
-          <form id='friend-request-form'>
-            <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
-          </form>
-          <?php
-          if ($userLoggedIn != $profile->getUsername()) {
-            echo "<button class='btn btn-outline-dark' data-toggle='modal' data-target='#post-modal'>Post to Wall</button>";
-          }
-          ?>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="post-modal" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title">Post to <?php echo $profile->getFirstName(); ?>'s wall.</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>This post will be visible to all your friends and <?php echo $profile->getFirstName(); ?>'s friends on the newsfeed!</p>
-                <form id="wall-post-form">
-                  <div class="form-group">
-                    <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="form-control wall-post-body"></textarea>
-                  </div>
-                  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
-                  <input onclick="wallPost(this)" type="submit" name="wall-post-submit" class="btn btn-primary" value="Submit">
-                </form>
-
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-
-
+        <form id='friend-request-form'>
+          <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
+        </form>
       </div>
+
     </header>
 
     <div class="row">
 
       <div class="col-lg-4">
 
-        <aside id="photos">
-          <div class="card my-4">
+        <aside id="profile-info">
+          <div class="card mb-4">
             <div class="card-header">
-              <i class="far fa-image photos-icon"></i>
-              <a href="photos.php?=<?php echo $profile->getUsername(); ?>">
-                Photos
-              </a>
+              <i class="fas fa-globe-americas profile-icon"></i> Profile Info
             </div>
             <div class="card-body">
+
+              <p>Posts: <?php echo $profile->getPostCount(); ?></p>
+              <hr>
+              <p>Likes: <?php echo $profile->getLikeCount(); ?></p>
+              <hr>
+              <p>Friends: <?php echo $profile->getFriendCount(); ?></p>
+
             </div>
           </div>
         </aside>
 
         <aside id="friends-list">
-          <div class="card my-4">
+          <div class="card mb-4">
             <div class="card-header">
               <i class="fas fa-user-friends friends-icon"></i>
               <a href="friends.php?=<?php echo $profile->getUsername(); ?>">
@@ -95,10 +59,39 @@ if (isset($_GET['profile_username'])) {
           </div>
         </aside>
 
+        <aside id="photos">
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="far fa-image photos-icon"></i>
+              <a href="photos.php?=<?php echo $profile->getUsername(); ?>">
+                Photos
+              </a>
+            </div>
+            <div class="card-body">
+              <p>No photos to show.</p>
+            </div>
+          </div>
+        </aside>
+
       </div>
 
       <div class="col-lg-8">
         <section id="profile-feed">
+
+          <div class="card create-post">
+            <div class="card-header">Create Post</div>
+            <div class="card-body">
+
+              <form class="post-form">
+                <div class="form-group">
+                  <textarea placeholder="What's on your mind, <?php echo $user->getFirstName(); ?>?" class="post-body form-control"></textarea>
+                </div>
+                <input onclick="submitPost(this)" type="submit" name="post" class="btn main-btn btn-block" value="Post">
+              </form>
+
+            </div>
+          </div>
+
           <div class="posts">
           </div>
 

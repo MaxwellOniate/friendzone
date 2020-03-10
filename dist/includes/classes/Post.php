@@ -9,50 +9,6 @@ class Post
     $this->con = $con;
     $this->user = new User($con, $username);
   }
-
-  public function submitPost($body, $userTo)
-  {
-    $body = strip_tags($body);
-    $body = str_replace('\r\n', '\n', $body);
-    $body = nl2br($body);
-
-    $checkEmpty = preg_replace('/\s+/', '', $body);
-
-    if ($checkEmpty != "") {
-
-      $addedBy = $this->user->getUsername();
-
-      if ($userTo == $addedBy) {
-        $userTo = "none";
-      }
-
-      $dateAdded = date("Y-m-d H:i:s");
-      $userClosed = 'no';
-      $deleted = 'no';
-      $likes = 0;
-
-      $query = $this->con->prepare("INSERT INTO posts (body, added_by, user_to, date_added, user_closed, deleted, likes) VALUES(:body, :addedBy, :userTo, :dateAdded, :userClosed, :deleted, :likes)");
-      $query->execute([
-        ':body' => $body,
-        ':addedBy' => $addedBy,
-        ':userTo' => $userTo,
-        ':dateAdded' => $dateAdded,
-        ':userClosed' => $userClosed,
-        ':deleted' => $deleted,
-        ':likes' => $likes
-      ]);
-      $returnedID = $this->con->lastInsertId();
-
-      $numPosts = $this->user->getPostCount();
-      $numPosts++;
-
-      $postCountQuery = $this->con->prepare("UPDATE users SET num_posts = :numPosts WHERE username = :un");
-      $postCountQuery->execute([
-        ':numPosts' => $numPosts,
-        ':un' => $this->user->getUsername()
-      ]);
-    }
-  }
   public function loadPosts($data, $limit)
   {
     $page = $data['page'];
@@ -436,7 +392,7 @@ class Post
 
     return $timeMessage;
   }
-  private function deletePostBtn($postID)
+  public function deletePostBtn($postID)
   {
     $query = $this->con->prepare("SELECT * FROM posts WHERE id = :postID AND added_by =:un");
     $query->execute([':postID' => $postID, ':un' => $this->user->getUsername()]);
@@ -449,7 +405,7 @@ class Post
       ";
     }
   }
-  private function displayLikeBtn($postID)
+  public function displayLikeBtn($postID)
   {
     $checkLikesQuery = $this->con->prepare("SELECT * FROM likes WHERE username = :un AND post_id = :postID");
     $checkLikesQuery->execute([
@@ -471,7 +427,27 @@ class Post
       ";
     }
   }
-  private function loadComments($postID)
+  public function getCommentCount($postID)
+  {
+    $commentCountQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID");
+    $commentCountQuery->execute([':postID' => $postID]);
+    if ($commentCountQuery->rowCount() == 1) {
+      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comment";
+    } else {
+      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comments";
+    }
+  }
+  public function getLikeCount($postID)
+  {
+    $likeCountQuery = $this->con->prepare("SELECT * FROM likes WHERE post_id = :postID");
+    $likeCountQuery->execute([':postID' => $postID]);
+    if ($likeCountQuery->rowCount() == 1) {
+      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Like";
+    } else {
+      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Likes";
+    }
+  }
+  public function loadComments($postID)
   {
     $getCommentsQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID ORDER BY id DESC");
     $getCommentsQuery->execute([':postID' => $postID]);
@@ -506,26 +482,6 @@ class Post
       }
 
       return $commentStr;
-    }
-  }
-  private function getCommentCount($postID)
-  {
-    $commentCountQuery = $this->con->prepare("SELECT * FROM comments WHERE post_id = :postID");
-    $commentCountQuery->execute([':postID' => $postID]);
-    if ($commentCountQuery->rowCount() == 1) {
-      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comment";
-    } else {
-      return "<span class='comment-count-number'>" . $commentCountQuery->rowCount() . "</span> Comments";
-    }
-  }
-  private function getLikeCount($postID)
-  {
-    $likeCountQuery = $this->con->prepare("SELECT * FROM likes WHERE post_id = :postID");
-    $likeCountQuery->execute([':postID' => $postID]);
-    if ($likeCountQuery->rowCount() == 1) {
-      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Like";
-    } else {
-      return "<span class='like-count-number'>" . $likeCountQuery->rowCount() . "</span> Likes";
     }
   }
 }

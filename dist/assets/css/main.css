@@ -9,6 +9,13 @@
   .container #news-feed {
     padding-left: 0; } }
 
+@media (max-width: 500px) {
+  #profile #profile-header .profilePic {
+    margin-right: 2rem;
+    width: 100px; }
+  #profile #profile-header .profile-name h1 {
+    font-size: 1.5rem; } }
+
 body {
   background: #e9ebee; }
 
@@ -186,22 +193,20 @@ a {
     width: 150px;
     border-radius: 50%;
     border: 1px solid #bbb; }
-  #profile-header .profile-info h1 {
+  #profile-header .profile-name h1 {
     font-size: 2.5rem; }
-  #profile-header .profile-info .profile-stats {
-    display: flex; }
-    #profile-header .profile-info .profile-stats p {
-      margin-right: 2rem; }
-  #profile-header .profile-info .profile-btns {
-    display: flex; }
-    #profile-header .profile-info .profile-btns button {
-      margin-right: 1rem; }
 
+#profile-info i,
 #photos i,
 #friends-list i {
   border-radius: 50%;
-  padding: 0.5rem;
+  padding: 0.55rem;
   color: #fff; }
+
+#profile-info a,
+#photos a,
+#friends-list a {
+  color: #365899; }
 
 #friends-list .friends {
   display: flex;
@@ -210,7 +215,11 @@ a {
     width: 100px;
     padding: 0 2px; }
     #friends-list .friends .friend p {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #365899; }
+
+.profile-icon {
+  background: #5d7dbd; }
 
 .photos-icon {
   background: #a5d950; }

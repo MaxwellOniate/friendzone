@@ -84,38 +84,42 @@ class User
 
       if ($user->isFriend($userTo)) {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-outline-danger' name='remove'>Remove Friend</button>";
+        <button onclick='friendRequest(this)' class='btn btn-outline-danger btn-sm' name='remove'>Remove Friend</button>";
       } else if ($user->receivedRequest($userTo)) {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-success' name='accept'>Accept Friend Request</button>";
+        <button onclick='friendRequest(this)' class='btn btn-success btn-sm' name='accept'>Accept Friend Request</button>";
       } else if ($user->sentRequest($userTo)) {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-secondary' name='cancel'>Friend Request Sent</button>";
+        <button onclick='friendRequest(this)' class='btn btn-secondary btn-sm' name='cancel'>Friend Request Sent</button>";
       } else {
         echo "
-        <button onclick='friendRequest(this)' class='btn btn-success' name='friend'>Add Friend</button>";
+        <button onclick='friendRequest(this)' class='btn btn-success btn-sm' name='friend'>Add Friend</button>";
       }
     }
   }
 
   public function displayFriends()
   {
-    $friendArray = $this->getFriendArray();;
+    if ($this->getFriendCount() > 0) {
+      $friendArray = $this->getFriendArray();;
 
-    $friends = explode(",", substr($friendArray, 1, -1));
+      $friends = explode(",", substr($friendArray, 1, -1));
 
-    $i = 0;
-    foreach ($friends as $friend) {
-      $friend = new User($this->con, $friend);
-      echo "
-      <div class='friend'>
-        <a href='" .  $friend->getUsername() . "'>
-          <img src='" . $friend->getProfilePic() . "' class='img-fluid'>
-          <p class='text-center'>" . $friend->getFullName() . "</p>
-        </a>
-      </div>
-      ";
-      if (++$i == 6) break;
+      $i = 0;
+      foreach ($friends as $friend) {
+        $friend = new User($this->con, $friend);
+        echo "
+        <div class='friend'>
+          <a href='" .  $friend->getUsername() . "'>
+            <img src='" . $friend->getProfilePic() . "' class='img-fluid'>
+            <p class='text-center'>" . $friend->getFullName() . "</p>
+          </a>
+        </div>
+        ";
+        if (++$i == 6) break;
+      }
+    } else {
+      echo "No friends to show.";
     }
   }
 

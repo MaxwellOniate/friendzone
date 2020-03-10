@@ -16,3 +16,18 @@
     }
   }
 }
+@media (max-width: 500px) {
+  #profile {
+    #profile-header {
+      .profilePic {
+        margin-right: 2rem;
+        width: 100px;
+      }
+      .profile-name {
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
