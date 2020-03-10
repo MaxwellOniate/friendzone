@@ -55,6 +55,34 @@ class User
   {
     return (substr_count($this->sqlData['friend_array'], ",")) - 1;
   }
+  public function getMutualFriendsCount($username)
+  {
+    $mutualFriends =  0;
+    $friendArray = $this->getFriendArray();;
+    $friends = explode(",", substr($friendArray, 1, -1));
+
+    $query = $this->con->prepare("SELECT friend_array FROM users WHERE username = :un");
+    $query->execute([':un' => $username]);
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    $userFriendArray = $row['friend_array'];
+    $userFriends = explode(",", substr($userFriendArray, 1, -1));
+
+    foreach ($friends as $i) {
+      foreach ($userFriends as $j) {
+        if ($i == $j && $i != "") {
+          $mutualFriends++;
+        }
+      }
+    }
+
+    if ($mutualFriends == 1) {
+      return $mutualFriends . " Mutal Friend";
+    } else if ($mutualFriends == 0) {
+      return false;
+    } else {
+      return $mutualFriends . " Mutual Friends";
+    }
+  }
   public function isClosed()
   {
     if ($this->sqlData['user_closed'] == 'yes') {

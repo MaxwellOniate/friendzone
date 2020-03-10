@@ -6,6 +6,11 @@ body {
   background: #e9ebee;
 }
 
+.card {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
 ul {
   padding: 0;
   li {
@@ -211,11 +216,14 @@ a {
 }
 
 #profile-header {
-  display: flex;
-  align-items: center;
-  padding-top: 7rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #bbb;
+  margin-top: 5.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  background: #fff;
+  .card-body {
+    display: flex;
+    align-items: center;
+  }
   .profilePic {
     margin-right: 3rem;
     width: 150px;
@@ -284,4 +292,8 @@ a {
     display: flex;
     justify-content: space-between;
   }
+}
+
+#upload {
+  margin-top: 7rem;
 }

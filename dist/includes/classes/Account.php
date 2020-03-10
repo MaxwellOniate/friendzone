@@ -111,7 +111,7 @@ class Account
   private function insertUserDetails($fn, $ln, $em, $pw)
   {
     $pw = hash('sha512', $pw);
-    $pp = "assets/img/profile-pics/blank.png";
+    $pp = "assets/img/profile-pics/_temp.jpeg";
     $un = $this->createUsername($fn, $ln);
 
 

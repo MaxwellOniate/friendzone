@@ -9,15 +9,17 @@ if (isset($_GET['profile_username'])) {
 
 <section id="profile">
   <div class="container">
-    <header id="profile-header" class="mb-4">
-      <img src="<?php echo $profile->getProfilePic(); ?>" alt="<?php echo $profile->getFullName(); ?>" class="img-fluid profilePic">
+    <header id="profile-header" class="mb-4 card">
+      <div class="card-body">
+        <img src="<?php echo $profile->getProfilePic(); ?>" alt="<?php echo $profile->getFullName(); ?>" class="img-fluid profilePic">
 
-      <div class="profile-name">
-        <h1 class="display-1"><?php echo $profile->getFullName(); ?></h1>
+        <div class="profile-name">
+          <h1 class="display-1"><?php echo $profile->getFullName(); ?></h1>
 
-        <form id='friend-request-form'>
-          <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
-        </form>
+          <form id='friend-request-form'>
+            <?php echo $user->friendRequestBtn($profile->getUsername()); ?>
+          </form>
+        </div>
       </div>
 
     </header>
@@ -37,7 +39,12 @@ if (isset($_GET['profile_username'])) {
               <hr>
               <p>Likes: <?php echo $profile->getLikeCount(); ?></p>
               <hr>
-              <p>Friends: <?php echo $profile->getFriendCount(); ?></p>
+              <?php
+              if ($username != $userLoggedIn) {
+                echo "
+                <p>" . $profile->getMutualFriendsCount($userLoggedIn) . "</p>";
+              }
+              ?>
 
             </div>
           </div>
