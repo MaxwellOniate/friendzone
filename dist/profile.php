@@ -86,7 +86,9 @@ if (isset($_GET['profile_username'])) {
         <section id="profile-feed">
 
           <div class="card create-post">
-            <div class="card-header">Create Post</div>
+            <div class="card-header">
+              <h3 class="card-title">Create Post</h3>
+            </div>
             <div class="card-body">
 
               <form class="post-form">

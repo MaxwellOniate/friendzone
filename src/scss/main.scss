@@ -11,6 +11,12 @@ body {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 }
 
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  font-weight: 300;
+}
+
 ul {
   padding: 0;
   li {
@@ -95,6 +101,14 @@ a {
   }
 }
 
+#home,
+#profile-header,
+#friend-requests,
+#upload,
+#messages {
+  margin-top: 5.5rem;
+}
+
 #main-nav {
   .navbar {
     background: #4267b2;
@@ -136,10 +150,6 @@ a {
       }
     }
   }
-}
-
-#main-feed {
-  padding-top: 5.5rem;
 }
 
 #feed-details {
@@ -216,7 +226,6 @@ a {
 }
 
 #profile-header {
-  margin-top: 5.5rem;
   padding: 1rem;
   border-radius: 5px;
   background: #fff;
@@ -278,7 +287,6 @@ a {
 }
 
 #friend-requests {
-  padding-top: 5.5rem;
   .friend-request-profilePic {
     width: 75px;
     height: 75px;
@@ -292,8 +300,4 @@ a {
     display: flex;
     justify-content: space-between;
   }
-}
-
-#upload {
-  margin-top: 7rem;
 }

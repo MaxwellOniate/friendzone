@@ -49,7 +49,7 @@ $user = new User($con, $userLoggedIn);
             </a>
           </div>
           <div class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="messages.php" class="nav-link">
               <i class="fab fa-facebook-messenger"></i>
               <span class="d-md-none">Messages</span>
             </a>

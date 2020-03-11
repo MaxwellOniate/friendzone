@@ -3,7 +3,9 @@
 <section id="friend-requests">
   <div class="container">
     <div class="card">
-      <div class="card-header">Friend Requests</div>
+      <div class="card-header">
+        <h1 class="card-title">Friend Requests</h1>
+      </div>
       <div class="card-body">
         <?php
         $query = $con->prepare("SELECT * FROM friend_requests WHERE user_to = :un");

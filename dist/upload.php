@@ -185,7 +185,7 @@ if (isset($_POST['x'])) {
 
 	<div class="card">
 		<div class="card-header">
-			Upload a Profile Picture
+			<h1 class="card-title">Upload a Profile Picture</h1>
 		</div>
 		<div class="card-body">
 

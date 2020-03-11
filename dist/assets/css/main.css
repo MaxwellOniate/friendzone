@@ -23,6 +23,11 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); }
 
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  font-weight: 300; }
+
 ul {
   padding: 0; }
   ul li {
@@ -89,6 +94,13 @@ a {
   #register .btn:hover {
     background: linear-gradient(#67ae55, #578843); }
 
+#home,
+#profile-header,
+#friend-requests,
+#upload,
+#messages {
+  margin-top: 5.5rem; }
+
 #main-nav .navbar {
   background: #4267b2; }
 
@@ -121,9 +133,6 @@ a {
   #main-nav .nav-item .nav-link i {
     font-size: 1.25rem;
     color: #0d1524; }
-
-#main-feed {
-  padding-top: 5.5rem; }
 
 #feed-details {
   position: fixed;
@@ -187,7 +196,6 @@ a {
   justify-content: center; }
 
 #profile-header {
-  margin-top: 5.5rem;
   padding: 1rem;
   border-radius: 5px;
   background: #fff; }
@@ -233,18 +241,15 @@ a {
 .friends-icon {
   background: #f50e6b; }
 
-#friend-requests {
-  padding-top: 5.5rem; }
-  #friend-requests .friend-request-profilePic {
-    width: 75px;
-    height: 75px;
-    margin-right: 1rem; }
-  #friend-requests a {
-    font-weight: 600;
-    color: #365899; }
-  #friend-requests .media-body {
-    display: flex;
-    justify-content: space-between; }
+#friend-requests .friend-request-profilePic {
+  width: 75px;
+  height: 75px;
+  margin-right: 1rem; }
 
-#upload {
-  margin-top: 7rem; }
+#friend-requests a {
+  font-weight: 600;
+  color: #365899; }
+
+#friend-requests .media-body {
+  display: flex;
+  justify-content: space-between; }
