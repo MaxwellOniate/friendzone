@@ -49,4 +49,30 @@ class Message
       ]);
     }
   }
+
+  public function getMessages($otherUser)
+  {
+    $userLoggedIn = $this->user->getUsername();
+    $data = "";
+
+    $query = $this->con->prepare("UPDATE messages SET opened = :yes WHERE user_to = :un AND user_from = :otherUser");
+    $query->execute([':yes' => 'yes', ':un' => $userLoggedIn, ':otherUser' => $otherUser]);
+
+    $getMessagesQuery = $this->con->prepare("SELECT * FROM messages WHERE (user_to = :un AND user_from = :otherUser) OR (user_from = :un AND user_to = :otherUser)");
+    $getMessagesQuery->execute([':un' => $userLoggedIn, ':otherUser' => $otherUser]);
+
+    while ($row = $getMessagesQuery->fetch(PDO::FETCH_ASSOC)) {
+      $userTo = $row['user_to'];
+      $userFrom = $row['user_from'];
+      $body = $row['body'];
+
+      $divTop = ($userTo == $userLoggedIn) ? "<div class='message' id='green'>" : "<div class='message' id='blue'>";
+
+      $data .= "
+        $divTop<li class='list-group-item'>$body</li>" . "</div>
+      ";
+    }
+
+    return $data;
+  }
 }

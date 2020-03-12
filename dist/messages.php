@@ -35,7 +35,8 @@ if (isset($_POST['post-message'])) {
         <h1 class="card-title">
           <?php
           if ($userTo != "new") {
-            echo "You and <a href='$userTo'>" . $userToObj->getFullName() . "</a>";
+            echo "
+            You and <a href='$userTo'>" . $userToObj->getFullName() . "</a>";
           } else {
             echo "Send a Message";
           }
@@ -43,7 +44,20 @@ if (isset($_POST['post-message'])) {
         </h1>
       </div>
       <div class="card-body">
-        <div class="loaded-messages">
+        <?php
+        if ($userTo != "new") {
+          echo "
+            <div class='loaded-messages'>
+              <ul class='list-group list-group-flush'>
+              " . $messageObj->getMessages($userTo) . "
+              </ul>
+            </div>
+            ";
+        } else {
+          echo "<h3>New Message</h3>";
+        }
+        ?>
+        <div class="post-message-form py-4">
           <form action="" method="POST">
             <?php
             if ($userTo == "new") {
