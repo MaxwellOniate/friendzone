@@ -66,11 +66,19 @@ class Message
       $userFrom = $row['user_from'];
       $body = $row['body'];
 
-      $divTop = ($userTo == $userLoggedIn) ? "<div class='message' id='green'>" : "<div class='message' id='blue'>";
-
-      $data .= "
-        $divTop<li class='list-group-item'>$body</li>" . "</div>
-      ";
+      if ($userTo == $userLoggedIn) {
+        $data .= "
+        <li class='list-group-item'>
+          <span class='message message-green'>$body</span>
+        </li>
+        ";
+      } else {
+        $data .= "
+        <li class='list-group-item'>
+          <span class='message message-blue'>$body</span>
+        </li>
+        ";
+      }
     }
 
     return $data;

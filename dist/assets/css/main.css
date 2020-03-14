@@ -253,3 +253,26 @@ a {
 #friend-requests .media-body {
   display: flex;
   justify-content: space-between; }
+
+#messages .list-group-item {
+  border: 0px; }
+
+#messages .list-messages {
+  height: 65%;
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: scroll; }
+  #messages .list-messages .message {
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #fff;
+    max-width: 50%; }
+  #messages .list-messages .message-blue {
+    float: right;
+    background: #3498db;
+    border: #2980b9; }
+  #messages .list-messages .message-green {
+    background: #2ecc71;
+    border: #27ae60; }

@@ -23,6 +23,7 @@ if (isset($_POST['post-message'])) {
     $body = $_POST['message-body'];
     $date = date("Y-m-d H:i:s");
     $messageObj->sendMessage($userTo, $body, $date);
+    header("Location: messages.php?u=$userTo");
   }
 }
 
@@ -30,7 +31,7 @@ if (isset($_POST['post-message'])) {
 
 <section id="messages">
   <div class="container">
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-header">
         <h1 class="card-title">
           <?php
@@ -47,16 +48,17 @@ if (isset($_POST['post-message'])) {
         <?php
         if ($userTo != "new") {
           echo "
-            <div class='loaded-messages'>
-              <ul class='list-group list-group-flush'>
-              " . $messageObj->getMessages($userTo) . "
-              </ul>
-            </div>
-            ";
+            <ul class='list-group list-messages'>
+            " . $messageObj->getMessages($userTo) . "
+            </ul>
+          ";
         } else {
           echo "<h3>New Message</h3>";
         }
         ?>
+
+      </div>
+      <div class="card-footer">
         <div class="post-message-form py-4">
           <form action="" method="POST">
             <?php
@@ -78,11 +80,12 @@ if (isset($_POST['post-message'])) {
                 ";
             } else {
               echo "
-              <div class='form-group'>
-                <textarea id='message-textarea' name='message-body' class='form-control' placeholder='Write a message.'></textarea>
+              <div class='input-group'>
+                <input type='text' name='message-body' class='form-control' placeholder='Write a message.'>
+                <div class='input-group-append'>
+                  <input id='message-submit' type='submit' name='post-message' class='btn btn-dark' value='Send'>
+                </div>
               </div>
-
-              <input id='message-submit' type='submit' name='post-message' class='btn btn-primary' value='Send'>
               ";
             }
             ?>
@@ -90,6 +93,12 @@ if (isset($_POST['post-message'])) {
         </div>
       </div>
     </div>
+
+    <script>
+      let div = document.querySelector('.list-messages');
+      div.scrollTop = div.scrollHeight;
+    </script>
+
   </div>
 </section>
 
