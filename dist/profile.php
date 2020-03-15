@@ -28,8 +28,8 @@ if (isset($_GET['profile_username'])) {
 
       <div class="col-lg-4">
 
-        <aside id="profile-info">
-          <div class="card mb-4">
+        <aside id="profile-aside">
+          <div class="card profile-info mb-4">
             <div class="card-header">
               <i class="fas fa-globe-americas profile-icon"></i> Profile Info
             </div>
@@ -48,10 +48,8 @@ if (isset($_GET['profile_username'])) {
 
             </div>
           </div>
-        </aside>
 
-        <aside id="friends-list">
-          <div class="card mb-4">
+          <div class="card friends-list mb-4">
             <div class="card-header">
               <i class="fas fa-user-friends friends-icon"></i>
               <a href="friends.php?=<?php echo $profile->getUsername(); ?>">
@@ -64,10 +62,8 @@ if (isset($_GET['profile_username'])) {
               </div>
             </div>
           </div>
-        </aside>
 
-        <aside id="photos">
-          <div class="card mb-4">
+          <div class="card photos mb-4">
             <div class="card-header">
               <i class="far fa-image photos-icon"></i>
               <a href="photos.php?=<?php echo $profile->getUsername(); ?>">

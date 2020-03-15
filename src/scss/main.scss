@@ -152,7 +152,7 @@ a {
   }
 }
 
-#feed-details {
+#home-aside {
   position: fixed;
   width: 350px;
 }
@@ -246,9 +246,9 @@ a {
   }
 }
 
-#profile-info,
-#photos,
-#friends-list {
+.profile-info,
+.photos,
+.friends-list {
   i {
     border-radius: 50%;
     padding: 0.55rem;
@@ -259,7 +259,7 @@ a {
   }
 }
 
-#friends-list {
+.friends-list {
   .friends {
     display: flex;
     flex-wrap: wrap;

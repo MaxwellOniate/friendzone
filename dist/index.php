@@ -5,7 +5,7 @@
     <div class="row">
 
       <div class="col-lg-4">
-        <aside id="feed-details">
+        <aside id="home-aside">
           <div class="card user-details mb-4">
             <div class="card-body">
 

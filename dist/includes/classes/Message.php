@@ -83,4 +83,100 @@ class Message
 
     return $data;
   }
+
+  public function getConvos()
+  {
+    $userLoggedIn = $this->user->getUsername();
+    $data = "";
+    $convos = [];
+
+    $query = $this->con->prepare("SELECT user_to, user_from FROM messages WHERE user_to = :un OR user_from = :un");
+    $query->execute([':un' => $userLoggedIn]);
+
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+      $userToPush = ($row['user_to'] != $userLoggedIn) ? $row['user_to'] : $row['user_from'];
+
+      if (!in_array($userToPush, $convos)) {
+        array_push($convos, $userToPush);
+      }
+    }
+
+    foreach ($convos as $username) {
+      $userFoundObj = new User($this->con, $username);
+      $latestMessageDetails = $this->getLatestMessage($userLoggedIn, $username);
+
+      $dots = (strlen($latestMessageDetails[1]) >= 12) ? "..." : "";
+      $split = str_split($latestMessageDetails[1], 12);
+      $split = $split[0] . $dots;
+    }
+  }
+
+  public function getLatestMessage($user, $user2)
+  {
+    $detailsArray = [];
+
+    $query = $this->con->prepare("SELECT body, user_to FROM messages WHERE (user_to = :un AND user_from = :un2) OR (user_to = :un2 AND user_from = :un) ORDER BY id DESC LIMIT 1");
+    $query->execute([':un' => $user, ':un2' => $user2]);
+
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+
+    $sentBy = ($row['user_to'] == $user) ? "They said: " : "You said: ";
+    $dateAdded = $row['date'];
+
+    $dateTimeNow = date('Y-m-d H:i:s');
+    $startDate = new DateTime($dateAdded);
+    $endDate = new DateTime($dateTimeNow);
+    $interval = $startDate->diff($endDate);
+    if ($interval->y >= 1) {
+      if ($interval == 1) {
+        $timeMessage = $interval->y . " year ago.";
+      } else {
+        $timeMessage = $interval->y . " years ago.";
+      }
+    } else if ($interval->m >= 1) {
+      if ($interval->d == 0) {
+        $days = " ago.";
+      } else if ($interval->d == 1) {
+        $days = $interval->d . " day ago.";
+      } else {
+        $days = $interval->d . " days ago.";
+      }
+
+      if ($interval->m == 1) {
+        $timeMessage = $interval->m . " month" . $days;
+      } else {
+        $timeMessage = $interval->m . " months" . $days;
+      }
+    } else if ($interval->d >= 1) {
+      if ($interval->d == 1) {
+        $timeMessage = "Yesterday.";
+      } else {
+        $timeMessage = $interval->d . " days ago.";
+      }
+    } else if ($interval->h >= 1) {
+      if ($interval->h == 1) {
+        $timeMessage = $interval->h . " hour ago.";
+      } else {
+        $timeMessage = $interval->h . " hours ago.";
+      }
+    } else if ($interval->i >= 1) {
+      if ($interval->i == 1) {
+        $timeMessage = $interval->i . " minute ago.";
+      } else {
+        $timeMessage = $interval->i . " minutes ago.";
+      }
+    } else {
+      if ($interval->s < 30) {
+        $timeMessage = "Just now.";
+      } else {
+        $timeMessage = $interval->s . " seconds ago";
+      }
+    }
+
+    array_push($detailsArray, $sentBy);
+    array_push($detailsArray, $row['body']);
+    array_push($detailsArray, $timeMessage);
+
+    return $detailsArray;
+  }
 }
