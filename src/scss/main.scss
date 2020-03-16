@@ -329,4 +329,47 @@ a {
       border: #27ae60;
     }
   }
+  .loaded-conversations {
+    .convo {
+      transition: all 100ms linear;
+      span {
+        color: $primary-color;
+      }
+      small {
+        color: #212529;
+      }
+      &:hover {
+        background: #f4f4f4;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    }
+    .overlay {
+      width: 100%;
+      height: 100%;
+    }
+    .convo-img {
+      width: 50px;
+      margin-right: 1rem;
+    }
+  }
+  .results {
+    .result {
+      transition: all 100ms linear;
+      &:hover {
+        background: #f4f4f4;
+      }
+      a {
+        color: $primary-color;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      .search-profile-pic {
+        width: 75px;
+        margin-right: 1rem;
+      }
+    }
+  }
 }

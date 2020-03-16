@@ -152,3 +152,16 @@ function respondFR(responseBtn) {
     });
   });
 }
+
+function getUsers(value, user) {
+  $.post(
+    'ajax/messageFriendSearch.php',
+    {
+      search: value,
+      userLoggedIn: user
+    },
+    function(data) {
+      $('.results').html(data);
+    }
+  );
+}

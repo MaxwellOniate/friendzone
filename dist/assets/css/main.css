@@ -276,3 +276,34 @@ a {
   #messages .list-messages .message-green {
     background: #2ecc71;
     border: #27ae60; }
+
+#messages .loaded-conversations .convo {
+  transition: all 100ms linear; }
+  #messages .loaded-conversations .convo span {
+    color: #365899; }
+  #messages .loaded-conversations .convo small {
+    color: #212529; }
+  #messages .loaded-conversations .convo:hover {
+    background: #f4f4f4; }
+  #messages .loaded-conversations .convo a:hover {
+    text-decoration: none; }
+
+#messages .loaded-conversations .overlay {
+  width: 100%;
+  height: 100%; }
+
+#messages .loaded-conversations .convo-img {
+  width: 50px;
+  margin-right: 1rem; }
+
+#messages .results .result {
+  transition: all 100ms linear; }
+  #messages .results .result:hover {
+    background: #f4f4f4; }
+  #messages .results .result a {
+    color: #365899; }
+    #messages .results .result a:hover {
+      text-decoration: none; }
+  #messages .results .result .search-profile-pic {
+    width: 75px;
+    margin-right: 1rem; }

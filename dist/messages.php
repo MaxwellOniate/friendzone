@@ -37,7 +37,6 @@ if (isset($_POST['post-message'])) {
         <aside id="messages-aside">
           <div class="card user-details mb-4">
             <div class="card-body">
-
               <div class="media">
                 <a href="<?php echo $user->getUsername(); ?>" class="pr-3">
                   <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFullName(); ?>" class="img-fluid user-details-img">
@@ -50,22 +49,23 @@ if (isset($_POST['post-message'])) {
                   <p class="user-data">Friends: <?php echo $user->getFriendCount(); ?></p>
                 </div>
               </div>
-
-
-            </div>
-
-          </div>
-          <div class="card conversations mb-4">
-            <div class="card-header">
-              <h3 class="card-title">Conversations</h3>
-            </div>
-            <div class="card-body">
-              <div class="loaded-conversations">
-                <?php echo $messageObj->getConvos(); ?>
-              </div>
-              <a href="messages.php?u=new">New Message</a>
             </div>
           </div>
+
+
+
+          <a href="messages.php?u=new" class="btn btn-block btn-primary mb-4">
+            New Message
+          </a>
+
+
+          <div class="conversations mb-4">
+            <div class="loaded-conversations">
+
+              <?php echo $messageObj->getConvos(); ?>
+            </div>
+          </div>
+
         </aside>
       </div>
 
@@ -92,46 +92,46 @@ if (isset($_POST['post-message'])) {
                 </ul>
               ";
             } else {
-              echo "<h3>New Message</h3>";
+              echo "
+              <p>Type in a friend's name below.</p>
+              <div class='form-group'>
+                <div class='form-group'>
+                  <input type='text' onkeyup='getUsers(this.value, \"$userLoggedIn\")' name='q' placeholder='Enter Name' class='form-control' autocomplete='off' id='search-text-input'>
+                </div>
+              </div>
+              ";
             }
             ?>
 
           </div>
-          <div class="card-footer">
-            <div class="post-message-form py-4">
-              <form action="" method="POST">
-                <?php
-                if ($userTo == "new") {
-                  echo "
-                    <p>Select the friend you would like to message</p>
-    
-                    <div class='form-group'>
-                      <div class='input-group'>
-                        <div class='input-group-prepend'>
-                          <span class='input-group-text'>To:</span>
-                        </div>
-                        <input type='text' placeholder='Enter Name' class='form-control'>
-                      </div>
-                    </div>
-    
-                    <div class='results'>
-                    </div>
-                    ";
-                } else {
-                  echo "
+
+          <?php
+          if ($userTo != "new") {
+            echo "
+            <div class='card-footer'>
+              <div class='post-message-form py-4'>
+                <form method='POST'>
                   <div class='input-group'>
                     <input type='text' name='message-body' class='form-control' placeholder='Write a message.'>
                     <div class='input-group-append'>
                       <input id='message-submit' type='submit' name='post-message' class='btn btn-dark' value='Send'>
                     </div>
                   </div>
-                  ";
-                }
-                ?>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
+            ";
+          }
+          ?>
         </div>
+
+        <?php
+        if ($userTo == "new") {
+          echo "
+              <div class='results mb-4'></div>
+          ";
+        }
+        ?>
       </div>
 
     </div>
@@ -141,8 +141,10 @@ if (isset($_POST['post-message'])) {
 
 
 <script>
-  let div = document.querySelector('.list-messages');
-  div.scrollTop = div.scrollHeight;
+  if (document.querySelector('.list-messages')) {
+    let div = document.querySelector('.list-messages');
+    div.scrollTop = div.scrollHeight;
+  }
 </script>
 
 <?php require("includes/footer.php"); ?>

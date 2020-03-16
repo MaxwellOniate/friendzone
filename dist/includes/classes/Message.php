@@ -90,7 +90,7 @@ class Message
     $data = "";
     $convos = [];
 
-    $query = $this->con->prepare("SELECT user_to, user_from FROM messages WHERE user_to = :un OR user_from = :un");
+    $query = $this->con->prepare("SELECT user_to, user_from FROM messages WHERE user_to = :un OR user_from = :un ORDER BY id DESC");
     $query->execute([':un' => $userLoggedIn]);
 
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -105,22 +105,43 @@ class Message
       $userFoundObj = new User($this->con, $username);
       $latestMessageDetails = $this->getLatestMessage($userLoggedIn, $username);
 
-      $dots = (strlen($latestMessageDetails[1]) >= 12) ? "..." : "";
-      $split = str_split($latestMessageDetails[1], 12);
+      $dots = (strlen($latestMessageDetails[1]) >= 30) ? "..." : "";
+      $split = str_split($latestMessageDetails[1], 30);
       $split = $split[0] . $dots;
+
+      $data .= "
+      <div class='card convo'>
+        <a href='messages.php?u=$username'>
+          <div class='card-header'>
+            <div class='media'>
+              <img src='" . $userFoundObj->getProfilePic() . "' class='img-fluid convo-img' alt='" . $userFoundObj->getFullName() . "'>
+              <div class='media-body'>
+                <span>" . $userFoundObj->getFullName() . "</span>
+                <small class='d-block'>" . $latestMessageDetails[2] . "</small>
+              </div>
+            </div>
+          </div>
+          <div class='card-body'>
+            <small>" . $latestMessageDetails[0] . $split . "</small>
+          </div>
+          </a>
+        </div>
+      ";
     }
+
+    return $data;
   }
 
   public function getLatestMessage($user, $user2)
   {
     $detailsArray = [];
 
-    $query = $this->con->prepare("SELECT body, user_to FROM messages WHERE (user_to = :un AND user_from = :un2) OR (user_to = :un2 AND user_from = :un) ORDER BY id DESC LIMIT 1");
+    $query = $this->con->prepare("SELECT body, user_to, date FROM messages WHERE (user_to = :un AND user_from = :un2) OR (user_to = :un2 AND user_from = :un) ORDER BY id DESC LIMIT 1");
     $query->execute([':un' => $user, ':un2' => $user2]);
 
     $row = $query->fetch(PDO::FETCH_ASSOC);
 
-    $sentBy = ($row['user_to'] == $user) ? "They said: " : "You said: ";
+    $sentBy = ($row['user_to'] == $user) ? "They said:<br>" : "You said:<br>";
     $dateAdded = $row['date'];
 
     $dateTimeNow = date('Y-m-d H:i:s');
