@@ -7,10 +7,13 @@ $user = new User($con, $userLoggedIn);
 ?>
 
 <section id="main-nav">
+
   <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+
     <div class="container">
 
       <a href="index.php" class="navbar-brand"><i class="fab fa-facebook-square"></i></a>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -36,49 +39,54 @@ $user = new User($con, $userLoggedIn);
               <?php echo $user->getFirstName(); ?>
             </a>
           </li>
-          <div class="nav-item">
+          <li class="nav-item">
             <a href="index.php" class="nav-link">
               <i class="fas fa-home"></i>
               <span class="d-md-none">Home</span>
             </a>
-          </div>
-          <div class="nav-item">
+          </li>
+          <li class="nav-item">
             <a href="requests.php" class="nav-link">
               <i class="fas fa-user-friends"></i>
               <span class="d-md-none">Friend Requests</span>
             </a>
-          </div>
-          <div class="nav-item">
-            <a href="messages.php" class="nav-link">
+          </li>
+          <li class="nav-item">
+            <a href="javascript:void(0)" onclick="getDropdownData(<?php echo $userLoggedIn ?>, 'message')" class="nav-link">
               <i class="fab fa-facebook-messenger"></i>
               <span class="d-md-none">Messages</span>
             </a>
-          </div>
-          <div class="nav-item">
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-bell"></i>
               <span class="d-md-none">Notifications</span>
             </a>
-          </div>
-          <div class="nav-item">
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-cog"></i>
               <span class="d-md-none">Settings</span>
             </a>
-          </div>
-          <div class="nav-item">
+          </li>
+          <li class="nav-item">
             <a href="logout.php" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>
               <span class="d-md-none">Logout</span>
             </a>
-          </div>
+          </li>
+
+        </ul>
+
       </div>
 
-      </ul>
 
     </div>
 
-
-    </div>
   </nav>
+
+  <div class="dropdown-data-window">
+  </div>
+  <input type="hidden" id="dropdown-data-type" value="">
+
 </section>

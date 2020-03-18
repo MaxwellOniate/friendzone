@@ -35,33 +35,12 @@ if (isset($_POST['post-message'])) {
 
       <div class="col-lg-4">
         <aside id="messages-aside">
-          <div class="card user-details mb-4">
-            <div class="card-body">
-              <div class="media">
-                <a href="<?php echo $user->getUsername(); ?>" class="pr-3">
-                  <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFullName(); ?>" class="img-fluid user-details-img">
-                </a>
-
-                <div class="media-body">
-                  <a href="<?php echo $user->getUsername(); ?>" class="user-full-name"><?php echo $user->getFullName(); ?></a>
-                  <p class="user-data">Posts: <?php echo $user->getPostCount(); ?></p>
-                  <p class="user-data">Likes: <?php echo $user->getLikeCount(); ?></p>
-                  <p class="user-data">Friends: <?php echo $user->getFriendCount(); ?></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
-          <a href="messages.php?u=new" class="btn btn-block btn-primary mb-4">
+          <a href="messages.php?u=new" class="btn btn-block main-btn mb-4">
             New Message
           </a>
 
-
           <div class="conversations mb-4">
             <div class="loaded-conversations">
-
               <?php echo $messageObj->getConvos(); ?>
             </div>
           </div>

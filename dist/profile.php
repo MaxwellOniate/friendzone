@@ -29,6 +29,15 @@ if (isset($_GET['profile_username'])) {
       <div class="col-lg-4">
 
         <aside id="profile-aside">
+          <?php
+          if ($userLoggedIn != $profile->getUsername()) {
+            echo "
+            <a href='messages.php?u=" . $profile->getUsername() . "' class='btn btn-block main-btn mb-4'>
+              Message
+            </a>
+            ";
+          }
+          ?>
           <div class="card profile-info mb-4">
             <div class="card-header">
               <i class="fas fa-globe-americas profile-icon"></i> Profile Info
