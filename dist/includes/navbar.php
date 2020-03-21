@@ -51,21 +51,12 @@ $user = new User($con, $userLoggedIn);
               <span class="d-md-none">Friend Requests</span>
             </a>
           </li>
-
-          <!-- <li class="nav-item">
-            <a href="javascript:void(0)" onclick="getDropdownData(<?php echo $userLoggedIn ?>, 'message')" class="nav-link">
-              <i class="fab fa-facebook-messenger"></i>
-              <span class="d-md-none">Messages</span>
-            </a>
-          </li> -->
-
           <li class="nav-item">
             <a href="messages.php" class="nav-link">
               <i class="fab fa-facebook-messenger"></i>
               <span class="d-md-none">Messages</span>
             </a>
           </li>
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-bell"></i>
@@ -93,9 +84,5 @@ $user = new User($con, $userLoggedIn);
     </div>
 
   </nav>
-
-  <!-- <div class="dropdown-data-window">
-  </div>
-  <input type="hidden" id="dropdown-data-type" value=""> -->
 
 </section>

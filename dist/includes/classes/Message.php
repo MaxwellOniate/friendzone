@@ -105,27 +105,24 @@ class Message
       $userFoundObj = new User($this->con, $username);
       $latestMessageDetails = $this->getLatestMessage($userLoggedIn, $username);
 
-      $dots = (strlen($latestMessageDetails[1]) >= 30) ? "..." : "";
-      $split = str_split($latestMessageDetails[1], 30);
+      $dots = (strlen($latestMessageDetails[0]) >= 30) ? "..." : "";
+      $split = str_split($latestMessageDetails[0], 30);
       $split = $split[0] . $dots;
 
       $data .= "
-      <div class='card convo'>
+      <li class='list-group-item'>
+      <div class='convo'>
         <a href='messages.php?u=$username'>
-          <div class='card-header'>
-            <div class='media'>
-              <img src='" . $userFoundObj->getProfilePic() . "' class='img-fluid convo-img' alt='" . $userFoundObj->getFullName() . "'>
-              <div class='media-body'>
-                <span>" . $userFoundObj->getFullName() . "</span>
-                <small class='d-block'>" . $latestMessageDetails[2] . "</small>
-              </div>
-            </div>
-          </div>
+        
           <div class='card-body'>
-            <small>" . $latestMessageDetails[0] . $split . "</small>
+        
+            <span>" . $userFoundObj->getFullName() . "</span>
+            <small>" . $latestMessageDetails[1] . "</small>
+            <small class='d-block'>" . $split . "</small>
           </div>
           </a>
         </div>
+      </li>
       ";
     }
 
@@ -141,7 +138,6 @@ class Message
 
     $row = $query->fetch(PDO::FETCH_ASSOC);
 
-    $sentBy = ($row['user_to'] == $user) ? "They said:<br>" : "You said:<br>";
     $dateAdded = $row['date'];
 
     $dateTimeNow = date('Y-m-d H:i:s');
@@ -194,7 +190,6 @@ class Message
       }
     }
 
-    array_push($detailsArray, $sentBy);
     array_push($detailsArray, $row['body']);
     array_push($detailsArray, $timeMessage);
 

@@ -254,14 +254,13 @@ a {
   display: flex;
   justify-content: space-between; }
 
-#messages .list-group-item {
-  border: 0px; }
-
 #messages .list-messages {
   height: 65%;
   min-height: 300px;
   max-height: 400px;
   overflow-y: scroll; }
+  #messages .list-messages .list-group-item {
+    border: 0px; }
   #messages .list-messages .message {
     display: inline-block;
     border: 1px solid #000;
@@ -276,6 +275,9 @@ a {
   #messages .list-messages .message-green {
     background: #2ecc71;
     border: #27ae60; }
+
+#messages .loaded-conversations .list-group-item {
+  padding: 0; }
 
 #messages .loaded-conversations .convo {
   transition: all 100ms linear; }

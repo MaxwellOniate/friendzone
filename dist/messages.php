@@ -39,10 +39,10 @@ if (isset($_POST['post-message'])) {
             New Message
           </a>
 
-          <div class="conversations mb-4">
-            <div class="loaded-conversations">
+          <div class="conversations card mb-4">
+            <ul class="list-group list-group-flush loaded-conversations">
               <?php echo $messageObj->getConvos(); ?>
-            </div>
+            </ul>
           </div>
 
         </aside>

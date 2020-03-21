@@ -303,14 +303,14 @@ a {
 }
 
 #messages {
-  .list-group-item {
-    border: 0px;
-  }
   .list-messages {
     height: 65%;
     min-height: 300px;
     max-height: 400px;
     overflow-y: scroll;
+    .list-group-item {
+      border: 0px;
+    }
     .message {
       display: inline-block;
       border: 1px solid #000;
@@ -330,6 +330,9 @@ a {
     }
   }
   .loaded-conversations {
+    .list-group-item {
+      padding: 0;
+    }
     .convo {
       transition: all 100ms linear;
       span {

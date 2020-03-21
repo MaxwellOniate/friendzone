@@ -165,30 +165,3 @@ function getUsers(value, user) {
     }
   );
 }
-
-// function getDropdownData(username, type) {
-//   if ($('.dropdown-data-window').css('height') == '0px') {
-//     let pageName;
-
-//     if (type == 'notification') {
-//     } else if (type == 'message') {
-//       pageName = 'loadMessages.php';
-//       $('span').remove('#unread-message');
-//     }
-
-//     let ajaxReq = $.ajax({
-//       url: 'ajax/' + pageName,
-//       type: 'POST',
-//       data: 'page=1&user=' + user,
-//       cache: false,
-//       success: function(data) {
-//         $('.dropdown-data-window').html(data);
-//         $('.dropdown-data-window').css({ padding: '0px', height: '200px' });
-//         $('#dropdown-data-type').val(type);
-//       }
-//     });
-//   } else {
-//     $('.dropdown-data-window').html('');
-//     $('.dropdown-data-window').css({ padding: '0px', height: '0px' });
-//   }
-// }
