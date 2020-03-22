@@ -9,7 +9,7 @@ if (isset($_GET['profile_username'])) {
 
 <section id="profile">
   <div class="container">
-    <header id="profile-header" class="mb-4 card">
+    <header class="profile-banner mb-4 card">
       <div class="card-body">
         <img src="<?php echo $profile->getProfilePic(); ?>" alt="<?php echo $profile->getFullName(); ?>" class="img-fluid profilePic">
 
@@ -61,13 +61,13 @@ if (isset($_GET['profile_username'])) {
           <div class="card friends-list mb-4">
             <div class="card-header">
               <i class="fas fa-user-friends friends-icon"></i>
-              <a href="friends.php?=<?php echo $profile->getUsername(); ?>">
+              <a href="friends.php?profile=<?php echo $profile->getUsername(); ?>">
                 Friends - <?php echo $profile->getFriendCount(); ?>
               </a>
             </div>
             <div class="card-body">
               <div class="friends">
-                <?php echo $profile->displayFriends(); ?>
+                <?php echo $profile->displayFriends(6); ?>
               </div>
             </div>
           </div>

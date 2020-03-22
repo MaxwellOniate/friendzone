@@ -17,8 +17,9 @@
   }
 }
 @media (max-width: 500px) {
-  #profile {
-    #profile-header {
+  #profile,
+  #friends {
+    .profile-banner {
       .profilePic {
         margin-right: 2rem;
         width: 100px;

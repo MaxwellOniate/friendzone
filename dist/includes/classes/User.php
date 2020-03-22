@@ -126,7 +126,7 @@ class User
     }
   }
 
-  public function displayFriends()
+  public function displayFriends($limit)
   {
     if ($this->getFriendCount() > 0) {
       $friendArray = $this->getFriendArray();;
@@ -144,7 +144,7 @@ class User
           </a>
         </div>
         ";
-        if (++$i == 6) break;
+        if (++$i == $limit) break;
       }
     } else {
       echo "No friends to show.";
