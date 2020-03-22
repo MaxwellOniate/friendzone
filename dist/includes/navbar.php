@@ -1,8 +1,13 @@
 <?php
 
 require('includes/classes/User.php');
+require('includes/classes/Message.php');
 
 $user = new User($con, $userLoggedIn);
+
+$messages = new Message($con, $userLoggedIn);
+
+$messageCount = $messages->unreadMessagesCount();
 
 ?>
 
@@ -53,12 +58,23 @@ $user = new User($con, $userLoggedIn);
           </li>
           <li class="nav-item">
             <a href="messages.php" class="nav-link">
-              <i class="fab fa-facebook-messenger"></i>
+              <i class="fas fa-envelope"></i>
+
+              <?php
+              if ($messageCount > 0) {
+                echo "
+                <span class='notification-badge'>
+                  $messageCount
+                </span>
+                ";
+              }
+
+              ?>
               <span class="d-md-none">Messages</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="notifications.php" class="nav-link">
               <i class="fas fa-bell"></i>
               <span class="d-md-none">Notifications</span>
             </a>

@@ -1,7 +1,6 @@
 <?php
 
 require("includes/header.php");
-require("includes/classes/Message.php");
 
 $messageObj = new Message($con, $userLoggedIn);
 

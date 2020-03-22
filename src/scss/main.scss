@@ -132,21 +132,32 @@ a {
   }
   .nav-item {
     .nav-link {
+      position: relative;
       padding: 0.5rem;
       color: #fff;
       .nav-profilePic {
         width: 1.5rem;
         border-radius: 50%;
       }
+      i {
+        font-size: 1.25rem;
+        color: #0d1524;
+      }
+      .notification-badge {
+        position: absolute;
+        background: #f00;
+        font-size: 10px;
+        width: 15px;
+        text-align: center;
+        border-radius: 50%;
+        left: 1.3rem;
+        top: 5px;
+      }
       &:hover {
         background: $primary-color;
         i {
           color: #000;
         }
-      }
-      i {
-        font-size: 1.25rem;
-        color: #0d1524;
       }
     }
   }

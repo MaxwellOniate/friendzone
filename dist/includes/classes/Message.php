@@ -37,14 +37,13 @@ class Message
     if ($body != "") {
       $userLoggedIn = $this->user->getUsername();
 
-      $query = $this->con->prepare("INSERT INTO messages (user_to, user_from, body, date, opened, viewed, deleted) VALUES(:userTo, :userFrom, :body, :date, :opened, :viewed, :deleted)");
+      $query = $this->con->prepare("INSERT INTO messages (user_to, user_from, body, date, opened, deleted) VALUES(:userTo, :userFrom, :body, :date, :opened, :deleted)");
       $query->execute([
         ':userTo' => $userTo,
         ':userFrom' => $userLoggedIn,
         ':body' => $body,
         ':date' => $date,
         ':opened' => 'no',
-        ':viewed' => 'no',
         ':deleted' => 'no'
       ]);
     }
@@ -194,5 +193,18 @@ class Message
     array_push($detailsArray, $timeMessage);
 
     return $detailsArray;
+  }
+
+  public function unreadMessagesCount()
+  {
+    $userLoggedIn = $this->user->getUsername();
+
+    $query = $this->con->prepare("SELECT * FROM messages WHERE opened = :yesOrNo AND user_to = :un");
+    $query->execute([
+      ':yesOrNo' => 'no',
+      ':un' => $userLoggedIn
+    ]);
+
+    return $query->rowCount();
   }
 }
