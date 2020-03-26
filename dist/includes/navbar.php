@@ -2,12 +2,14 @@
 
 require('includes/classes/User.php');
 require('includes/classes/Message.php');
+require('includes/classes/Notification.php');
 
 $user = new User($con, $userLoggedIn);
 
 $messages = new Message($con, $userLoggedIn);
-
-$messageCount = $messages->unreadMessagesCount();
+$notifications = new Notification($con, $userLoggedIn);
+$messageCount = $messages->getUnreadCount();
+$notificationsCount = $notifications->getUnreadCount();
 
 ?>
 
@@ -76,6 +78,16 @@ $messageCount = $messages->unreadMessagesCount();
           <li class="nav-item">
             <a href="notifications.php" class="nav-link">
               <i class="fas fa-bell"></i>
+              <?php
+              if ($notificationsCount > 0) {
+                echo "
+                <span class='notification-badge'>
+                  $notificationsCount
+                </span>
+                ";
+              }
+
+              ?>
               <span class="d-md-none">Notifications</span>
             </a>
           </li>

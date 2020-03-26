@@ -139,69 +139,19 @@ class Message
 
     $dateAdded = $row['date'];
 
-    $dateTimeNow = date('Y-m-d H:i:s');
-    $startDate = new DateTime($dateAdded);
-    $endDate = new DateTime($dateTimeNow);
-    $interval = $startDate->diff($endDate);
-    if ($interval->y >= 1) {
-      if ($interval == 1) {
-        $timeMessage = $interval->y . " year ago.";
-      } else {
-        $timeMessage = $interval->y . " years ago.";
-      }
-    } else if ($interval->m >= 1) {
-      if ($interval->d == 0) {
-        $days = " ago.";
-      } else if ($interval->d == 1) {
-        $days = $interval->d . " day ago.";
-      } else {
-        $days = $interval->d . " days ago.";
-      }
-
-      if ($interval->m == 1) {
-        $timeMessage = $interval->m . " month" . $days;
-      } else {
-        $timeMessage = $interval->m . " months" . $days;
-      }
-    } else if ($interval->d >= 1) {
-      if ($interval->d == 1) {
-        $timeMessage = "Yesterday.";
-      } else {
-        $timeMessage = $interval->d . " days ago.";
-      }
-    } else if ($interval->h >= 1) {
-      if ($interval->h == 1) {
-        $timeMessage = $interval->h . " hour ago.";
-      } else {
-        $timeMessage = $interval->h . " hours ago.";
-      }
-    } else if ($interval->i >= 1) {
-      if ($interval->i == 1) {
-        $timeMessage = $interval->i . " minute ago.";
-      } else {
-        $timeMessage = $interval->i . " minutes ago.";
-      }
-    } else {
-      if ($interval->s < 30) {
-        $timeMessage = "Just now.";
-      } else {
-        $timeMessage = $interval->s . " seconds ago";
-      }
-    }
-
     array_push($detailsArray, $row['body']);
-    array_push($detailsArray, $timeMessage);
+    array_push($detailsArray, Post::getDate($dateAdded));
 
     return $detailsArray;
   }
 
-  public function unreadMessagesCount()
+  public function getUnreadCount()
   {
     $userLoggedIn = $this->user->getUsername();
 
-    $query = $this->con->prepare("SELECT * FROM messages WHERE opened = :yesOrNo AND user_to = :un");
+    $query = $this->con->prepare("SELECT * FROM messages WHERE opened = :opened AND user_to = :un");
     $query->execute([
-      ':yesOrNo' => 'no',
+      ':opened' => 'no',
       ':un' => $userLoggedIn
     ]);
 

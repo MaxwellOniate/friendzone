@@ -115,7 +115,7 @@ class Post
                           <i class='far fa-comment-alt'></i> Comment
                           </button>
 
-                          <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
+                          <button onclick='likePost(this)' name='like-post-$id' class='btn btn-outline-secondary'>
 
                             " . $this->displayLikeBtn($id) . "
                             
@@ -272,7 +272,7 @@ class Post
                           <i class='far fa-comment-alt'></i> Comment
                           </button>
 
-                          <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
+                          <button onclick='likePost(this)' name='like-post-$id' class='btn btn-outline-secondary'>
 
                             " . $this->displayLikeBtn($id) . "
                             
@@ -337,60 +337,6 @@ class Post
 
 
     echo $str;
-  }
-  public function getDate($dateAdded)
-  {
-    $dateTimeNow = date('Y-m-d H:i:s');
-    $startDate = new DateTime($dateAdded);
-    $endDate = new DateTime($dateTimeNow);
-    $interval = $startDate->diff($endDate);
-    if ($interval->y >= 1) {
-      if ($interval == 1) {
-        $timeMessage = $interval->y . " year ago.";
-      } else {
-        $timeMessage = $interval->y . " years ago.";
-      }
-    } else if ($interval->m >= 1) {
-      if ($interval->d == 0) {
-        $days = " ago.";
-      } else if ($interval->d == 1) {
-        $days = $interval->d . " day ago.";
-      } else {
-        $days = $interval->d . " days ago.";
-      }
-
-      if ($interval->m == 1) {
-        $timeMessage = $interval->m . " month" . $days;
-      } else {
-        $timeMessage = $interval->m . " months" . $days;
-      }
-    } else if ($interval->d >= 1) {
-      if ($interval->d == 1) {
-        $timeMessage = "Yesterday.";
-      } else {
-        $timeMessage = $interval->d . " days ago.";
-      }
-    } else if ($interval->h >= 1) {
-      if ($interval->h == 1) {
-        $timeMessage = $interval->h . " hour ago.";
-      } else {
-        $timeMessage = $interval->h . " hours ago.";
-      }
-    } else if ($interval->i >= 1) {
-      if ($interval->i == 1) {
-        $timeMessage = $interval->i . " minute ago.";
-      } else {
-        $timeMessage = $interval->i . " minutes ago.";
-      }
-    } else {
-      if ($interval->s < 30) {
-        $timeMessage = "Just now.";
-      } else {
-        $timeMessage = $interval->s . " seconds ago";
-      }
-    }
-
-    return $timeMessage;
   }
   public function deletePostBtn($postID)
   {
@@ -483,5 +429,59 @@ class Post
 
       return $commentStr;
     }
+  }
+  public static function getDate($dateAdded)
+  {
+    $dateTimeNow = date('Y-m-d H:i:s');
+    $startDate = new DateTime($dateAdded);
+    $endDate = new DateTime($dateTimeNow);
+    $interval = $startDate->diff($endDate);
+    if ($interval->y >= 1) {
+      if ($interval == 1) {
+        $timeMessage = $interval->y . " year ago.";
+      } else {
+        $timeMessage = $interval->y . " years ago.";
+      }
+    } else if ($interval->m >= 1) {
+      if ($interval->d == 0) {
+        $days = " ago.";
+      } else if ($interval->d == 1) {
+        $days = $interval->d . " day ago.";
+      } else {
+        $days = $interval->d . " days ago.";
+      }
+
+      if ($interval->m == 1) {
+        $timeMessage = $interval->m . " month" . " " . $days;
+      } else {
+        $timeMessage = $interval->m . " months" . " " . $days;
+      }
+    } else if ($interval->d >= 1) {
+      if ($interval->d == 1) {
+        $timeMessage = "Yesterday.";
+      } else {
+        $timeMessage = $interval->d . " days ago.";
+      }
+    } else if ($interval->h >= 1) {
+      if ($interval->h == 1) {
+        $timeMessage = $interval->h . " hour ago.";
+      } else {
+        $timeMessage = $interval->h . " hours ago.";
+      }
+    } else if ($interval->i >= 1) {
+      if ($interval->i == 1) {
+        $timeMessage = $interval->i . " minute ago.";
+      } else {
+        $timeMessage = $interval->i . " minutes ago.";
+      }
+    } else {
+      if ($interval->s < 30) {
+        $timeMessage = "Just now.";
+      } else {
+        $timeMessage = $interval->s . " seconds ago";
+      }
+    }
+
+    return $timeMessage;
   }
 }

@@ -3,6 +3,7 @@
 require('../includes/config.php');
 require('../includes/classes/User.php');
 require('../includes/classes/Post.php');
+require('../includes/classes/Notification.php');
 
 $userLoggedIn = $_POST['userLoggedIn'];
 $profile = $_POST['profile'];
@@ -41,6 +42,11 @@ if (isset($_POST['submit'])) {
       ':likes' => $likes
     ]);
     $id = $con->lastInsertId();
+
+    if ($userTo != 'none') {
+      $notification = new Notification($con, $userLoggedIn);
+      $notification->insertNotification($id, $userTo, 'profile-post');
+    }
 
     $numPosts = $user->getPostCount();
     $numPosts++;

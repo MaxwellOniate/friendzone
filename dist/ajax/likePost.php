@@ -3,6 +3,7 @@
 require('../includes/config.php');
 require('../includes/classes/User.php');
 require('../includes/classes/Post.php');
+require('../includes/classes/Notification.php');
 
 if (isset($_POST['postID']) && isset($_POST['userLoggedIn'])) {
   $postID = $_POST['postID'];
@@ -22,7 +23,7 @@ $userDetailsRow = $userDetails->fetch(PDO::FETCH_ASSOC);
 $totalUserLikes = $userDetailsRow['num_likes'];
 
 
-if (isset($_POST['likeStatusID'])) {
+if (isset($_POST['likePostID'])) {
   $likeQuery = $con->prepare("SELECT * FROM likes WHERE username = :un AND post_id = :postID");
   $likeQuery->execute([
     ':un' => $userLoggedIn,
@@ -55,6 +56,11 @@ if (isset($_POST['likeStatusID'])) {
         <i class='fas fa-thumbs-up'></i> Liked
       </span>
     ";
+
+    if ($postCreator != $userLoggedIn) {
+      $notification = new Notification($con, $userLoggedIn);
+      $notification->insertNotification($postID, $postCreator, 'like');
+    }
   } else {
     $totalLikes--;
     $postLikesQuery = $con->prepare("UPDATE posts SET likes = :totalLikes WHERE id = :postID");

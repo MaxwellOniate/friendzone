@@ -2,6 +2,7 @@
 require('../includes/config.php');
 require('../includes/classes/User.php');
 require('../includes/classes/Post.php');
+require('../includes/classes/Notification.php');
 
 if (isset($_POST['postID'])) {
   $postID = $_POST['postID'];
@@ -13,6 +14,7 @@ $query->execute([':id' => $postID]);
 $row = $query->fetch(PDO::FETCH_ASSOC);
 
 $postedTo = $row['added_by'];
+$userTo = $row['user_to'];
 
 if (isset($_POST['postCommentID'])) {
   $postBody = trim($_POST['postBody']);
@@ -45,5 +47,29 @@ if (isset($_POST['postCommentID'])) {
       </div>
     </div>
     ";
+
+    if ($postedTo != $userLoggedIn) {
+      $notification = new Notification($con, $userLoggedIn);
+      $notification->insertNotification($postID, $postedTo, 'comment');
+    }
+
+    if ($userTo != "none" && $userTo != $userLoggedIn) {
+      $notification = new Notification($con, $userLoggedIn);
+      $notification->insertNotification($postID, $userTo, 'profile-comment');
+    }
+
+    $getCommentersQuery = $con->prepare("SELECT * FROM comments WHERE post_id = :postID");
+    $getCommentersQuery->execute([':postID' => $postID]);
+
+    $notifyUsers = [];
+
+    while ($row = $getCommentersQuery->fetch(PDO::FETCH_ASSOC)) {
+      if ($row['posted_by'] != $postedTo && $row['posted_by'] != $userTo && $row['posted_by'] != $userLoggedIn && !in_array($row['posted_by'], $notifyUsers)) {
+        $notification = new Notification($con, $userLoggedIn);
+        $notification->insertNotification($postID, $row['posted_by'], 'comment-nonOwner');
+
+        array_push($notifyUsers, $row['posted_by']);
+      }
+    }
   }
 }

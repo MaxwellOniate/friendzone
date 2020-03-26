@@ -84,24 +84,24 @@ function postComment(postCommentBtn) {
   });
 }
 
-function likeStatus(likeStatusBtn) {
-  let postForm = $(likeStatusBtn)
+function likePost(likePostBtn) {
+  let postForm = $(likePostBtn)
     .parent()
     .parent()
     .parent();
-  let postID = $(likeStatusBtn)
+  let postID = $(likePostBtn)
     .prev()
     .prev()
     .val();
 
   $(postForm).one('submit', function(e) {
     e.preventDefault();
-    $.post('ajax/likeStatus.php', {
+    $.post('ajax/likePost.php', {
       postID: postID,
-      likeStatusID: $(likeStatusBtn).attr('name'),
+      likePostID: $(likePostBtn).attr('name'),
       userLoggedIn: userLoggedIn
     }).done(function(data) {
-      $(likeStatusBtn).html(data);
+      $(likePostBtn).html(data);
     });
   });
 }
