@@ -40,6 +40,22 @@ a {
   }
 }
 
+.pfp-100 {
+  width: 100px;
+}
+
+.pfp-75 {
+  width: 75px;
+}
+
+.pfp-50 {
+  width: 50px;
+}
+
+.pfp-30 {
+  width: 30px;
+}
+
 #login {
   .navbar {
     background: $primary-color;
@@ -105,7 +121,9 @@ a {
 .profile-banner,
 #friend-requests,
 #upload,
-#messages {
+#messages,
+#notifications,
+#post {
   margin-top: 5.5rem;
 }
 
@@ -135,10 +153,6 @@ a {
       position: relative;
       padding: 0.5rem;
       color: #fff;
-      .nav-profilePic {
-        width: 1.5rem;
-        border-radius: 50%;
-      }
       i {
         font-size: 1.25rem;
         color: #0d1524;
@@ -169,9 +183,6 @@ a {
 }
 
 .user-details {
-  .user-details-img {
-    width: 100px;
-  }
   .user-full-name {
     color: $primary-color;
     font-weight: 600;
@@ -186,9 +197,6 @@ a {
 }
 
 .post {
-  &-profile-pic {
-    width: 50px;
-  }
   a {
     color: $primary-color;
     font-weight: 600;
@@ -208,11 +216,7 @@ a {
       border-radius: 0;
     }
   }
-  .comment-profile-pic {
-    border-radius: 50%;
-    width: 2rem;
-    margin-right: 0.5rem;
-  }
+
   .comment-input {
     background: #f2f3f5;
     border: 1px solid #ccd0d5;
@@ -298,11 +302,6 @@ a {
 }
 
 #friend-requests {
-  .friend-request-profilePic {
-    width: 75px;
-    height: 75px;
-    margin-right: 1rem;
-  }
   a {
     font-weight: 600;
     color: $primary-color;
@@ -379,10 +378,6 @@ a {
         &:hover {
           text-decoration: none;
         }
-      }
-      .search-profile-pic {
-        width: 75px;
-        margin-right: 1rem;
       }
     }
   }

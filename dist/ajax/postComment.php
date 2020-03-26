@@ -36,7 +36,7 @@ if (isset($_POST['postCommentID'])) {
     echo "
     <div class='comment pb-3'>
       <div class='media'>
-        <img src='" . $userObj->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $userObj->getFullName() . "'>
+        <img src='" . $userObj->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $userObj->getFullName() . "'>
         <div class='media-body'>  
           <div class='comment-body'>
             <a href='" . $userObj->getUsername() . "'>" . $userObj->getFullName() . "</a>

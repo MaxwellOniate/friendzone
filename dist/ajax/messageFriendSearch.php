@@ -35,7 +35,7 @@ if ($search != "") {
         <div class='card-body'>
           <a href='messages.php?u=" . $row['username'] . "'>
             <div class='media align-items-center'>
-              <img src='" . $row['profile_pic'] . "' class='img-fluid search-profile-pic'>
+              <img src='" . $row['profile_pic'] . "' class='img-fluid pfp-75 mr-3'>
               <div class='media-body'>
                 " . $row['first_name'] . " " . $row['last_name'] . "
                 <small class='d-block'>$mutualFriends</small>

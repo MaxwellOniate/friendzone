@@ -62,9 +62,9 @@ if (isset($_POST['submit'])) {
       
         <div class='card-header'>
           <div class='media'>
-            <div class='post-profile-pic pr-2'>
-              <img src='" . $user->getProfilePic() . "' class='img-fluid rounded-circle'>
-            </div>
+    
+              <img src='" . $user->getProfilePic() . "' class='img-fluid pfp-50 mr-2 rounded-circle'>
+      
             <div class='media-body'>
               <div class='posted-by'>
                 <a href='$addedBy'>" . $user->getFullName() . "</a>
@@ -86,7 +86,7 @@ if (isset($_POST['submit'])) {
                 
                 <div class='form-group'>
                   <div class='media'>
-                      <img src='" . $user->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $user->getFullName() . "'>
+                      <img src='" . $user->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $user->getFullName() . "'>
                     <div class='media-body'>
                       <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
                     </div>
@@ -102,7 +102,7 @@ if (isset($_POST['submit'])) {
                     <i class='far fa-comment-alt'></i> Comment
                     </button>
 
-                    <button onclick='likeStatus(this)' name='like-status-$id' class='btn btn-outline-secondary'>
+                    <button onclick='likePost(this)' name='like-post-$id' class='btn btn-outline-secondary'>
 
                       " . $post->displayLikeBtn($id) . "
                       

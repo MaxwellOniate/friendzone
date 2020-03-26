@@ -24,7 +24,7 @@
             <div class='card my-3'>
               <div class='card-body'>
                 <div class='media align-items-center'>
-                  <img src='" . $userFromObj->getProfilePic() . "' alt='" . $userFromObj->getFullName() . "' class='img-fluid friend-request-profilePic'>
+                  <img src='" . $userFromObj->getProfilePic() . "' alt='" . $userFromObj->getFullName() . "' class='img-fluid pfp-75 mr-3'>
                   <div class='media-body'>
                     <a href='" . $userFromObj->getUsername() . "'>
                     " . $userFromObj->getFullName() . "

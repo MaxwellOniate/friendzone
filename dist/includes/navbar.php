@@ -39,9 +39,9 @@ $notificationsCount = $notifications->getUnreadCount();
         <ul class="navbar-nav ml-auto">
 
           <li class="nav-item">
-            <a href="<?php echo $user->getUsername(); ?>" class="nav-link">
+            <a href="<?php echo $user->getUsername(); ?>" class="nav-link d-flex align-items-center">
 
-              <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid nav-profilePic">
+              <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid pfp-30 rounded-circle mr-1">
 
               <?php echo $user->getFirstName(); ?>
             </a>

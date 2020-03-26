@@ -10,8 +10,8 @@
             <div class="card-body">
 
               <div class="media">
-                <a href="<?php echo $user->getUsername(); ?>" class="pr-3">
-                  <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFullName(); ?>" class="img-fluid user-details-img">
+                <a href="<?php echo $user->getUsername(); ?>">
+                  <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFullName(); ?>" class="img-fluid pfp-100 mr-3">
                 </a>
 
                 <div class="media-body">
