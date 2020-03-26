@@ -75,9 +75,9 @@ class Post
     
               <div class='card-header'>
                 <div class='media'>
-                  <div class='post-profile-pic pr-2'>
-                    <img src='$profilePic' class='img-fluid rounded-circle'>
-                  </div>
+                
+                    <img src='$profilePic' class='img-fluid pfp-50 rounded-circle mr-2'>
+        
                   <div class='media-body'>
                     <div class='posted-by'>
                       <a href='$addedBy'>$firstName $lastName</a> $userTo
@@ -99,7 +99,7 @@ class Post
                       
                       <div class='form-group'>
                         <div class='media'>
-                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $this->user->getFullName() . "'>
+                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $this->user->getFullName() . "'>
                           <div class='media-body'>
                             <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
                           </div>
@@ -232,9 +232,9 @@ class Post
     
               <div class='card-header'>
                 <div class='media'>
-                  <div class='post-profile-pic pr-2'>
-                    <img src='$profilePic' class='img-fluid rounded-circle'>
-                  </div>
+        
+                    <img src='$profilePic' class='img-fluid pfp-50 rounded-circle mr-2'>
+           
                   <div class='media-body'>
                     <div class='posted-by'>
                       <a href='$addedBy'>$firstName $lastName</a>
@@ -256,7 +256,7 @@ class Post
                       
                       <div class='form-group'>
                         <div class='media'>
-                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $this->user->getFullName() . "'>
+                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $this->user->getFullName() . "'>
                           <div class='media-body'>
                             <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
                           </div>
@@ -338,6 +338,151 @@ class Post
 
     echo $str;
   }
+  public function loadSinglePost($postID)
+  {
+    $userLoggedIn = $this->user->getUsername();
+
+    $openedQuery = $this->con->prepare("UPDATE notifications SET opened = :opened WHERE user_to =:un AND link LIKE :postID");
+    $openedQuery->execute([':opened' => 'yes', ':un' => $userLoggedIn, ':postID' => "%=" . $postID]);
+
+    $str = "";
+
+    $query = $this->con->prepare("SELECT * FROM posts WHERE deleted = :deleted AND id =:postID");
+    $query->execute([':deleted' => 'no', ':postID' => $postID]);
+
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+
+    if ($query->rowCount() > 0) {
+
+      $id = $row['id'];
+      $body = $row['body'];
+      $addedBy = $row['added_by'];
+      $dateAdded = $row['date_added'];
+
+      if ($row['user_to'] == 'none') {
+        $userTo = "";
+      } else {
+        $userToObj = new User($this->con, $row['user_to']);
+        $userTo = "to <a href='" . $userToObj->getUsername() . "'>" . $userToObj->getFullName() . "</a>";
+      }
+
+      $addedByObj = new User($this->con, $row['added_by']);
+
+      if ($addedByObj->isClosed()) {
+        return;
+      }
+
+      $userLoggedObj = new User($this->con, $userLoggedIn);
+
+      if ($userLoggedObj->isFriend($addedBy)) {
+
+        $userDetailsQuery = $this->con->prepare("SELECT first_name, last_name, profile_pic FROM users WHERE username = :un");
+        $userDetailsQuery->execute([':un' => $addedBy]);
+        $userRow = $userDetailsQuery->fetch(PDO::FETCH_ASSOC);
+        $firstName = $userRow['first_name'];
+        $lastName = $userRow['last_name'];
+        $profilePic = $userRow['profile_pic'];
+
+        $str .= "
+            <div id='$id' class='card post my-4'>
+    
+              <div class='card-header'>
+                <div class='media'>
+                  
+                    <img src='$profilePic' class='img-fluid pfp-50 mr-2 rounded-circle'>
+              
+                  <div class='media-body'>
+                    <div class='posted-by'>
+                      <a href='$addedBy'>$firstName $lastName</a> $userTo
+                      <small class='d-block'>" . $this->getDate($dateAdded) . "</small> 
+                    </div>
+                  </div>
+                </div>
+                " . $this->deletePostBtn($id) . "
+              </div>
+    
+              <div class='card-body'>
+                <div class='post-body pb-4'>
+                  $body
+                </div>
+
+                  <form id='comment-form-$id' class='my-3'>
+
+                      <span class='comment-alert'></span>
+                      
+                      <div class='form-group'>
+                        <div class='media'>
+                            <img src='" . $this->user->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $this->user->getFullName() . "'>
+                          <div class='media-body'>
+                            <input type='text' name='post-body-$id' class='form-control comment-input' placeholder='Write a comment...'>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class='form-group'>
+
+                        <div class='btn-group comment-like-btns'>      
+                          <input type='hidden' value='$id'>
+
+                          <button onclick='postComment(this)' name='post-comment-$id' class='btn btn-outline-secondary'>
+                          <i class='far fa-comment-alt'></i> Comment
+                          </button>
+
+                          <button onclick='likePost(this)' name='like-post-$id' class='btn btn-outline-secondary'>
+
+                            " . $this->displayLikeBtn($id) . "
+                            
+                          </button>
+                        </div>
+
+                      </div>
+
+                  </form>
+
+                  <hr>
+      
+                  <p class='post-stats'>" . $this->getCommentCount($id) . ", " . $this->getLikeCount($id) . "</p>
+
+                  <div class='comments'>
+                    
+                    " . $this->loadComments($id) . "
+
+                  </div>
+
+              </div>
+    
+            </div>
+
+            <div class='modal fade' id='delete-post-modal-$id' tabindex='-1' role='dialog' aria-hidden='true'>
+              <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <h5 class='modal-title'>
+                      Delete Post?
+                    </h5>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                      <span aria-hidden='true'>&times;</span>
+                    </button>
+                  </div>
+                  <div class='modal-body'>
+                    Are you sure you want to delete this post?
+                  </div>
+                  <div class='modal-footer'>
+                    <form id='delete-post-form-$id'>
+                      <button type='button' class='btn btn-outline-dark' data-dismiss='modal'>Cancel</button>
+                      <input type='hidden' value='$id'>
+                      <button onclick='deletePost(this)' type='submit' class='btn btn-primary' name='delete-post-$id'>Confirm</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ";
+      }
+    }
+
+    echo $str;
+  }
   public function deletePostBtn($postID)
   {
     $query = $this->con->prepare("SELECT * FROM posts WHERE id = :postID AND added_by =:un");
@@ -414,7 +559,7 @@ class Post
         $commentStr .= "
           <div class='comment pb-3'>
             <div class='media'>
-              <img src='" . $userObj->getProfilePic() . "' class='img-fluid comment-profile-pic' alt='" . $userObj->getFullName() . "'>
+              <img src='" . $userObj->getProfilePic() . "' class='img-fluid pfp-30 mr-2 rounded-circle' alt='" . $userObj->getFullName() . "'>
               <div class='media-body'>  
                 <div class='comment-body'>
                   <a href='" . $userObj->getUsername() . "'>" . $userObj->getFullName() . "</a>

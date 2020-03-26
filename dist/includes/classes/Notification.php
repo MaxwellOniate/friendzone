@@ -57,4 +57,40 @@ class Notification
       ':opened' => 'no'
     ]);
   }
+  public function loadNotifications($data, $limit)
+  {
+    $userLoggedIn = $this->user->getUsername();
+
+    $query = $this->con->prepare("SELECT * FROM notifications WHERE user_to = :un AND opened = :opened ORDER BY id DESC");
+    $query->execute([':un' => $userLoggedIn, ':opened' => 'no']);
+
+    if ($query->rowCount() == 0) {
+      return "<li class='list-group-item'>You have no notifications.</li>";
+    }
+
+    $data = "";
+
+
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+      $userFrom = new User($this->con, $row['user_from']);
+
+      $data .= "
+      <li class='list-group-item'>
+        <div class='media'>
+          <img src=" . $userFrom->getProfilePic() . " class='img-fluid pfp-50 mr-3'>
+          <div class='media-body'>
+          <a href='" . $row['link'] . "'>
+            " . $row['message'] . "
+          </a>
+          <span class='d-block small'>
+            " . Post::getDate($row['date']) . "
+          </span> 
+          </div>
+        </div>
+      </li>
+      ";
+    }
+
+    return $data;
+  }
 }
