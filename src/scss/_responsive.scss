@@ -16,6 +16,26 @@
     }
   }
 }
+@media (max-width: 580px) {
+  #friend-requests {
+    .container {
+      .card {
+        .list-group {
+          .list-group-item {
+            .media {
+              img {
+                width: 60px;
+              }
+            }
+            .response-form {
+              margin-top: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media (max-width: 500px) {
   #profile,
   #friends {

@@ -9,6 +9,12 @@
   .container #news-feed {
     padding-left: 0; } }
 
+@media (max-width: 580px) {
+  #friend-requests .container .card .list-group .list-group-item .media img {
+    width: 60px; }
+  #friend-requests .container .card .list-group .list-group-item .response-form {
+    margin-top: 1rem; } }
+
 @media (max-width: 500px) {
   #profile .profile-banner .profilePic,
   #friends .profile-banner .profilePic {
