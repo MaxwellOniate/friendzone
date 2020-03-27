@@ -34,7 +34,7 @@ if (isset($submit)) {
     $removeFriendQuery->execute([':newFriendArray' => $newFriendArray, ':un' => $profile]);
 
     echo "
-    <button onclick='friendRequest(this)' class='btn btn-success' name='friend'>Add Friend</button>";
+    <button onclick='friendRequest(this)' class='btn btn-success btn-sm' name='friend'>Add Friend</button>";
   } else if ($submit == 'accept') {
 
     // Add person to your friend array
@@ -64,18 +64,18 @@ if (isset($submit)) {
     $query->execute([':userTo' => $userLoggedIn, ':userFrom' => $profile]);
 
     echo "
-    <button onclick='friendRequest(this)' class='btn btn-outline-danger' name='remove'>Remove Friend</button>";
+    <button onclick='friendRequest(this)' class='btn btn-outline-danger btn-sm' name='remove'>Remove Friend</button>";
   } else if ($submit == 'cancel') {
     $query = $con->prepare("DELETE FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");
     $query->execute([':userTo' => $profile, ':userFrom' => $userLoggedIn]);
 
     echo "
-    <button onclick='friendRequest(this)' class='btn btn-success' name='friend'>Add Friend</button>";
+    <button onclick='friendRequest(this)' class='btn btn-success btn-sm' name='friend'>Add Friend</button>";
   } else {
     $query = $con->prepare("INSERT INTO friend_requests (user_to, user_from) VALUES(:userTo, :userFrom)");
     $query->execute([':userTo' => $profile, ':userFrom' => $userLoggedIn]);
 
     echo "
-    <button onclick='friendRequest(this)' class='btn btn-secondary' name='cancel'>Friend Request Sent</button>";
+    <button onclick='friendRequest(this)' class='btn btn-secondary btn-sm' name='cancel'>Friend Request Sent</button>";
   }
 }
