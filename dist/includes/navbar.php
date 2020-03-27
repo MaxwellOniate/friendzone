@@ -29,11 +29,11 @@ $friendRequestCount = $user->friendRequestCount();
 
       <div class="collapse navbar-collapse" id="nav-content">
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <form action="search.php" method="GET" name="search">
           <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search">
+            <input id="search-input" type="text" name="q" class="form-control" placeholder="Search" autocomplete="off" required>
             <div class="input-group-append">
-              <button type="button" name="submit" class="btn"><i class="fa fa-search"></i></button>
+              <button type="submit" class="btn search-btn"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </form>
@@ -43,7 +43,7 @@ $friendRequestCount = $user->friendRequestCount();
           <li class="nav-item">
             <a href="<?php echo $user->getUsername(); ?>" class="nav-link d-flex align-items-center">
 
-              <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid pfp-30 rounded-circle mr-1">
+              <img src="<?php echo $user->getProfilePic(); ?>" alt="<?php echo $user->getFirstName(); ?>" class="img-fluid pfp-20 rounded-circle mr-1">
 
               <?php echo $user->getFirstName(); ?>
             </a>

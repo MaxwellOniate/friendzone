@@ -1,3 +1,11 @@
+$(document).ready(function() {
+  $('#search-input').focus(function() {
+    if (window.matchMedia('(min-width:800px').matches) {
+      $(this).animate({ width: '300px' }, 500);
+    }
+  });
+});
+
 function submitPost(submitPostBtn) {
   let postForm = $(submitPostBtn).parent();
   $(postForm).one('submit', function(e) {

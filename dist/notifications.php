@@ -10,7 +10,7 @@ require('includes/header.php');
         <h1 class="card-title">Notifications</h1>
       </div>
       <div class="card-body">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group">
           <?php echo $notifications->loadNotifications(); ?>
         </ul>
       </div>

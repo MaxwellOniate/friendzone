@@ -13,7 +13,7 @@
           $query->execute([':un' => $userLoggedIn]);
 
           if ($query->rowCount() == 0) {
-            echo "You have no new friend requests.";
+            echo "<li class='list-group-item'>You have no new friend requests.</li>";
           } else {
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
               $id = $row['id'];
