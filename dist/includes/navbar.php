@@ -11,6 +11,8 @@ $notifications = new Notification($con, $userLoggedIn);
 $messageCount = $messages->getUnreadCount();
 $notificationsCount = $notifications->getUnreadCount();
 
+$friendRequestCount = $user->friendRequestCount();
+
 ?>
 
 <section id="main-nav">
@@ -55,6 +57,15 @@ $notificationsCount = $notifications->getUnreadCount();
           <li class="nav-item">
             <a href="requests.php" class="nav-link">
               <i class="fas fa-user-friends"></i>
+              <?php
+              if ($friendRequestCount > 0) {
+                echo "
+                <span class='notification-badge'>
+                  $friendRequestCount
+                </span>
+                ";
+              }
+              ?>
               <span class="d-md-none">Friend Requests</span>
             </a>
           </li>

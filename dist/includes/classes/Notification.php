@@ -57,7 +57,7 @@ class Notification
       ':opened' => 'no'
     ]);
   }
-  public function loadNotifications($data, $limit)
+  public function loadNotifications()
   {
     $userLoggedIn = $this->user->getUsername();
 

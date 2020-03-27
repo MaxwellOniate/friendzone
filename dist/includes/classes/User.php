@@ -100,7 +100,6 @@ class User
     }
     return false;
   }
-
   public function friendRequestBtn($userTo)
   {
     $user = new User($this->con, $this->username);
@@ -125,7 +124,6 @@ class User
       }
     }
   }
-
   public function displayFriends($limit)
   {
     if ($this->getFriendCount() > 0) {
@@ -150,7 +148,13 @@ class User
       echo "No friends to show.";
     }
   }
+  public function friendRequestCount()
+  {
+    $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :un");
+    $query->execute([':un' => $this->username]);
 
+    return $query->rowCount();
+  }
   private function receivedRequest($userFrom)
   {
     $query = $this->con->prepare("SELECT * FROM friend_requests WHERE user_to = :userTo AND user_from = :userFrom");

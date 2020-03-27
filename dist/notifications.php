@@ -1,8 +1,6 @@
 <?php
 require('includes/header.php');
 
-$limit = 7;
-
 ?>
 
 <section id="notifications">
@@ -13,7 +11,7 @@ $limit = 7;
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush">
-          <?php echo $notifications->loadNotifications($con, $limit); ?>
+          <?php echo $notifications->loadNotifications(); ?>
         </ul>
       </div>
     </div>
