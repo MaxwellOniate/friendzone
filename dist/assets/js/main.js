@@ -121,22 +121,26 @@ function friendRequest(friendRequestBtn) {
 
 function respondFR(responseBtn) {
   let form = $(responseBtn).parent();
+
   let requestID = $(responseBtn)
     .prev()
     .val();
+
   let submit = $(responseBtn).attr('name');
+
   let profile = $(responseBtn)
     .parent()
     .prev()
+    .prev()
+    .find('.profile')
     .attr('href');
+
   let fullName = $(responseBtn)
     .parent()
     .prev()
-    .text();
-  let card = $(responseBtn)
-    .parent()
-    .parent()
-    .parent()
+    .val();
+
+  let li = $(responseBtn)
     .parent()
     .parent();
 
@@ -148,7 +152,7 @@ function respondFR(responseBtn) {
       profile: profile,
       userLoggedIn: userLoggedIn
     }).done(function(data) {
-      $(card).replaceWith(data);
+      $(li).replaceWith(data);
     });
   });
 }

@@ -7,45 +7,45 @@
         <h1 class="card-title">Friend Requests</h1>
       </div>
       <div class="card-body">
-        <?php
-        $query = $con->prepare("SELECT * FROM friend_requests WHERE user_to = :un");
-        $query->execute([':un' => $userLoggedIn]);
+        <ul class="list-group">
+          <?php
+          $query = $con->prepare("SELECT * FROM friend_requests WHERE user_to = :un");
+          $query->execute([':un' => $userLoggedIn]);
 
-        if ($query->rowCount() == 0) {
-          echo "You have no new friend requests.";
-        } else {
-          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $id = $row['id'];
-            $userFrom = $row['user_from'];
-            $userFromObj = new User($con, $userFrom);
-            $userFromFriendArray = $userFromObj->getFriendArray();
+          if ($query->rowCount() == 0) {
+            echo "You have no new friend requests.";
+          } else {
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+              $id = $row['id'];
+              $userFrom = $row['user_from'];
+              $userFromObj = new User($con, $userFrom);
+              $userFromFriendArray = $userFromObj->getFriendArray();
 
-            echo "
-            <div class='card my-3'>
-              <div class='card-body'>
+              echo "
+            <li class='list-group-item d-block d-sm-flex align-items-center justify-content-between'>
                 <div class='media align-items-center'>
                   <img src='" . $userFromObj->getProfilePic() . "' alt='" . $userFromObj->getFullName() . "' class='img-fluid pfp-75 mr-3'>
                   <div class='media-body'>
-                    <a href='" . $userFromObj->getUsername() . "'>
+                    <a href='" . $userFromObj->getUsername() . "' class='profile'>
                     " . $userFromObj->getFullName() . "
                     </a>
-                    <form id='request-$id'>
-                      <input type='hidden' value='$id'>
-                      <button onclick='respondFR(this)' name='accept-$id' class='btn main-btn btn-sm'>Accept</button>
-                      <input type='hidden' value='$id'>
-                      <button onclick='respondFR(this)' name='decline-$id' class='btn btn-outline-secondary btn-sm rounded-0'>Decline</button>
-
-                    </form>
-                    
                   </div>
                 </div>
-              </div>
-            </div>
+                <input type='hidden' value='" . $userFromObj->getFullName() . "'>
+                <form id='request-$id' class='response-form'>
+                  <input type='hidden' value='$id'>
+                  <button onclick='respondFR(this)' name='accept-$id' class='btn main-btn btn-sm'>Accept</button>
+                  <input type='hidden' value='$id'>
+                  <button onclick='respondFR(this)' name='decline-$id' class='btn btn-outline-secondary btn-sm rounded-0'>Decline</button>
+                </form>
+            </li>
             ";
+            }
           }
-        }
 
-        ?>
+          ?>
+
+        </ul>
       </div>
     </div>
 
