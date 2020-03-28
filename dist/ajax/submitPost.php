@@ -20,6 +20,28 @@ if (isset($_POST['submit'])) {
 
   if ($checkEmpty != "") {
 
+    $bodyArray = preg_split("/\s+/", $body);
+
+    foreach ($bodyArray as $key => $value) {
+      if (strpos($value, "www.youtube.com/watch?v=") !== false) {
+
+        $link = preg_split("!&!", $value);
+
+        $value = preg_replace("!watch\?v=!", "embed/", $link[0]);
+
+        $value = "
+        <div class='embed-container my-4'>
+        <iframe src='" . $value . "' frameborder='0' allowfullscreen></iframe>
+        </div>
+        ";
+
+        $bodyArray[$key] = $value;
+      }
+    }
+
+    $body = implode(" ", $bodyArray);
+
+
     $addedBy = $userLoggedIn;
 
     if ($profile == $addedBy) {
