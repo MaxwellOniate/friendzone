@@ -103,7 +103,7 @@ $friendRequestCount = $user->friendRequestCount();
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="settings.php" class="nav-link">
               <i class="fas fa-cog"></i>
               <span class="d-md-none">Settings</span>
             </a>
