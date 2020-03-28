@@ -50,7 +50,14 @@ if (isset($_GET['q'])) {
 
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
               $userObj = new User($con, $userLoggedIn);
-              $mutualFriends = $userObj->getMutualFriendsCount($row['username']);
+
+              if ($userLoggedIn != $row['username']) {
+                $mutualFriends = "
+                <span class='d-block small'>" . $userObj->getMutualFriendsCount($row['username']) . "</span>
+                ";
+              } else {
+                $mutualFriends = "";
+              }
 
               echo "
                 <a href='" . $row['username'] . "'>
@@ -59,9 +66,7 @@ if (isset($_GET['q'])) {
                       <img src='" . $row['profile_pic'] . "' class='img-fluid pfp-50 mr-3'>
                       <div class='media-body'>
                         " . $row['first_name'] . " " . $row['last_name'] . "
-                        <span class='d-block small'>
                           $mutualFriends
-                        </span>
                       </div>
                     </div>
                   </div>
