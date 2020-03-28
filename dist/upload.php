@@ -1,5 +1,5 @@
 <?php
-include("includes/header.php");
+require("includes/header.php");
 
 $profile_id = $user->getUsername();
 $imgSrc = "";
@@ -185,7 +185,7 @@ if (isset($_POST['x'])) {
 
 	<div class="card">
 		<div class="card-header">
-			<h1 class="card-title">Upload a Profile Picture</h1>
+			<h1 class="card-title"><a href="settings.php"><i class="fas fa-arrow-circle-left"></i></a> Upload a Profile Picture</h1>
 		</div>
 		<div class="card-body">
 
@@ -261,3 +261,5 @@ if (isset($_POST['x'])) {
 
 
 <br /><br />
+
+<?php require("includes/footer.php"); ?>
