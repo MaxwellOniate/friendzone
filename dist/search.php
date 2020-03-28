@@ -81,3 +81,5 @@ if (isset($_GET['q'])) {
     </div>
   </div>
 </section>
+
+<?php require('includes/footer.php'); ?>
