@@ -177,3 +177,29 @@ function getUsers(value, user) {
     }
   );
 }
+
+function updateUserDetails(firstName, lastName, email) {
+  $.post('ajax/updateUserDetails.php', {
+    firstName: $(firstName).val(),
+    lastName: $(lastName).val(),
+    email: $(email).val(),
+    username: userLoggedIn
+  }).done(function(response) {
+    $('.user-details-message').html(response);
+  });
+}
+
+function updatePassword(oldPassword, password, password2) {
+  $.post('ajax/updatePassword.php', {
+    oldPassword: $(oldPassword).val(),
+    password: $(password).val(),
+    password2: $(password2).val(),
+    username: userLoggedIn
+  }).done(function(response) {
+    $('.password-message').html(response);
+
+    $(oldPassword).val('');
+    $(password).val('');
+    $(password2).val('');
+  });
+}

@@ -60,6 +60,49 @@ class Account
     }
   }
 
+  public function getFirstError()
+  {
+    if (!empty($this->errorArray)) {
+      return $this->errorArray[0];
+    }
+  }
+
+  public function updateDetails($fn, $ln, $em, $un)
+  {
+    $this->validateFirstName($fn);
+    $this->validateLastName($ln);
+    $this->validateNewEmail($em, $un);
+
+    if (empty($this->errorArray)) {
+      $query = $this->con->prepare("UPDATE users SET first_name = :fn, last_name = :ln, email = :em WHERE username = :un");
+
+      return $query->execute([
+        ":fn" => $fn,
+        ":ln" => $ln,
+        ":em" => $em,
+        ":un" => $un
+      ]);
+    }
+
+    return false;
+  }
+
+  public function updatePassword($old, $new, $new2, $un)
+  {
+    $this->validateOldPassword($old, $un);
+    $this->validatePasswords($new, $new2);
+
+    if (empty($this->errorArray)) {
+      $query = $this->con->prepare("UPDATE users SET password = :new WHERE username = :un");
+
+      $new = hash("sha512", $new);
+
+      return $query->execute([':new' => $new, ':un' => $un]);
+    }
+
+    return false;
+  }
+
   private function validateFirstName($fn)
   {
     if (strlen($fn) < 2 || strlen($fn) > 25) {
@@ -148,5 +191,32 @@ class Account
     }
 
     return $un = $tempUsername;
+  }
+
+  private function validateNewEmail($em, $un)
+  {
+    if (!filter_var($em, FILTER_VALIDATE_EMAIL)) {
+      array_push($this->errorArray, Constants::$emailInvalid);
+      return;
+    }
+
+    $query = $this->con->prepare("SELECT * FROM users WHERE email = :em AND username != :un");
+    $query->execute([':em' => $em, ':un' => $un]);
+
+    if ($query->rowCount() != 0) {
+      array_push($this->errorArray, Constants::$emailTaken);
+    }
+  }
+
+  private function validateOldPassword($old, $un)
+  {
+    $pw = hash("sha512", $old);
+
+    $query = $this->con->prepare("SELECT * FROM users WHERE username = :un AND password = :pw");
+    $query->execute([':un' => $un, ':pw' => $pw]);
+
+    if ($query->rowCount() == 0) {
+      array_push($this->errorArray, Constants::$passwordIncorrect);
+    }
   }
 }
