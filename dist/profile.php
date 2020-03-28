@@ -9,6 +9,19 @@ if (isset($_GET['profile_username'])) {
 
 <section id="profile">
   <div class="container">
+    <?php
+    if ($profile->isClosed()) {
+      echo "
+      <div class='error-404'>
+        <div class='text-center'>
+          <h1>404: NOT FOUND</h1>
+          <p>Sorry this page is not available.</p>
+        </div>
+      </div>
+      ";
+      exit;
+    }
+    ?>
     <header class="profile-banner mb-4 card">
       <div class="card-body">
         <img src="<?php echo $profile->getProfilePic(); ?>" alt="<?php echo $profile->getFullName(); ?>" class="img-fluid profilePic">

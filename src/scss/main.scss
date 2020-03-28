@@ -28,6 +28,13 @@ a {
   text-decoration: none;
 }
 
+.error-404 {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .main-btn {
   background: #4267b2;
   border-color: #29487d;
@@ -128,6 +135,7 @@ a {
 #upload,
 #messages,
 #notifications,
+#settings,
 #post {
   margin-top: 5.5rem;
 }
