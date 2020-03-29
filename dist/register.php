@@ -103,6 +103,11 @@ if (isset($_POST['regButton'])) {
       <div class="row">
 
         <div class="col-md-6">
+          <div class="mb-4">
+            <h2 class="mb-2">Demo:</h2>
+            <span class="d-block">Email: user@gmail.com</span>
+            <span>Password: password</span>
+          </div>
           <h2>Connect with friends and the world around you on Friendzone.</h2>
           <ul>
             <li><i class="fas fa-photo-video"></i> See photos and updates from friends in News Feed.</li>
